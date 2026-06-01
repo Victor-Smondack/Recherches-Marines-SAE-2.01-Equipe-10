@@ -1,145 +1,90 @@
-# SAE-2.01-2.02-2.05
-
-
-RECHERCHES MARINES
+SAE-2.01-2.02-2.05 : RECHERCHES MARINES
 
 Règles du jeu
 
 MATÉRIEL
 
-Une grille configurable découpée en régions (mers et océans)
-Certaines case contient un poisson (espèce distincte)
-Un nombre de couleur correspondant au point de départ de chaque manches
-Un paquet de cartes: (nombre de couleurs + 1) × 2 cartes au total
-X points de départ, un par couleur
-1 ou plusieurs joueurs (ou joueur unique)
-Un ordinateur avec le jeu exécuté en Java
-
+Une grille configurable découpée en régions (mers et océans).
+Certaines cases contiennent un poisson d'une espèce spécifique.
+Un ensemble de laboratoires de recherche de couleurs différentes.
+Chaque laboratoire correspond au point de départ d'une manche.
+Un paquet de cartes composé de (Nombre de laboratoire + 1) x 2 cartes au total.
+X points de départ répartis sur la grille (un par couleur de laboratoire).
+Conçu pour 1 ou plusieurs joueurs.
+Un ordinateur exécutant le jeu en Java.
 
 OBJECTIF
 
-Obtenir le score maximum à la fin de toutes les manches. Le score provient 
-des régions explorées et des poissons recherchés.
-
+Obtenir le score total le plus élevé à la fin de toutes les manches.
+Les points se gagnent en explorant les régions et en étudiant les poissons.
 
 COMPOSITION DU PAQUET DE CARTES
 
-Le paquet contient (nombre de couleurs + 1) × 2 cartes réparties ainsi:
+Le paquet est divisé équitablement en deux catégories :
+50% de cartes claires et 50% de cartes foncées.
 
-Moitié claires + Moitié foncées (50/50)
-Dans les cartes claires: 4 cartes Poisson + 1 carte Joker
-Dans les cartes foncées: 4 cartes Poisson + 1 carte Joker
+Exemple pour un jeu à 4 laboratoire:
 
-Exemple avec 3 couleurs (Vert, Bleu, Rouge):
-Total de cartes: (3 + 1) × 2 = 8 cartes
-4 cartes claires: Morue, Saumon, Thon, Truite, Joker
-4 cartes foncées: Morue, Saumon, Thon, Truite, Joker
+- Cartes claires : 4 cartes Poisson + 1 carte Joker
+- Cartes foncées : 4 cartes Poisson + 1 carte Joker
 
+Donc un total de 10 cartes
 
 DÉROULEMENT DU JEU
 
+Avant de commencer (Configuration)
 
-Avant le jeu
-
-1. Définir le nombre de couleurs (et donc de manches).
-2. Assigner un point de départ par couleur sur la grille.
-3. Mélanger le paquet de cartes et le placer face cachée.
-
+1. Définir la taille de la grille de jeu.
+2. Définir le nombre d'espèces de poissons différentes.
+3. Définir le nombre de laboratoires de recherche (ce qui détermine le nombre de manches).
+4. Assigner un point de départ sur le plateau pour chaque laboratoire.
+5. Mélanger le paquet de cartes et le placer face cachée ou face visible.
 
 Déroulement d'une manche
 
-Une manche = une couleur = un joueur (ou plusieurs joueurs jouent tour à 
-tour avec la même couleur).
+Une manche correspond à un laboratoire de recherche. Si plusieurs joueurs s'affrontent,
+ils jouent sur la même grille mais démarrent chacun leur manche depuis un laboratoire
+(et donc un point de départ) différent.
 
-1. Le joueur démarre sur son point de départ (case colorée initiale).
+1. Le joueur commence sur la case de son laboratoire de recherche.
+2. À chaque tour, le joueur pioche une carte.
+3. Action selon la carte piochée :
 
-2. À chaque tour, le joueur pioche une carte du paquet.
+- Carte Poisson : Le joueur observe les cases adjacentes disponible
+  (horizontal, vertical et diagonal). S'il existe une case voisine contenant ce poisson,
+  il peut s'y déplacer. Le chemin emprunté prend alors la couleur du laboratoire actuel.
+  Si aucun poisson correspondant n'est disponible autour de lui, le joueur reste sur place.
+- Carte Joker : Le joueur peut se déplacer sur n'importe quelle case adjacente, peu importe le poisson qui s'y trouve. Le chemin emprunté prend la couleur du laboratoire.
 
-3. Selon la carte piocher:
-   
-    Carte Poisson (Morue, Saumon, etc.): Le joueur regarde les 8 cases 
-    adjacentes (haut, bas, gauche, droite, et 4 diagonales). S'il existe 
-    une case voisine avec ce poisson, il peut s'y déplacer. Cette case 
-    prend alors sa couleur. S'il n'y a pas ce poisson voisin, il ne bouge 
-    pas et passe au prochain tour.
-   
-    Carte Joker: Le joueur peut se déplacer sur n'importe quelle case 
-    voisine (8 cases adjacentes), peu importe le poisson. Cette case 
-    prend sa couleur.
-
-4. Dès que le joueur pioche une carte foncée: il vérifie si c'est la 
-   dernière carte foncée du paquet. Si oui, la manche s'arrête immédiatement. 
-   Sinon, le jeu continue.
-
-5. Fin de manche: Quand la dernière carte foncée est piocher, la manche 
-   s'arrête. Le paquet est remélangé et préparer pour la manche suivante. 
-   On change de couleur et on passe au point de départ de la nouvelle 
-   couleur.
-
-
-CALCUL DES POINTS
-
-
-À la fin de toutes les manches, on calcule le score final pour chaque 
-couleur:
-
-
-Points d'exploration
-
-Pour chaque couleur: 1 point par région (mer ou océan) dans laquelle la 
-couleur a posé au moins un poisson.
-
-Exemple: Si le Vert a visité 3 régions différentes, il marque 3 points 
-d'exploration.
-
-
-Points de domination
-
-Pour chaque région:
-
-1. Compter les poissons coloriés par chaque couleur.
-2. La couleur ayant le plus de poissons dans cette région gagne 1 point 
-   par poisson qu'elle possède dans celle-ci.
-
-Exemple: Dans la région Océan Atlantique, Vert a 5 poissons, Bleu en a 3, 
-Rouge en a 2. Vert domine et marque 5 points pour cette région. Bleu et 
-Rouge ne marquent rien ici.
-
-
-Score total
-
-Score final = Points d'exploration + Points de domination
-
-Le joueur (ou la couleur) avec le score le plus haut gagne.
-
+4. Option de jeu : Après avoir pioché, un joueur a toujours le droit de passer son tour, même s'il a la possibilité de se déplacer.
+5. Fin de la manche : Dès que la dernière carte foncée est piochée, la manche s'arrête immédiatement. Le paquet est remélangé pour la manche suivante. On change de laboratoire et le jeu reprend depuis le nouveau point de départ.
 
 MOUVEMENTS AUTORISÉS
 
-Un joueur peut se déplacer vers 8 cases adjacentes (incluant les diagonales):
+Les déplacements se font dans les 8 directions adjacentes (haut, bas, gauche, droite et les 4 diagonales).
 
-    ↖  ↑  ↗
-    ← [X] →
-    ↙  ↓  ↘
+CALCUL DES POINTS
 
+À la fin de chaque manche, on calcule le score du laboratoire actif de la manière suivante :
+
+Points de région :
+Le joueur marque 1 point par région distincte visitée au cours de la manche.
+Exemple : Si le laboratoire Vert a exploré 3 régions différentes, il gagne 3 points d'exploration.
+
+Points de recherche :
+On analyse le nombre de poissons étudiés (recherchés) dans chaque région :
+
+1. Compter les poissons validés par le joueur dans chaque région.
+2. La région qui possède le plus grand nombre de poissons étudiés est désignée comme région dominante. Elle rapporte autant de points que son nombre de poissons étudiés.
+Exemple : Durant la manche du laboratoire Vert, le joueur a étudié 5 poissons dans la région A et 3 poissons dans la région B. La région A est dominante. Elle rapporte 5 points de recherche pour cette manche.
+
+Score de la manche = Points de région x Points de recherche
+
+Fin de partie :
+Une fois toutes les manches terminées, on additionne les scores de chaque manche pour obtenir le score total. Le joueur ayant le score total le plus élevé est déclaré vainqueur.
 
 CAS PARTICULIERS
 
-Pas de poisson voisin correspondant à la carte: Le joueur ne bouge pas 
-et passe son tour.
-
-Une case est déjà colorée par une autre couleur: Elle peut être reprise. 
-La couleur précédente n'obtient pas de points rétroactifs.
-
-Égalité en domination: Si deux couleurs ont le même nombre de poissons 
-dans une région, aucune ne marque le point de domination pour cette 
-région.
-
-
-RÉSUMÉ RAPIDE
-
-1. Chaque manche = une couleur
-2. Piocher une carte et avancer si possible
-3. Arrêter quand la dernière carte foncée est piocher
-4. Compter régions visitées + poissons dominés
-5. Plus haut score gagne
-
+* Aucun poisson correspondant : Si la carte Poisson piochée ne correspond à aucun poisson sur les cases adjacentes, le joueur reste sur place et passe son tour.
+* Croisement de chemins : Un joueur a tout à fait le droit d'emprunter un chemin ou de traverser une case déjà colorée par un autre laboratoire lors d'une manche précédente.
+* Égalité finale : Si deux joueurs obtiennent le même score total, le joueur ayant réalisé le meilleur score sur une seule et unique manche remporte la victoire. Si l'égalité persiste, les joueurs partagent la victoire.
