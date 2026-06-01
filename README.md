@@ -49,15 +49,17 @@ ils jouent sur la même grille mais démarrent chacun leur manche depuis un labo
 1. Le joueur commence sur la case de son laboratoire de recherche.
 2. À chaque tour, le joueur pioche une carte.
 3. Action selon la carte piochée :
-
 - Carte Poisson : Le joueur observe les cases adjacentes disponible
   (horizontal, vertical et diagonal). S'il existe une case voisine contenant ce poisson,
   il peut s'y déplacer. Le chemin emprunté prend alors la couleur du laboratoire actuel.
   Si aucun poisson correspondant n'est disponible autour de lui, le joueur reste sur place.
-- Carte Joker : Le joueur peut se déplacer sur n'importe quelle case adjacente, peu importe le poisson qui s'y trouve. Le chemin emprunté prend la couleur du laboratoire.
-
-4. Option de jeu : Après avoir pioché, un joueur a toujours le droit de passer son tour, même s'il a la possibilité de se déplacer.
-5. Fin de la manche : Dès que la dernière carte foncée est piochée, la manche s'arrête immédiatement. Le paquet est remélangé pour la manche suivante. On change de laboratoire et le jeu reprend depuis le nouveau point de départ.
+- Carte Joker : Le joueur peut se déplacer sur n'importe quelle case adjacente,
+  peu importe le poisson qui s'y trouve. Le chemin emprunté prend la couleur du laboratoire.
+4. Option de jeu : Après avoir pioché, un joueur a toujours le droit de passer son tour,
+   même s'il a la possibilité de se déplacer.
+5. Fin de la manche : Dès que la dernière carte foncée est piochée,
+   la manche s'arrête immédiatement. Le paquet est remélangé pour la manche suivante.
+   On change de laboratoire et le jeu reprend depuis le nouveau point de départ.
 
 MOUVEMENTS AUTORISÉS
 
@@ -72,19 +74,32 @@ Le joueur marque 1 point par région distincte visitée au cours de la manche.
 Exemple : Si le laboratoire Vert a exploré 3 régions différentes, il gagne 3 points d'exploration.
 
 Points de recherche :
-On analyse le nombre de poissons étudiés (recherchés) dans chaque région :
+On analyse le nombre de poissons recherchés dans chaque région :
 
-1. Compter les poissons validés par le joueur dans chaque région.
-2. La région qui possède le plus grand nombre de poissons étudiés est désignée comme région dominante. Elle rapporte autant de points que son nombre de poissons étudiés.
-Exemple : Durant la manche du laboratoire Vert, le joueur a étudié 5 poissons dans la région A et 3 poissons dans la région B. La région A est dominante. Elle rapporte 5 points de recherche pour cette manche.
+1. Compter les poissons recherchés par le joueur dans chaque région.
+2. La région qui possède le plus grand nombre de poissons étudiés est
+   désignée comme région dominante. Elle rapporte autant de points que
+   son nombre de poissons recherchés.
+Exemple : Durant la manche du laboratoire Vert, le joueur a étudié 5 poissons
+dans la région A et 3 poissons dans la région B. La région A est dominante.
+Elle rapporte 5 points de recherche pour cette manche.
 
 Score de la manche = Points de région x Points de recherche
 
 Fin de partie :
-Une fois toutes les manches terminées, on additionne les scores de chaque manche pour obtenir le score total. Le joueur ayant le score total le plus élevé est déclaré vainqueur.
+Une fois toutes les manches terminées, on additionne les scores de chaque manche
+pour obtenir le score total. Le joueur ayant le score total le plus élevé est le vainqueur.
 
 CAS PARTICULIERS
 
-* Aucun poisson correspondant : Si la carte Poisson piochée ne correspond à aucun poisson sur les cases adjacentes, le joueur reste sur place et passe son tour.
-* Croisement de chemins : Un joueur a tout à fait le droit d'emprunter un chemin ou de traverser une case déjà colorée par un autre laboratoire lors d'une manche précédente.
-* Égalité finale : Si deux joueurs obtiennent le même score total, le joueur ayant réalisé le meilleur score sur une seule et unique manche remporte la victoire. Si l'égalité persiste, les joueurs partagent la victoire.
+- Aucun poisson correspondant : Si la carte Poisson piochée ne correspond à aucun
+                                poisson sur les cases adjacentes, le joueur reste
+                                sur place et passe son tour.
+- Croisement de chemins : Un joueur n'a pas le droit d'emprunter ou de croiser 
+                          un chemin d'un autre laboratoire mais peut passé par une
+                          case déjà recherché par un autre laboratoire lors d'une
+                          manche précédente.
+- Égalité finale : Si deux joueurs obtiennent le même score total, le joueur ayant
+                   réalisé le meilleur score sur une seule et unique manche remporte
+                   la victoire. Si il y a toujours égalité, les joueurs partagent
+                   la victoire.
