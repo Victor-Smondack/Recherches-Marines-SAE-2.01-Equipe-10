@@ -8,7 +8,7 @@ Règles du jeu
 MATÉRIEL
 
 Une grille 7x7 (ou configurable) découpée en régions (mers et océans)
-Chaque case contient un poisson (espèce distincte)
+Certaines case contient un poisson (espèce distincte)
 Un paquet de cartes: (nombre de couleurs + 1) × 2 cartes au total
 X points de départ, un par couleur
 1 ou plusieurs joueurs (ou joueur unique)
@@ -18,7 +18,7 @@ Un ordinateur avec le jeu exécuté en Java
 OBJECTIF
 
 Obtenir le score maximum à la fin de toutes les manches. Le score provient 
-des régions explorées et des poissons dominés.
+des régions explorées et des poissons recherchés.
 
 
 COMPOSITION DU PAQUET DE CARTES
