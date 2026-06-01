@@ -4,9 +4,10 @@ Régle du jeu :
 
 Pêche en mer 
 
-Matériel : Un ordinateur
-Nombres de joueurs : 1 ou 2
-Âge : Dès 3 ans
-Objectif : Avoir le plus de points
+Objectif : 
 
 Le jeu : 
+
+Régles spéciale : 
+
+Conditions de victoire : 
