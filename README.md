@@ -7,8 +7,9 @@ Règles du jeu
 
 MATÉRIEL
 
-Une grille 7x7 (ou configurable) découpée en régions (mers et océans)
+Une grille configurable découpée en régions (mers et océans)
 Certaines case contient un poisson (espèce distincte)
+Un nombre de couleur correspondant au point de départ de chaque manches
 Un paquet de cartes: (nombre de couleurs + 1) × 2 cartes au total
 X points de départ, un par couleur
 1 ou plusieurs joueurs (ou joueur unique)
