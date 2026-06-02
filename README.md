@@ -1,17 +1,13 @@
-#SAE-2.01-2.02-2.05 : RECHERCHES MARINES
+SAE-2.01-2.02-2.05 : Les Chercheurs des Mers
 
 Règles du jeu
 
 MATÉRIEL
 
-Une grille configurable découpée en régions (mers et océans).
-Certaines cases contiennent un poisson d'une espèce spécifique.
-Un ensemble de laboratoires de recherche de couleurs différentes.
-Chaque laboratoire correspond au point de départ d'une manche.
-Un paquet de cartes composé de (Nombre de laboratoire + 1) x 2 cartes au total.
-X points de départ répartis sur la grille (un par couleur de laboratoire).
-Conçu pour 1 ou plusieurs joueurs.
-Un ordinateur exécutant le jeu en Java.
+Une grille configurable découpée en régions.
+Un nombre de poissons répartis dans des cases
+ Un ensemble de laboratoires de recherche de couleurs différentes. 
+ Un paquet de cartes composé de (Nombre de laboratoire + 1) x 2 cartes au total. 
 
 OBJECTIF
 
