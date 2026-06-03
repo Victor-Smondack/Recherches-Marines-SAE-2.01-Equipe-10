@@ -9,7 +9,7 @@ public class FrameMenu extends JFrame
 	public FrameMenu(Controleur ctrl)
 	{
 		this.setTitle( "Menu" );
-		this.setSize( 400, 900 );
+		this.setSize( 400, 400 );
 		this.setLocation( 50, 50 );
 
 		// Création et ajout du Panel

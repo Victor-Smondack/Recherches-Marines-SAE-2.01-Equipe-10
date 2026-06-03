@@ -1,5 +1,6 @@
 package src.ihm;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -21,6 +22,8 @@ public class PanelMenu extends JPanel implements ActionListener
 	private JTextField	txtLargeur;
 	private JTextField	txtNbSymbole;
 	private JTextField	txtTailleCase;
+
+	private JLabel		lblMessage;
 
 	private Controleur	ctrl;
 
@@ -49,11 +52,14 @@ public class PanelMenu extends JPanel implements ActionListener
 		this.txtNbSymbole	= new JTextField( 10 );
 		this.txtTailleCase	= new JTextField( 10 );
 
-		panelLongueur		= new JPanel( new FlowLayout( FlowLayout.LEFT ) );
-		panelLargeur		= new JPanel( new FlowLayout( FlowLayout.LEFT ) );
-		panelSymboles		= new JPanel( new FlowLayout( FlowLayout.LEFT ) );
-		panelTaille			= new JPanel( new FlowLayout( FlowLayout.LEFT ) );
-		panelAction			= new JPanel( new FlowLayout( FlowLayout.LEFT ) );
+		this.lblMessage		= new JLabel( "" );
+		this.lblMessage.setForeground( Color.RED );
+
+		panelLongueur	= new JPanel();
+		panelLargeur	= new JPanel();
+		panelSymboles	= new JPanel( new FlowLayout( FlowLayout.LEFT ) );
+		panelTaille		= new JPanel( new FlowLayout( FlowLayout.LEFT ) );
+		panelAction		= new JPanel();
 
 
 		/* Position des composants */
@@ -77,6 +83,8 @@ public class PanelMenu extends JPanel implements ActionListener
 		panelAction.add( this.btnValider );
 		panelAction.add( this.btnAnnuler );
 
+		this.add( this.lblMessage );
+
 		this.add( panelAction );
 
 		/* Activation des composants */
@@ -95,15 +103,49 @@ public class PanelMenu extends JPanel implements ActionListener
 	}
 
 
+	public void reinitialierPanel()
+	{
+		this.txtLongueur.setText( "" );
+		this.txtLargeur.setText( "" );
+		this.txtNbSymbole.setText( "" );
+		this.txtTailleCase.setText( "" );
+	}
+
+
 	public void actionPerformed( ActionEvent e )
 	{
 		if ( e.getSource() == this.btnValider )
 		{
-			/* A préciser */
+			if ( !this.txtLongueur.getText().isEmpty() && !this.txtLargeur.getText().isEmpty()
+				&& !this.txtNbSymbole.getText().isEmpty() && !this.txtTailleCase.getText().isEmpty() )
+			{
+				try
+				{
+					int	longueur	= Integer.parseInt( this.txtLongueur.getText() );
+					int	largeur		= Integer.parseInt( this.txtLargeur.getText() );
+					int	nbSymbole	= Integer.parseInt( this.txtTailleCase.getText() );
+					int	tailleCase	= Integer.parseInt( this.txtNbSymbole.getText() );
+
+					this.ctrl.initialiserGrille( longueur, largeur, tailleCase );
+				}
+
+				catch (Exception exception)
+				{
+					this.lblMessage.setText( "Un des champs n'est pas remplie par un nombre" );
+					return;
+				}
+
+
+			}
+
+			else
+			{
+				this.lblMessage.setText( "Veuillez remplir tous les champs." );
+			}
 		}
 		if ( e.getSource() == this.btnAnnuler )
 		{
-			/* A préciser */
+			this.reinitialierPanel();
 		}
 
 	}
