@@ -1,8 +1,10 @@
 package src;
 
+import src.metier.*;
+
 public class Controleur 
 {
-    private FrameMenu ihm;
+    //private FrameMenu ihm;
 	private Metier  metier;
 
     private int yGrille = 7;
@@ -11,10 +13,23 @@ public class Controleur
 	public Controleur ()
 	{
 		this.metier = new Metier ();
-		this.ihm    = new FrameMenu(this);
+		//this.ihm    = new FrameMenu(this);
 	}
 
+    public String getPoissonSelect() // Envoyer vers l'IHM le poisson sélectionné
+    {
+        return this.metier.getPoissonSelect();
+    }
 
+    public void setPoissonSelect(int numEspece) // Envoyer vers le métier le poisson sélectionné
+    {
+        this.metier.setPoissonSelect(numEspece);
+    }
+
+    public String[] getEspeces()
+    {
+        return this.metier.getEspeces();
+    }
 
     public boolean deplacement(int xDest, int yDest)
     {

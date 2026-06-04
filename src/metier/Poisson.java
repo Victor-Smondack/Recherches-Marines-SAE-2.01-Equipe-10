@@ -2,32 +2,34 @@ package src.metier;
 
 public class Poisson
 {
+
     private static int nbId = 0;
-    private int Id;
+    private int id;
 
     private String espece;
+
+    private boolean estLab;
 
     private int x;
     private int y;
     private int indiceX;
     private int indiceY;
 
-    public Poisson(String espece, int x, int y, int indiceX, int indiceY)
+    public Poisson(String espece, int x, int y)
     {
         this.id = ++nbId;
         this.espece = espece;
         this.x = x;
         this.y = y;
-        this.indiceX = indiceX;
-        this.indiceY = indiceY;
     }
 
-    public String getEspece() { return this.espece; }
-    public int getX()     { return this.x;    }
-    public int getY()   { return this.y;    }
-    public int getIndiceX() { return this.indiceX; }
-    public int getIndiceY() { return this.indiceY; }
+    public String getEspece()  { return this.espece;  }
+    public int getX()          { return this.x;       }
+    public int getY()          { return this.y;       }
+    public boolean getEstLab() { return this.estLab;  }
+    public int getId()         { return this.id;      }
 
-    public void setX(int x)     { this.x = x;    }
-    public void setY(int y)   { this.y = y;    }
+    public void setX(int x)               { this.x = x;           }
+    public void setY(int y)               { this.y = y;           }
+    public void setEstLab(boolean estLab) { this.estLab = estLab; }
 }

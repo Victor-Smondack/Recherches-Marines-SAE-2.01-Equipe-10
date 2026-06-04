@@ -1,9 +1,9 @@
 package src.metier;
 
-public class Joueur
+public class Labo
 {
-    private static int nbidJ = 0;
-    private int idJ;
+    private static int nbIdL = 0;
+    private int idL;
     
     private static int nbIdClr = 0;
     private int idClr;
@@ -19,36 +19,36 @@ public class Joueur
     
     
     
-    public Joueur(String espece)
+    public Labo(String espece)
     {
-        this.idJ   = ++nbIdJ;
-        this.idClr = ++idClr;
+        this.idL   = ++nbIdL;
+        this.idClr = ++nbIdClr;
         this.znVis = 0;
         this.maxPZ = 0;
-        this.nbP   = this.znVis * this.maxpZ;
+        this.nbP   = this.znVis * this.maxPZ;
         this.ligEx1 = 0;
         this.colEx1 = 0;
         this.ligEx2 = 0;
         this.colEx2 = 0;
     }
 
-    public int getIdJoueur()             { return this.idJ;    }
+    public int getIdLabo()               { return this.idL;    }
     public int getIdCouleur()            { return this.idClr;  }
     public int getZonesVisitees()        { return this.znVis;  }
     public int getMaxPointsZone()        { return this.maxPZ;  }
     public int getPoints()               { return this.nbP;    }
     public int getLigneExtremite1()      { return this.ligEx1; }
     public int getColonneExtremite1()    { return this.colEx1; }
-    public int getLigneExtremite1()      { return this.ligEx2; }
-    public int getColonneExtremite1()    { return this.colEx2; }
+    public int getLigneExtremite2()      { return this.ligEx2; }
+    public int getColonneExtremite2()    { return this.colEx2; }
 
-    public void setIdJoueur(int idJ)              { this.idJ = idJ;       }
+    public void setIdLabo(int idL)                { this.idL = idL;       }
     public void setIdCouleur(int idClr)           { this.idClr = idClr;   }
     public void setZonesVisitees(int znVis)       { this.znVis = znVis;   }
     public void setMaxPointsZone(int maxPZ)       { this.maxPZ = maxPZ;   }
     public void setPoints(int nbP)                { this.nbP = nbP;       }
     public void setLigneExtremite1(int ligEx1)    { this.ligEx1 = ligEx1; }
     public void setColonneExtremite1(int colEx1)  { this.colEx1 = colEx1; }
-    public void setLigneExtremite1(int ligEx2)    { this.ligEx2 = ligEx2; }
-    public void setColonneExtremite1(int colEx2)  { this.colEx2 = colEx2; }
+    public void setLigneExtremite2(int ligEx2)    { this.ligEx2 = ligEx2; }
+    public void setColonneExtremite2(int colEx2)  { this.colEx2 = colEx2; }
 }
