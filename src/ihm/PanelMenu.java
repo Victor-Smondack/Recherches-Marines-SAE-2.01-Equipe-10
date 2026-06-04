@@ -123,10 +123,18 @@ public class PanelMenu extends JPanel implements ActionListener
 				{
 					int	longueur	= Integer.parseInt( this.txtLongueur.getText() );
 					int	largeur		= Integer.parseInt( this.txtLargeur.getText() );
-					int	nbSymbole	= Integer.parseInt( this.txtTailleCase.getText() );
-					int	tailleCase	= Integer.parseInt( this.txtNbSymbole.getText() );
+					int	nbSymbole	= Integer.parseInt( this.txtNbSymbole.getText() );
+					int	tailleCase	= Integer.parseInt( this.txtTailleCase.getText() );
 
-					this.ctrl.initialiserGrille( longueur, largeur, tailleCase );
+					if ( nbSymbole > 7 )
+					{
+						this.lblMessage.setText( "Le nombre de symbole doit être inférieur ou égal à 7." );
+						return;
+					} else
+					{
+						this.ctrl.initialiserGrille( longueur, largeur, nbSymbole, tailleCase );
+					}
+
 				}
 
 				catch (Exception exception)
