@@ -23,18 +23,20 @@ public class PanelChoix extends JPanel implements ActionListener
 	private JButton			btnGauche;
 	private JToggleButton	tgbZone;
 	private JButton			btnDroite;
+	private JToggleButton	btnGomme;
 
 	private String[]		tabEspece;
 	private Controleur		ctrl;
 	private JToggleButton	dernierBoutonPresse	= null;
 	private int				numZoneActive		= 1;
+	
 
 
 	public PanelChoix(Controleur ctrl, int nbSymbole)
 	{
 		this.ctrl		= ctrl;
 		this.tabEspece	= this.ctrl.getEspeces();
-		this.setLayout( new GridLayout( 3, 1 ) );
+		this.setLayout( new GridLayout( 4, 1 ) );
 
 		this.btngChoix		= new ButtonGroup();
 		this.tabTgbPoisson	= new JToggleButton[nbSymbole + 1];
@@ -72,6 +74,7 @@ public class PanelChoix extends JPanel implements ActionListener
 		this.tgbZone	= new JToggleButton( "Zone 1" );
 		this.btngChoix.add( this.tgbZone );
 		this.btnDroite = new JButton( new ImageIcon( flecheDroite ) );
+		this.btnGomme	= new JToggleButton( "Gomme" );
 
 
 		this.add( pnlSymbole );
@@ -85,6 +88,7 @@ public class PanelChoix extends JPanel implements ActionListener
 		this.tgbZone.addActionListener( this );
 		this.btnGauche.addActionListener( this );
 		this.btnDroite.addActionListener( this );
+		this.btnGomme.addActionListener( this );
 
 
 		this.setVisible( true );
@@ -162,6 +166,10 @@ public class PanelChoix extends JPanel implements ActionListener
 					this.lblZone.setBackground( this.ctrl.getCouleur( this.numZoneActive ) );
 					this.ctrl.setZoneActive( this.numZoneActive );
 				}
+			}
+			if ( e.getSource() == this. )
+			{
+				this.ctrl.setGommeSelect( true );
 			}
 		}
 	}
