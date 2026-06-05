@@ -9,6 +9,7 @@ public class Plateau
     private List<Liaison> lstLiaisons;
     private Zone[][]      grilleZone;
     private List<Poisson> lstPoisson;
+    private char[][]      grilleLiaisons;
     private String[]      espece = { "Saumon",
         "Thon",
         "Truite",
@@ -20,50 +21,70 @@ public class Plateau
     public Plateau(int longueur, int largeur)
     {
         this.grillePoisson = new Poisson[longueur][largeur];
+        this.lstPoisson    = new ArrayList<Poisson>();
+        this.grilleLiaisons = new char[longueur][largeur];
         this.lstLiaisons   = new ArrayList<>();
         this.grilleZone    = new Zone[longueur][largeur];
-        this.lstPoisson    = new ArrayList<Poisson>();
     }
 
 
     public void genererLiaisons()
+{
+    this.lstLiaisons.clear();
+
+    // Réinitialisation de la grille des liaisons
+    for (int x = 0; x < grilleLiaisons.length; x++)
+        for (int y = 0; y < grilleLiaisons[x].length; y++)
+            grilleLiaisons[x][y] = '.';
+
+    // Collecte de tous les poissons présents dans la grille
+    List<Poisson> lstPoisson = new ArrayList<>();
+
+    for (int x = 0; x < grillePoisson.length; x++)
+        for (int y = 0; y < grillePoisson[x].length; y++)
+            if (grillePoisson[x][y] != null)
+                lstPoisson.add(grillePoisson[x][y]);
+
+    // Génération des liaisons
+    for (int i = 0; i < lstPoisson.size(); i++)
     {
-        this.lstLiaisons.clear();
-
-        int           dx         = 0;
-        int           dy         = 0;
-        Poisson       p1         = new Poisson( "", 0, 0 );
-        Poisson       p2         = new Poisson( "", 0, 0 );
-
-        // Collecte de tous les poissons présents dans la grille
-        List<Poisson> lstPoisson = new ArrayList<>();
-        for ( int x = 0; x < grillePoisson.length; x++ )
-            for ( int y = 0; y < grillePoisson[x].length; y++ )
-                if ( grillePoisson[x][y] != null )
-                    lstPoisson.add( grillePoisson[x][y] );
-
-        // Génération des liaisons entre paires sans intermédiaire
-        for ( int i = 0; i < lstPoisson.size(); i++ )
+        for (int j = i + 1; j < lstPoisson.size(); j++)
         {
-            for ( int j = i + 1; j < lstPoisson.size(); j++ )
+            Poisson p1 = lstPoisson.get(i);
+            Poisson p2 = lstPoisson.get(j);
+
+            int dx = p2.getX() - p1.getX();
+            int dy = p2.getY() - p1.getY();
+
+            boolean alignes =
+                dx == 0 ||
+                dy == 0 ||
+                Math.abs(dx) == Math.abs(dy);
+
+            if (alignes && !existePoissonIntermediaire(p1, p2))
             {
-                p1 = lstPoisson.get( i );
-                p2 = lstPoisson.get( j );
+                Liaison l = new Liaison(p1, p2);
+                this.lstLiaisons.add(l);
 
-                dx = p2.getX() - p1.getX();
-                dy = p2.getY() - p1.getY();
+                // Marquage des cases traversées
+                int pasX = Integer.signum(dx);
+                int pasY = Integer.signum(dy);
 
-                boolean alignes = dx == 0 || dy == 0 || Math.abs( dx ) == Math.abs( dy );
+                int x = p1.getX() + pasX;
+                int y = p1.getY() + pasY;
 
-                if ( alignes && !existePoissonIntermediaire( p1, p2 ) )
+                while (x != p2.getX() || y != p2.getY())
                 {
-                    Liaison l = new Liaison( p1, p2 );
-                    lstLiaisons.add( l );
-                    System.out.println( l );
+                    // On ne marque que les cases intermédiaires
+                    grilleLiaisons[x][y] = '*';
+
+                    x += pasX;
+                    y += pasY;
                 }
             }
         }
     }
+}
 
 
     private boolean existePoissonIntermediaire( Poisson p1, Poisson p2 )
@@ -161,23 +182,37 @@ public class Plateau
     }
 
 
-    public void echangerPoisson( int xDep, int yDep, int xDest, int yDest )
+    public void echangerPoisson(int xDep, int yDep, int xDest, int yDest)
     {
-        for ( Poisson p : this.lstPoisson )
+        Poisson pDep  = null;
+        Poisson pDest = null;
+
+        // Recherche des deux poissons
+        for (Poisson p : this.lstPoisson)
         {
-            if ( (p.getX() == xDep) && (p.getY() == yDep) && (p.getX() == xDest) && (p.getY() == yDest) )
-            {
-                Poisson ptemp = new Poisson( p.getEspece(), p.getX(), p.getY() );
-                p.setX( xDest );
-                p.setY( yDest );
-                ptemp.setX( xDep );
-                ptemp.setY( yDep );
-            } else if ( (p.getX() == xDep) && (p.getY() == yDep) )
-            {
-                p.setX( xDest );
-                p.setY( yDest );
-            }
+            if (p.getX() == xDep && p.getY() == yDep)
+                pDep = p;
+
+            if (p.getX() == xDest && p.getY() == yDest)
+                pDest = p;
         }
+
+        // Si les deux poissons existent
+        if (pDep != null && pDest != null)
+        {
+            int xTemp = pDep.getX();
+            int yTemp = pDep.getY();
+
+            pDep.setX(pDest.getX());
+            pDep.setY(pDest.getY());
+
+            pDest.setX(xTemp);
+            pDest.setY(yTemp);
+        }
+
+        // Mise à jour de la grille
+        this.grillePoisson[xDep][yDep] = pDest;
+        this.grillePoisson[xDest][yDest] = pDep;
     }
 
 
@@ -211,6 +246,23 @@ public class Plateau
             }
 
             sb.append( "\n" );
+        }
+
+        return sb.toString();
+    }
+
+    public String toStringLiaisons()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        for (int y = 0; y < grilleLiaisons[0].length; y++)
+        {
+            for (int x = 0; x < grilleLiaisons.length; x++)
+            {
+                sb.append(grilleLiaisons[x][y]).append(" ");
+            }
+
+            sb.append("\n");
         }
 
         return sb.toString();

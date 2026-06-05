@@ -31,6 +31,7 @@ public class TestPlateau
 
 		// Affichage
 		System.out.println( p );
+		System.out.println(p.toStringLiaisons());
 
 		// Test de la méthode getPoisson
 		System.out.println( "Poisson à (1, 1) : " + p.getPoisson( 1, 1 ) );
@@ -53,10 +54,12 @@ public class TestPlateau
 								+ p.estLie( p.getPoisson( 0, 0 ), p.getPoisson( 4, 4 ) ) );
 
 		System.out.println( p );
+		System.out.println(p.toStringLiaisons());
 
 		//test de la méthode echangerPoisson
 		System.out.println( "Échange du poisson à (0, 0) avec le poisson à (4, 4)" );
 		p.echangerPoisson( 0, 0, 4, 4 );
 		System.out.println( p );
+		System.out.println(p.toStringLiaisons());
 	}
 }
