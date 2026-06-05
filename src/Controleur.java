@@ -119,9 +119,6 @@ public class Controleur
     }
 
 
-    }
-
-
     public Poisson[][] getGrillePoisson()
     {
         return this.plateau.getGrillePoisson();
