@@ -10,17 +10,11 @@ public class Poisson
 
     private boolean    estLab;
 
-    private int        x;
-    private int        y;
-    private int        indiceX;
-    private int        indiceY;
 
-    public Poisson(String espece, int x, int y)
+    public Poisson(String espece)
     {
         this.id     = ++nbId;
         this.espece = espece;
-        this.x      = x;
-        this.y      = y;
     }
 
 
@@ -30,15 +24,15 @@ public class Poisson
     }
 
 
-    public int getX()
+    public int getindiceX()
     {
-        return this.x;
+        return this.indiceX;
     }
 
 
-    public int getY()
+    public int getindiceY()
     {
-        return this.y;
+        return this.indiceY;
     }
 
 
@@ -54,15 +48,15 @@ public class Poisson
     }
 
 
-    public void setX( int x )
+    public void setindiceX( int indiceX )
     {
-        this.x = x;
+        this.indiceX = indiceX;
     }
 
 
-    public void setY( int y )
+    public void setindiceY( int indiceY )
     {
-        this.y = y;
+        this.indiceY = indiceY;
     }
 
 
@@ -74,6 +68,6 @@ public class Poisson
 
     public String toString()
     {
-        return "Poisson " + this.id + " : " + this.espece + " (" + this.x + ", " + this.y + ")";
+        return "Poisson " + this.id + " : " + this.espece + " (" + this.indiceX + ", " + this.indiceY + ")";
     }
 }

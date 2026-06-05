@@ -13,9 +13,9 @@ import src.metier.Zone;
 public class Controleur
 {
     // --- ATTRIBUTS IHM ---
-    private int        yGrille    = 7;
-    private int        xGrille    = 7;
-    private int        zoneActive = 1;
+    private int        yGrille     = 7;
+    private int        xGrille     = 7;
+    private int        zoneActive  = 1;
     private FrameMenu  frameMenu;
     private FrameTable frameTable;
     private Metier     metier;
@@ -44,15 +44,18 @@ public class Controleur
         this.frameMenu.getImagePoisson( i );
     }
 
+
     public void setGommeSelect( boolean select )
     {
         this.gommeActive = select;
     }
 
+
     public void getGommeSelect()
     {
         return this.gommeActive;
     }
+
 
     public Color getCouleur( int codeCouleur )
     {
@@ -110,9 +113,24 @@ public class Controleur
     }
 
 
+    public void positionneZone( int indiceX, int indiceY, int numZone )
+    {
+        this.metier.positionneZone( indiceX, indiceY, numZone );
+    }
+
+
+    }
+
+
     public Poisson[][] getGrillePoisson()
     {
         return this.plateau.getGrillePoisson();
+    }
+
+
+    public void positionnePoisson( int indiceX, int indiceY, String espece )
+    {
+        this.metier.positionnePoisson( indiceX, indiceY, espece );
     }
 
 
@@ -145,12 +163,6 @@ public class Controleur
     public boolean zoneExiste( int numZone )
     {
         return this.metier.zoneExiste( numZone );
-    }
-
-
-    public void positionZone( int indiceX, int indiceY, int numZone )
-    {
-        this.metier.positionZone( indiceX, indiceY, numZone );
     }
 
 

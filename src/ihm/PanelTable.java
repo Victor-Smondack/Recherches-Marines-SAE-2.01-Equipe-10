@@ -3,6 +3,7 @@ package src.ihm;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -51,7 +52,6 @@ public class PanelTable extends JPanel
 
 	}
 
-
 	private class GereSouris extends MouseAdapter
 	{
 		@Override
@@ -78,7 +78,7 @@ public class PanelTable extends JPanel
 							{
 								lblClique.setBackground( PanelTable.this.ctrl.getCouleur( zoneActive ) );
 
-								PanelTable.this.ctrl.positionZone( i, j, zoneActive );
+								PanelTable.this.ctrl.positionneZone( i, j, zoneActive );
 								break;
 							}
 						}
@@ -95,24 +95,40 @@ public class PanelTable extends JPanel
 
 					if ( poissonSelected != null && poissonSelected.equals( "" ) == false )
 					{
-						lblClique.setIcon(
-											new ImageIcon(
-												new ImageIcon( "./src/ihm/images/poissons/" + poissonSelected + ".png" )
-													.getImage()
-													.getScaledInstance(
-																		tailleCase / 2,
-																		tailleCase / 2,
-																		Image.SCALE_SMOOTH ) ) );
-						lblClique.setHorizontalAlignment( SwingConstants.CENTER );
-					} else
-					{
-						lblClique.setIcon( null );
+						for ( int i = 0; i < PanelTable.this.longueur; i++ )
+						{
+							for ( int j = 0; j < PanelTable.this.largeur; j++ )
+							{
+								if ( lblClique == PanelTable.this.cases[i][j] )
+								{
+									lblClique.setIcon(
+														new ImageIcon(
+															new ImageIcon( "./src/ihm/images/poissons/"
+																+ poissonSelected + ".png" )
+																	.getImage()
+																	.getScaledInstance(
+																						tailleCase / 2,
+																						tailleCase / 2,
+																						Image.SCALE_SMOOTH ) ) );
+									lblClique.setHorizontalAlignment( SwingConstants.CENTER );
+									PanelTable.this.ctrl.positionnePoisson( i, j, poissonSelected );
+								}
+							}
+						}
+
 					}
-					if ( this.ctrl.getGommeSelect() )
+
+					else
 					{
-						lblClique.setIcon( null );
-						this.ctrl.setGommeSelect( false );
+						if ( this.ctrl.getGommeSelect() )
+						{
+							lblClique.setIcon( null );
+							this.ctrl.setGommeSelect( false );
+						}
+
 					}
+
+
 				}
 
 				PanelTable.this.repaint();
