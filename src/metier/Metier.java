@@ -67,10 +67,17 @@ public class Metier
     }
 
 
-    public void positionZone( int indiceX, int indiceY, int numZone )
+    public void positionneZone( int indiceX, int indiceY, int numZone )
     {
-        Zone z = new Zone( indiceX, indiceY, numZone );
+        Zone z = new Zone( numZone );
         this.grilleZone[indiceX][indiceY] = z;
+    }
+
+
+    public void positionnePoisson( int indiceX, int indiceY, String espece )
+    {
+        Poisson p = new Poisson( espece );
+        this.grilleZone[indiceX][indiceY] = p;
     }
 
 
@@ -112,17 +119,6 @@ public class Metier
             e.printStackTrace();
         }
     }
-
-
-    /*
-     * public void setPoissonSelect( int numEspece ) { switch (numEspece) { case
-     * 0: this.poissonSelect = this.espece[0]; break; case 1: this.poissonSelect
-     * = this.espece[1]; break; case 2: this.poissonSelect = this.espece[2];
-     * break; case 3: this.poissonSelect = this.espece[3]; break; case 4:
-     * this.poissonSelect = this.espece[4]; break; case 5: this.poissonSelect =
-     * this.espece[5]; break; case 6: this.poissonSelect = this.espece[6];
-     * break; default: this.poissonSelect = ""; break; } }
-     */
 
     private boolean zoneSelect = false;
 
