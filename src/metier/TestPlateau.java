@@ -53,5 +53,10 @@ public class TestPlateau
 								+ p.estLie( p.getPoisson( 0, 0 ), p.getPoisson( 4, 4 ) ) );
 
 		System.out.println( p );
+
+		//test de la méthode echangerPoisson
+		System.out.println( "Échange du poisson à (0, 0) avec le poisson à (4, 4)" );
+		p.echangerPoisson( 0, 0, 4, 4 );
+		System.out.println( p );
 	}
 }
