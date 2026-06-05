@@ -1,11 +1,11 @@
 package src;
 
-import src.metier.*;
+import metier.*;
 
 public class Controleur 
 {
     //private FrameMenu ihm;
-	private Metier  metier;
+	/*private Metier  metier;
 
     private int yGrille = 7;
     private int xGrille = 7;
@@ -47,8 +47,18 @@ public class Controleur
     private void deplacer(int xDest, int yDest)
     {
         
+    }*/
+
+    private Plateau plateau;
+
+    public Controleur()
+    {
+        this.plateau = new Tableau();
     }
 
-    
+    public void genererLiaisons()
+    {
+        this.plateau.genererLiaisons();
+    }
 
 }
