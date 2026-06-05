@@ -108,7 +108,7 @@ public class PanelTable extends JPanel
 					{
 						lblClique.setIcon( null );
 					}
-					if ( this.ctrl.getGommeSelect() )
+					if ( PanelTable.this.ctrl.getGommeSelect() )
 					{
 						lblClique.setIcon( null );
 						PanelTable.this.ctrl.setGommeSelect( false );

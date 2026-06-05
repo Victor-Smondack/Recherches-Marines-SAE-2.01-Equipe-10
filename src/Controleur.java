@@ -49,7 +49,7 @@ public class Controleur
         this.gommeActive = select;
     }
 
-    public void getGommeSelect()
+    public boolean getGommeSelect()
     {
         return this.gommeActive;
     }
