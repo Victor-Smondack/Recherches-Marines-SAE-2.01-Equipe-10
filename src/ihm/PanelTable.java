@@ -104,11 +104,14 @@ public class PanelTable extends JPanel
 																		tailleCase / 2,
 																		Image.SCALE_SMOOTH ) ) );
 						lblClique.setHorizontalAlignment( SwingConstants.CENTER );
-					} 
-					if ( PanelTable.this.ctrl.getGommeSelect() )
+					} else
 					{
 						lblClique.setIcon( null );
-						PanelTable.this.ctrl.setGommeSelect( false );
+					}
+					if ( this.ctrl.getGommeSelect() )
+					{
+						lblClique.setIcon( null );
+						this.ctrl.setGommeSelect( false );
 					}
 				}
 

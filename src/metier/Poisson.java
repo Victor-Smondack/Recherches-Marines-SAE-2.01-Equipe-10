@@ -12,6 +12,8 @@ public class Poisson
 
     private int        x;
     private int        y;
+    private int        indiceX;
+    private int        indiceY;
 
     public Poisson(String espece, int x, int y)
     {

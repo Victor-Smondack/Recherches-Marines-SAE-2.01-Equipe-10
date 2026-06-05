@@ -194,6 +194,26 @@ public class Plateau
         }
     }
 
+
+    public void supprimerLiaisons( Poisson p )
+    {
+        this.lstLiaisons.removeIf( l -> l.getP1().equals( p ) || l.getP2().equals( p ) );
+    }
+
+
+    public void supprimerToutesLiaisons( List<Liaison> liaisonsASupprimer )
+    {
+        this.lstLiaisons.removeAll( liaisonsASupprimer );
+    }
+
+
+    public void supprimerPoissonEtLiaisons( Poisson p )
+    {
+        supprimerLiaisons( p );
+        supprimerPoisson( p.getX(), p.getY() );
+    }
+
+
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
