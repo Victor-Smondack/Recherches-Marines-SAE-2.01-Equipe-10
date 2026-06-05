@@ -23,25 +23,34 @@ public class PanelChoix extends JPanel implements ActionListener
 	private JButton			btnGauche;
 	private JToggleButton	tgbZone;
 	private JButton			btnDroite;
+
+	private String[]		tabEspece;
 	private Controleur		ctrl;
+	private JToggleButton	dernierBoutonPresse	= null;
+	private int				numZoneActive		= 1;
 
 
 	public PanelChoix(Controleur ctrl, int nbSymbole)
 	{
-		this.ctrl = ctrl;
+		this.ctrl		= ctrl;
+		this.tabEspece	= this.ctrl.getEspeces();
 		this.setLayout( new GridLayout( 3, 1 ) );
 
-		/* Création des composants */
 		this.btngChoix		= new ButtonGroup();
 		this.tabTgbPoisson	= new JToggleButton[nbSymbole + 1];
 
 		JPanel pnlSymbole = new JPanel();
+
+
 		for ( int i = 0; i < nbSymbole; i++ )
 		{
-			Image			imgPoisson	= new ImageIcon( "./src/ihm/images/poissons/" + (i + 1) + ".png" ).getImage()
+			Image			imgPoisson	= new ImageIcon( "./src/ihm/images/poissons/" + tabEspece[i] + ".png" )
+				.getImage()
 				.getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
 			JToggleButton	button		= new JToggleButton( new ImageIcon( imgPoisson ) );
 			button.setBackground( new Color( 150, 150, 150 ) );
+
+
 			this.btngChoix.add( button );
 			pnlSymbole.add( button );
 			button.addActionListener( this );
@@ -82,36 +91,78 @@ public class PanelChoix extends JPanel implements ActionListener
 	}
 
 
-	// public ImageIcon getImagePoisson(int i)
-	// {
-	// return (ImageIcon) this.tabTgbPoisson[i].getIcon();
-	// }
+	public ImageIcon getImagePoisson( int i )
+	{
+		return (ImageIcon) this.tabTgbPoisson[i].getIcon();
+	}
+
+
+	public int getNumZoneActive()
+	{
+		return this.numZoneActive;
+	}
 
 
 	@Override
-
 	public void actionPerformed( ActionEvent e )
 	{
 		if ( e.getSource() instanceof JToggleButton && e.getSource() != this.tgbZone )
 		{
-			for ( int i = 0; i < this.tabTgbPoisson.length; i++ )
+			JToggleButton boutonClique = (JToggleButton) e.getSource();
+
+			if ( boutonClique == this.dernierBoutonPresse )
 			{
-				if ( e.getSource() == this.tabTgbPoisson[i] )
-				{
-					System.out.println( "Poisson " + (i + 1) + " sélectionné" );
-					// this.ctrl.setPoissonSelect( i );
-				}
+				this.btngChoix.clearSelection();
+				this.ctrl.setPoissonSelect( -1 );
+				this.dernierBoutonPresse = null;
 			}
 
-		}
-
-		else
+			else
+			{
+				for ( int i = 0; i < this.tabTgbPoisson.length; i++ )
+				{
+					if ( boutonClique == this.tabTgbPoisson[i] )
+					{
+						this.ctrl.setPoissonSelect( i );
+						this.dernierBoutonPresse = boutonClique;
+						break;
+					}
+				}
+			}
+		} else
 		{
 			if ( e.getSource() == this.tgbZone )
 			{
-				System.out.println( "Zone selectionée" );
-			}
+				JToggleButton boutonZone = (JToggleButton) e.getSource();
 
+				if ( boutonZone == this.dernierBoutonPresse )
+				{
+					this.btngChoix.clearSelection();
+					this.ctrl.setZoneSelect( false );
+					this.dernierBoutonPresse = null;
+				} else
+				{
+					this.ctrl.setZoneSelect( true );
+					this.dernierBoutonPresse = boutonZone;
+				}
+			}
+			if ( e.getSource() == this.btnGauche && this.numZoneActive > 1 )
+			{
+				this.numZoneActive--;
+				this.tgbZone.setText( "Zone " + this.numZoneActive );
+				this.lblZone.setBackground( this.ctrl.getCouleur( this.numZoneActive ) );
+				this.ctrl.setZoneActive( this.numZoneActive );
+			} else
+			{
+				if ( e.getSource() == this.btnDroite && this.ctrl.zoneExiste( this.numZoneActive )
+					&& this.numZoneActive < 10 )
+				{
+					this.numZoneActive++;
+					this.tgbZone.setText( "Zone " + this.numZoneActive );
+					this.lblZone.setBackground( this.ctrl.getCouleur( this.numZoneActive ) );
+					this.ctrl.setZoneActive( this.numZoneActive );
+				}
+			}
 		}
 	}
 }

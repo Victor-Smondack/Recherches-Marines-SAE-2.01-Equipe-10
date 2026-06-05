@@ -1,12 +1,14 @@
 package src.ihm;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import src.Controleur;
 
 public class FrameMenu extends JFrame
 {
-	private PanelMenu	panelActif;
+	private PanelMenu	panelMenu;
+	private PanelChoix	panelChoix;	// Référence conservée ici
 	private Controleur	ctrl;
 
 	public FrameMenu(Controleur ctrl)
@@ -16,25 +18,33 @@ public class FrameMenu extends JFrame
 		this.setLocation( 50, 50 );
 
 		this.ctrl		= ctrl;
-		// Création et ajout du Panel
 
+		this.panelMenu	= new PanelMenu( ctrl );
+		this.add( panelMenu );
 
-		this.panelActif	= new PanelMenu( ctrl );
-		this.add( panelActif );
-
-		// Gestion de la fermeture de la fenêtre
 		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-
 		this.setVisible( true );
-
 	}
 
 
 	public void changerPanel( int nbSymbole )
 	{
-		this.remove( this.panelActif );
-		this.add( new PanelChoix( this.ctrl, nbSymbole ) );
+		this.remove( this.panelMenu );
+
+		this.panelChoix = new PanelChoix( this.ctrl, nbSymbole );
+		this.add( this.panelChoix );
+
 		this.revalidate();
 		this.repaint();
+	}
+
+
+	public ImageIcon getImagePoisson( int i )
+	{
+		if ( this.panelChoix != null )
+		{
+			return this.panelChoix.getImagePoisson( i );
+		}
+		return null;
 	}
 }

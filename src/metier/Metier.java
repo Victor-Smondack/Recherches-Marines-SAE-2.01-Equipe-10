@@ -1,119 +1,191 @@
 package src.metier;
 
-import java.util.List;
-import java.util.ArrayList;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Metier 
+import src.Controleur;
+
+public class Metier
 {
-	private List<Poisson> lstPoisson;
-    private String[] espece = {"Saumon", "Thon", "Truite", "Sardine", "Bar", "Colin", "Maquereau"};
-    private Poisson[][] grillePoisson;
-    private Zones[][] grilleZones;
-    private String poissonSelect;
+    private List<Poisson> lstPoisson;
+    private String[]      espece = { "Saumon",
+        "Thon",
+        "Truite",
+        "Sardine",
+        "Bar",
+        "Colin",
+        "Maquereau" };
+    private Poisson[][]   grillePoisson;
+    private Zone[][]      grilleZone;
+    private String        poissonSelect;
+    private Plateau       plateau;
 
-	public Metier()
-	{
-		this.lstPoisson = new ArrayList<Poisson>(); 
-	}
-	
-	public List<Poisson> getLstPoisson() { return lstPoisson; }
+    private Controleur    ctrl;
 
-    public void positionPoisson(int x, int y, String espece, int indiceX, int indiceY)
+    public Metier(int longueur, int largeur)
     {
-        Poisson p = new Poisson(espece, x, y);
-        this.grillePoisson[indiceX][indiceY] = p;
-        this.lstPoisson.add(p);
+        this.lstPoisson    = new ArrayList<>();
+        this.grillePoisson = new Poisson[longueur][largeur];
+        this.grilleZone    = new Zone[longueur][largeur];
     }
 
-    public void echangerPoisson(int xDep, int yDep, int xDest, int yDest)
+
+    public List<Poisson> getLstPoisson()
     {
-        for (Poisson p : this.lstPoisson)
+        return this.lstPoisson;
+    }
+
+
+    public void positionPoisson( int x, int y, String espece, int indiceX, int indiceY )
+    {
+        Poisson p = new Poisson( espece, x, y );
+        this.grillePoisson[indiceX][indiceY] = p;
+        this.lstPoisson.add( p );
+    }
+
+
+    public void echangerPoisson( int xDep, int yDep, int xDest, int yDest )
+    {
+        for ( Poisson p : this.lstPoisson )
         {
-            if ((p.getX() == xDep) && (p.getY() == yDep) && (p.getX() == xDest) && (p.getY() == yDest))
+            if ( (p.getX() == xDep) && (p.getY() == yDep) && (p.getX() == xDest) && (p.getY() == yDest) )
             {
-                Poisson ptemp = new Poisson(p.getEspece(), p.getX(), p.getY());
-                p.setX(xDest);
-                p.setY(yDest);
-                ptemp.setX(xDep);
-                ptemp.setY(yDep);
-            }
-            else if ((p.getX() == xDep) && (p.getY() == yDep))
+                Poisson ptemp = new Poisson( p.getEspece(), p.getX(), p.getY() );
+                p.setX( xDest );
+                p.setY( yDest );
+                ptemp.setX( xDep );
+                ptemp.setY( yDep );
+            } else if ( (p.getX() == xDep) && (p.getY() == yDep) )
             {
-                p.setX(xDest);
-                p.setY(yDest);
+                p.setX( xDest );
+                p.setY( yDest );
             }
         }
     }
 
-    public void positionZone(int x, int y)
+
+    public void positionZone( int indiceX, int indiceY, int numZone )
     {
-        Zones z = new Zones(x, y);
-        this.grilleZones[(x-25)/50 ][(y-25)/50 ] = z;
+        Zone z = new Zone( indiceX, indiceY, numZone );
+        this.grilleZone[indiceX][indiceY] = z;
     }
 
-    public void initialiserGrillePoisson(int longueur, int largeur)
+
+    public Poisson[][] getGrillePoisson()
     {
-        this.grillePoisson = new Poisson[longueur][largeur];
+        return this.plateau.getGrillePoisson();
     }
 
-    public void initialiserGrille(int longueur, int largeur)
+
+    public Zone[][] getGrilleZone()
     {
-        this.grilleZones = new Zones[longueur][largeur];
+        return this.plateau.getGrilleZone();
     }
 
-    public void sauvegarderGrille(int longueur, int largeur, int nbSymbole, int tailleCases)
+
+    public void sauvegarderGrille( int longueur, int largeur, int nbSymbole, int tailleCases )
     {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("grille.txt"))) 
+        try (BufferedWriter writer = new BufferedWriter( new FileWriter( "grille.txt" ) ))
         {
-            writer.write(longueur + " " + largeur + " " + nbSymbole + " " + tailleCases);
-        } 
-        catch (IOException e) 
+            writer.write( longueur + " " + largeur + " " + nbSymbole + " " + tailleCases );
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
     }
 
-    
 
-    public void setPoissonSelect(int numEspece) 
-    { 
-        switch (numEspece)
+    public void sauvegarderPoissons( List<Poisson> lstPoisson )
+    {
+        try (BufferedWriter writer = new BufferedWriter( new FileWriter( "poissons.txt" ) ))
         {
-            case 0:
-                this.poissonSelect = this.espece[0];
-                break;
-            case 1:
-                this.poissonSelect = this.espece[1];
-                break;
-            case 2:
-                this.poissonSelect = this.espece[2];
-                break;
-            case 3:
-                this.poissonSelect = this.espece[3];
-                break;
-            case 4:
-                this.poissonSelect = this.espece[4];
-                break;
-            case 5:
-                this.poissonSelect = this.espece[5];
-                break;
-            case 6:
-                this.poissonSelect = this.espece[6];
-                break;
+            for ( Poisson p : lstPoisson )
+            {
+                writer.write( p.getEspece() + " " + p.getX() + " " + p.getY() );
+                writer.newLine();
+            }
+        } catch (IOException e)
+        {
+            e.printStackTrace();
         }
     }
 
-    public String getPoissonSelect() { return this.poissonSelect; }
+
+    /*
+     * public void setPoissonSelect( int numEspece ) { switch (numEspece) { case
+     * 0: this.poissonSelect = this.espece[0]; break; case 1: this.poissonSelect
+     * = this.espece[1]; break; case 2: this.poissonSelect = this.espece[2];
+     * break; case 3: this.poissonSelect = this.espece[3]; break; case 4:
+     * this.poissonSelect = this.espece[4]; break; case 5: this.poissonSelect =
+     * this.espece[5]; break; case 6: this.poissonSelect = this.espece[6];
+     * break; default: this.poissonSelect = ""; break; } }
+     */
+
+    private boolean zoneSelect = false;
+
+    public void setPoissonSelect( int numEspece )
+    {
+        if ( numEspece >= 0 && numEspece < this.espece.length )
+        {
+            this.poissonSelect = this.espece[numEspece];
+            this.zoneSelect    = false;
+        } else
+        {
+            this.poissonSelect = "";
+        }
+    }
 
 
+    public void setZoneSelect( boolean select )
+    {
+        this.zoneSelect = select;
+        if ( select )
+        {
+            this.poissonSelect = "";
+        }
+    }
 
 
-    public String[] getEspeces() { return this.espece; }
-    //public String getCouleur(int indice) { return this.couleur[indice]; }
+    public boolean isZoneSelect()
+    {
+        return this.zoneSelect;
+    }
+
+
+    public String getPoissonSelect()
+    {
+        return this.poissonSelect;
+    }
+
+
+    public String[] getEspeces()
+    {
+        return this.espece;
+    }
+
+
+    public boolean zoneExiste( int numZone )
+    {
+        if ( this.grilleZone == null )
+            return false;
+
+        for ( int i = 0; i < this.grilleZone.length; i++ )
+        {
+            for ( int j = 0; j < this.grilleZone[i].length; j++ )
+            {
+                if ( this.grilleZone[i][j] != null && this.grilleZone[i][j].getNumZone() == numZone )
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // public String getCouleur(int indice) { return this.couleur[indice]; }
 
 
 }

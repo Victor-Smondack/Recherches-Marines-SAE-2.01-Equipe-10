@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import src.Controleur;
 
@@ -42,7 +43,6 @@ public class PanelTable extends JPanel
 			{
 				this.cases[i][j] = new JLabel();
 				this.cases[i][j].setSize( tailleCase, tailleCase );
-				this.cases[i][j].setBackground( ctrl.getCouleur( i ) );
 				this.cases[i][j].setOpaque( true );
 				this.add( this.cases[i][j] );
 				this.cases[i][j].addMouseListener( souris );
@@ -54,32 +54,64 @@ public class PanelTable extends JPanel
 
 	private class GereSouris extends MouseAdapter
 	{
-
 		@Override
-		public void mousePressed( MouseEvent e )
+		public void mousePressed( MouseEvent evt )
 		{
-			Component composantClique = (Component) e.getSource();
+			Component composantClique = (Component) evt.getSource();
 
 			if ( composantClique instanceof JLabel lblClique )
 			{
 				if ( tailleCase < 2 )
 				{
-					tailleCase = PanelTable.this.getWidth();
+					tailleCase = PanelTable.this.getWidth() + 1;
 				}
 
-				String poissonSelected = this.ctrl.getPoissonSelect();
+				if ( PanelTable.this.ctrl.isZoneSelect() )
+				{
+					int zoneActive = PanelTable.this.ctrl.getZoneActive();
 
-				lblClique.setIcon(
-									new ImageIcon(
-										new ImageIcon( "./src/ihm/images/poissons/" + poissonSelected + ".png" )
-											.getImage()
-											.getScaledInstance(
-																tailleCase / 2,
-																tailleCase / 2,
-																Image.SCALE_SMOOTH ) ) );
+					for ( int i = 0; i < PanelTable.this.longueur; i++ )
+					{
+						for ( int j = 0; j < PanelTable.this.largeur; j++ )
+						{
+							if ( lblClique == PanelTable.this.cases[i][j] )
+							{
+								lblClique.setBackground( PanelTable.this.ctrl.getCouleur( zoneActive ) );
+
+								PanelTable.this.ctrl.positionZone( i, j, zoneActive );
+								break;
+							}
+						}
+					}
+				} else
+				{
+					String poissonSelected = "";
+					try
+					{
+						poissonSelected = PanelTable.this.ctrl.getPoissonSelect();
+					} catch (Exception e)
+					{
+					}
+
+					if ( poissonSelected != null && poissonSelected.equals( "" ) == false )
+					{
+						lblClique.setIcon(
+											new ImageIcon(
+												new ImageIcon( "./src/ihm/images/poissons/" + poissonSelected + ".png" )
+													.getImage()
+													.getScaledInstance(
+																		tailleCase / 2,
+																		tailleCase / 2,
+																		Image.SCALE_SMOOTH ) ) );
+						lblClique.setHorizontalAlignment( SwingConstants.CENTER );
+					} else
+					{
+						lblClique.setIcon( null );
+					}
+				}
+
 				PanelTable.this.repaint();
 			}
 		}
 	}
-
 }
