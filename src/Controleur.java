@@ -20,6 +20,7 @@ public class Controleur
     private FrameTable frameTable;
     private Metier     metier;
     private Plateau    plateau;
+    private boolean    gommeActive = false;
 
 
     public Controleur()
@@ -43,6 +44,15 @@ public class Controleur
         this.frameMenu.getImagePoisson( i );
     }
 
+    public void setGommeSelect( boolean select )
+    {
+        this.gommeActive = select;
+    }
+
+    public void getGommeSelect()
+    {
+        return this.gommeActive;
+    }
 
     public Color getCouleur( int codeCouleur )
     {
