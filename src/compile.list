@@ -8,3 +8,10 @@
 ./ihm/PanelTable.java
 
 ./metier/Couleur.java
+./metier/Labo.java
+./metier/Metier.java
+./metier/Poisson.java
+./metier/Zones.java
+./metier/Liaison.java
+./metier/Plateau.java
+./metier/TestPlateau.java
