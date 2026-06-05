@@ -182,40 +182,6 @@ public class Plateau
     }
 
 
-    public void echangerPoisson(int xDep, int yDep, int xDest, int yDest)
-    {
-        Poisson pDep  = null;
-        Poisson pDest = null;
-
-        // Recherche des deux poissons
-        for (Poisson p : this.lstPoisson)
-        {
-            if (p.getX() == xDep && p.getY() == yDep)
-                pDep = p;
-
-            if (p.getX() == xDest && p.getY() == yDest)
-                pDest = p;
-        }
-
-        // Si les deux poissons existent
-        if (pDep != null && pDest != null)
-        {
-            int xTemp = pDep.getX();
-            int yTemp = pDep.getY();
-
-            pDep.setX(pDest.getX());
-            pDep.setY(pDest.getY());
-
-            pDest.setX(xTemp);
-            pDest.setY(yTemp);
-        }
-
-        // Mise à jour de la grille
-        this.grillePoisson[xDep][yDep] = pDest;
-        this.grillePoisson[xDest][yDest] = pDep;
-    }
-
-
     public void supprimerPoisson( int x, int y )
     {
         for ( Poisson p : this.lstPoisson )
