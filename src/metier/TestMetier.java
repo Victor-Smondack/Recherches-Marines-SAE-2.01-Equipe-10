@@ -20,11 +20,11 @@ public class TestMetier
 		Metier		p			= new Metier( longueur, largeur );
 
 		// Placement des poissons dans le plateau
-		p.positionPoisson( 0, 0, espece[0], 0, 0 );
-		p.positionPoisson( 1, 1, espece[1], 1, 1 );
-		p.positionPoisson( 2, 2, espece[2], 2, 2 );
-		p.positionPoisson( 0, 2, espece[3], 0, 2 );
-		p.positionPoisson( 4, 4, espece[4], 4, 4 );
+		p.positionPoisson( 0, 0, espece[0]);
+		p.positionPoisson( 1, 1, espece[1]);
+		p.positionPoisson( 2, 2, espece[2]);
+		p.positionPoisson( 0, 2, espece[3]);
+		p.positionPoisson( 4, 4, espece[4]);
 
 		// Génération des liaisons
 		p.genererLiaisons();
@@ -43,7 +43,7 @@ public class TestMetier
 
 		// Test de la méthode supprimerPoisson
 		System.out.println( "Suppression du poisson à (1, 1)" );
-		p.supprimerPoisson( 1, 1 );
+		p.gommer( 1, 1 );
 		System.out.println( "Poisson à (1, 1) après suppression : " + p.getPoisson( 1, 1 ) );
 
 		System.out.println(

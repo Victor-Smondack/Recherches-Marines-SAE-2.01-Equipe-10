@@ -14,8 +14,8 @@ import src.metier.Zone;
 
 public class Controleur
 {
-    private int        yGrille     = 7;
-    private int        xGrille     = 7;
+    private int        yGrille     = 1;
+    private int        xGrille     = 1;
     private int        zoneActive  = 1;
     private FrameMenu  frameMenu;
     private FrameTable frameTable;
@@ -26,13 +26,15 @@ public class Controleur
 
     public Controleur()
     {
-        this.metier    = new Metier( this.yGrille, this.xGrille );
         this.frameMenu = new FrameMenu( this );
     }
 
 
     public void initialiserGrille( int longueur, int largeur, int nbSymbole, int tailleCase )
     {
+        this.yGrille = longueur;
+        this.xGrille = largeur;
+        this.metier    = new Metier( this.yGrille, this.xGrille );
         this.frameTable = new FrameTable( this, longueur, largeur, tailleCase );
         this.frameMenu.changerPanel( nbSymbole );
     }
