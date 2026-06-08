@@ -2,6 +2,7 @@ package src.ihm;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -49,9 +50,7 @@ public class PanelChoix extends JPanel implements ActionListener
 		this.btngChoix		= new ButtonGroup();
 		this.tabTgbPoisson	= new JToggleButton[nbSymbole];
 
-
 		JPanel pnlSymbole = new JPanel( new GridLayout( 0, 4 ) );
-
 
 		for ( int i = 0; i < nbSymbole; i++ )
 		{
@@ -60,7 +59,6 @@ public class PanelChoix extends JPanel implements ActionListener
 				.getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
 			JToggleButton	button		= new JToggleButton( new ImageIcon( imgPoisson ) );
 			button.setBackground( new Color( 150, 150, 150 ) );
-
 
 			this.btngChoix.add( button );
 			pnlSymbole.add( button );
@@ -73,41 +71,60 @@ public class PanelChoix extends JPanel implements ActionListener
 		this.btngChoix.add( this.tgbGomme );
 		pnlSymbole.add( this.tgbGomme );
 
-		this.lblZone = new JLabel( "" );
-		this.lblZone.setOpaque( true );
-		this.lblZone.setBackground( this.ctrl.getCouleur( 1 ) );
-
 		Image	flecheGauche	= new ImageIcon( "./src/ihm/images/flecheGauche.png" ).getImage()
 			.getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
 
 		Image	flecheDroite	= new ImageIcon( "./src/ihm/images/flecheDroite.png" ).getImage()
 			.getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
 
-		JPanel	pnlZone			= new JPanel();
+		JPanel	pnlZoneGlobal	= new JPanel( new BorderLayout() );
+		JPanel	pnlZoneAction	= new JPanel();
 		this.btnGaucheZone	= new JButton( new ImageIcon( flecheGauche ) );
 		this.tgbZone		= new JToggleButton( "Zone " + this.numZoneActive );
 		this.btnDroiteZone	= new JButton( new ImageIcon( flecheDroite ) );
 
 		this.btngChoix.add( this.tgbZone );
 
+		pnlZoneAction.add( this.btnGaucheZone );
+		pnlZoneAction.add( this.tgbZone );
+		pnlZoneAction.add( this.btnDroiteZone );
 
-		pnlZone.add( this.btnGaucheZone );
-		pnlZone.add( this.tgbZone );
-		pnlZone.add( this.btnDroiteZone );
+		this.lblZone = new JLabel( " " );
+		this.lblZone.setOpaque( true );
+		this.lblZone.setBackground( this.ctrl.getCouleur( 1 ) );
+		this.lblZone.setPreferredSize( new Dimension( 0, 50 ) );
 
-		JPanel pnlBas = new JPanel( new GridLayout( 2, 1 ) );
-		pnlBas.add( pnlZone );
+		pnlZoneGlobal.add( this.lblZone, BorderLayout.NORTH );
+		pnlZoneGlobal.add( pnlZoneAction, BorderLayout.CENTER );
+
+		JPanel	pnlLaboGlobal	= new JPanel( new BorderLayout() );
+		JPanel	pnlLaboAction	= new JPanel();
+		this.btnGaucheLabo	= new JButton( new ImageIcon( flecheGauche ) );
+		this.tgbLabo		= new JToggleButton( "Labo " + this.numZoneActive );
+		this.btnDroiteLabo	= new JButton( new ImageIcon( flecheDroite ) );
+
+		this.btngChoix.add( this.tgbLabo );
+
+		pnlLaboAction.add( this.btnGaucheLabo );
+		pnlLaboAction.add( this.tgbLabo );
+		pnlLaboAction.add( this.btnDroiteLabo );
+
+		this.lblLabo = new JLabel( " " );
+		this.lblLabo.setOpaque( true );
+		this.lblLabo.setBackground( Color.RED );
+		this.lblLabo.setPreferredSize( new Dimension( 0, 50 ) );
+
+		pnlLaboGlobal.add( this.lblLabo, BorderLayout.NORTH );
+		pnlLaboGlobal.add( pnlLaboAction, BorderLayout.CENTER );
 
 		this.add( pnlSymbole, BorderLayout.NORTH );
-		this.add( this.lblZone, BorderLayout.CENTER );
-		this.add( pnlBas, BorderLayout.SOUTH );
-
+		this.add( pnlZoneGlobal, BorderLayout.CENTER );
+		this.add( pnlLaboGlobal, BorderLayout.SOUTH );
 
 		this.tgbZone.addActionListener( this );
 		this.btnGaucheZone.addActionListener( this );
 		this.btnDroiteZone.addActionListener( this );
 		this.tgbGomme.addActionListener( this );
-
 
 		this.setVisible( true );
 	}
