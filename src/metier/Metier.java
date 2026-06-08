@@ -236,51 +236,6 @@ public class Metier
     {
         return this.grilleZone;
     }
-    
-    
-
-    // Affiche la grille de poissons
-
-    public String toString()
-    {
-        StringBuilder sb = new StringBuilder();
-        for ( int y = 0; y < grillePoisson[0].length; y++ )
-        {
-            for ( int x = 0; x < grillePoisson.length; x++ )
-            {
-                if ( grillePoisson[x][y] != null )
-                {
-                    sb.append( grillePoisson[x][y].getEspece().charAt( 0 ) ).append( " " );
-                } else
-                {
-                    sb.append( ". " );
-                }
-            }
-
-            sb.append( "\n" );
-        }
-
-        return sb.toString();
-    }
-
-    // Affiche la grille des liaisons
-
-    public String toStringLiaisons()
-    {
-        StringBuilder sb = new StringBuilder();
-
-        for ( int y = 0; y < grilleLiaisons[0].length; y++ )
-        {
-            for ( int x = 0; x < grilleLiaisons.length; x++ )
-            {
-                sb.append( grilleLiaisons[x][y] ).append( " " );
-            }
-
-            sb.append( "\n" );
-        }
-
-        return sb.toString();
-    }
 
     // Place une zone à une position donnée
 
@@ -379,6 +334,57 @@ public class Metier
 
         // Si la zone existe déjà mais qu'aucune case autour ne correspond, on refuse le placement
         return false;
+    }
+
+    public void Sauvegarder()
+    {
+        Sauvegarde.sauvegarderGrille( this.grillePoisson.length, this.grillePoisson[0].length, this.espece.length, 50 );
+        Sauvegarde.sauvegarderPoissons( this.lstPoisson );
+        Sauvegarde.sauvegarderZones( this.grilleZone );
+        Sauvegarde.sauvegarderLiaisons( this.lstLiaisons );
+    }
+
+    // Affiche la grille de poissons
+
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        for ( int y = 0; y < grillePoisson[0].length; y++ )
+        {
+            for ( int x = 0; x < grillePoisson.length; x++ )
+            {
+                if ( grillePoisson[x][y] != null )
+                {
+                    sb.append( grillePoisson[x][y].getEspece().charAt( 0 ) ).append( " " );
+                } else
+                {
+                    sb.append( ". " );
+                }
+            }
+
+            sb.append( "\n" );
+        }
+
+        return sb.toString();
+    }
+
+    // Affiche la grille des liaisons
+
+    public String toStringLiaisons()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        for ( int y = 0; y < grilleLiaisons[0].length; y++ )
+        {
+            for ( int x = 0; x < grilleLiaisons.length; x++ )
+            {
+                sb.append( grilleLiaisons[x][y] ).append( " " );
+            }
+
+            sb.append( "\n" );
+        }
+
+        return sb.toString();
     }
 }
 

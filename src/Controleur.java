@@ -10,6 +10,7 @@ import src.metier.Couleur;
 import src.metier.Liaison;
 import src.metier.Metier;
 import src.metier.Poisson;
+import src.metier.Sauvegarde;
 import src.metier.Zone;
 
 public class Controleur
@@ -143,7 +144,6 @@ public class Controleur
     public void positionnePoisson( int indiceX, int indiceY, String espece )
     {
         this.metier.positionnePoisson( indiceX, indiceY, espece );
-        this.metier.positionPoisson( indiceX, indiceY, espece );
     }
 
 
@@ -198,5 +198,10 @@ public class Controleur
     public static void main( String[] args )
     {
         new Controleur();
+    }
+
+    public void Sauvergarder()
+    {
+        this.metier.Sauvegarder();
     }
 }
