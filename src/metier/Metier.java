@@ -76,8 +76,8 @@ public class Metier
 
     public void positionnePoisson( int indiceX, int indiceY, String espece )
     {
-        Poisson p = new Poisson( espece );
-        this.grilleZone[indiceX][indiceY] = p;
+        Poisson p = new Poisson( espece, indiceX, indiceY );
+        this.grillePoisson[indiceX][indiceY] = p;
     }
 
 
