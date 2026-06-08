@@ -65,8 +65,10 @@ public class PanelChoix extends JPanel implements ActionListener
 			button.addActionListener( this );
 			this.tabTgbPoisson[i] = button;
 		}
-
-		this.tgbGomme = new JToggleButton( "Gomme" );
+		
+		Image imgGomme = new ImageIcon( "./src/ihm/images/Gomme.png" ).getImage()
+				.getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
+		this.tgbGomme  = new JToggleButton( new ImageIcon( imgGomme ) );
 		this.tgbGomme.setBackground( new Color( 150, 150, 150 ) );
 		this.btngChoix.add( this.tgbGomme );
 		pnlSymbole.add( this.tgbGomme );
