@@ -2,6 +2,7 @@ package src.metier;
 
 public class Poisson
 {
+    // Attributs
 
     private static int nbId = 0;
     private int        id;
@@ -14,6 +15,7 @@ public class Poisson
     private int        x;
     private int        y;
 
+    // Constructeur
 
     public Poisson(String espece, int x, int y)
     {
@@ -25,6 +27,7 @@ public class Poisson
         this.couleurLab = "";
     }
 
+    // Getters et Setters
 
     public String getEspece()
     {
@@ -86,6 +89,8 @@ public class Poisson
     }
 
 
+    // toString
+    
     public String toString()
     {
         return "Poisson " + this.id + " : " + this.espece + " (" + this.x + ", " + this.y + ")";

@@ -2,9 +2,13 @@ package src.metier;
 
 public class Zone
 {
+    // Attributs
+
     private int numZone;
     private int x;
     private int y;
+
+    // Constructeur
 
     public Zone(int numZone, int x, int y)
     {
@@ -13,6 +17,7 @@ public class Zone
         this.numZone = numZone;
     }
 
+    // Getters
 
     public int getNumZone()
     {

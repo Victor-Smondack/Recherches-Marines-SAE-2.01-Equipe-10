@@ -7,16 +7,20 @@ import java.util.List;
 
 public class Sauvegarde
 {
+    // Constantes pour les noms de fichiers et le dossier de sauvegarde
+
     private static final String FICHIER_GRILLE   = "grille.txt";
     private static final String FICHIER_POISSONS = "poissons.txt";
     private static final String FICHIER_LIAISONS = "liaisons.txt";
     private static final String DOSSIER = "src/txt/";
 
+    // Constructeur privé pour empêcher l'instanciation de la classe
     private Sauvegarde()
     {
         // Empêche l'instanciation de la classe
     }
 
+    // Méthodes de sauvegarde
     public static void sauvegarderGrille(int longueur,
                                          int largeur,
                                          int nbSymbole,
@@ -37,6 +41,8 @@ public class Sauvegarde
             System.err.println( "Erreur lors de la sauvegarde de la grille : " + e.getMessage());
         }
     }
+
+    // Sauvegarde de la liste des poissons
 
     public static void sauvegarderPoissons(List<Poisson> lstPoissons)
     {
@@ -61,6 +67,8 @@ public class Sauvegarde
         }
     }
 
+    // Sauvegarde de la liste des liaisons
+
     public static void sauvegarderLiaisons(List<Liaison> lstLiaisons)
     {
         try (BufferedWriter writer =
@@ -82,6 +90,8 @@ public class Sauvegarde
         }
     }
 
+    // Sauvegarde de la grille des zones
+    
     public static void sauvegarderZones(Zone[][] grilleZone)
     {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(DOSSIER + "zones.txt")))

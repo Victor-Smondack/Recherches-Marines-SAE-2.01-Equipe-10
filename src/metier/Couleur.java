@@ -2,6 +2,8 @@ package src.metier;
 
 public enum Couleur
 {
+	// Couleurs des zones
+
 		BLEU_GLACIAIRE("Océan Pacifique", 180, 230, 255),
 		BLEU_LAGON("Océan Atlantique", 64, 224, 208),
 		TURQUOISE_OCEANIQUE("Océan Indien", 72, 209, 204),
@@ -21,7 +23,6 @@ public enum Couleur
 		LABO_ROSE("Laboratoire Rose", 255, 20, 147),
 		LABO_BLANC("Laboratoire Blanc", 225, 225, 225);
 
-
 	private String	libelle;
 	private int		r;
 	private int		v;
@@ -35,7 +36,7 @@ public enum Couleur
 		this.b			= b;
 	}
 
-
+	// Getters
 	public String getLibelle()
 	{
 		return libelle;
@@ -59,7 +60,7 @@ public enum Couleur
 		return this.b;
 	}
 
-
+	// Méthode pour obtenir une couleur à partir de son code ordinal
 	public static Couleur valueOf( int code )
 	{
 		for ( Couleur c : Couleur.values() )
