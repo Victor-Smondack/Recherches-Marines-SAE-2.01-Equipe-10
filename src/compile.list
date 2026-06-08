@@ -8,7 +8,6 @@
 ./ihm/PanelTable.java
 
 ./metier/Couleur.java
-./metier/Labo.java
 ./metier/Metier.java
 ./metier/Sauvegarde.java
 ./metier/Poisson.java
