@@ -109,6 +109,7 @@ public class PanelTable extends JPanel
 					tailleCase = PanelTable.this.getWidth() + 1;
 				}
 
+
 				if ( PanelTable.this.ctrl.isZoneSelect() )
 				{
 					int zoneActive = PanelTable.this.ctrl.getZoneActive();
@@ -127,9 +128,27 @@ public class PanelTable extends JPanel
 					}
 				}
 
-				else
+				else if ( PanelTable.this.ctrl.isLaboSelect() )
 				{
+					int laboActive = PanelTable.this.ctrl.getLaboActive();
 
+					for ( int i = 0; i < PanelTable.this.longueur; i++ )
+					{
+						for ( int j = 0; j < PanelTable.this.largeur; j++ )
+						{
+							if ( lblClique == PanelTable.this.cases[i][j] )
+							{
+
+								Color colLabo = PanelTable.this.ctrl.getCouleur( 9 + laboActive );
+
+								lblClique.setBorder( BorderFactory.createLineBorder( colLabo, 4 ) );
+								PanelTable.this.ctrl.positionneLabo( i, j, laboActive );
+								break;
+							}
+						}
+					}
+				} else
+				{
 					if ( PanelTable.this.ctrl.getGommeSelect() )
 					{
 						for ( int i = 0; i < PanelTable.this.longueur; i++ )
@@ -140,6 +159,9 @@ public class PanelTable extends JPanel
 								{
 									lblClique.setIcon( null );
 									lblClique.setBackground( null );
+									// MODIFICATION : On reset aussi la bordure
+									// du labo
+									lblClique.setBorder( BorderFactory.createLineBorder( Color.LIGHT_GRAY ) );
 
 									PanelTable.this.ctrl.gommer( i, j );
 									break;
@@ -158,7 +180,7 @@ public class PanelTable extends JPanel
 						{
 						}
 
-						if ( poissonSelected != null && poissonSelected.equals( "" ) == false )
+						if ( poissonSelected != null && !poissonSelected.equals( "" ) )
 						{
 							for ( int i = 0; i < PanelTable.this.longueur; i++ )
 							{
@@ -184,11 +206,10 @@ public class PanelTable extends JPanel
 							}
 						}
 					}
-
 					PanelTable.this.repaint();
 				}
 			}
-
 		}
+
 	}
 }
