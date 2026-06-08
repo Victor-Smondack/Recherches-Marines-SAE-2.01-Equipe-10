@@ -197,7 +197,7 @@ public class PanelChoix extends JPanel implements ActionListener
 			{
 				this.numZoneActive++;
 			}
-			this.tgbZone.setText( "Zone " + this.numZoneActive );
+			this.tgbZone.setText( "Mers " + this.numZoneActive );
 			this.lblZone.setBackground( this.ctrl.getCouleur( this.numZoneActive ) );
 			this.ctrl.setZoneActive( this.numZoneActive );
 			return;
