@@ -236,81 +236,8 @@ public class Metier
     {
         return this.grilleZone;
     }
-
-    // Sauvegarde la configuration de la grille dans un fichier
-
-    public void sauvegarderGrille( int longueur, int largeur, int nbSymbole, int tailleCases )
-    {
-        try (BufferedWriter writer = new BufferedWriter( new FileWriter( "grille.txt" ) ))
-        {
-            writer.write( longueur + " " + largeur + " " + nbSymbole + " " + tailleCases );
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    // Sauvegarde la liste des poissons dans un fichier
-
-    public void sauvegarderPoissons( List<Poisson> lstPoisson )
-    {
-        try (BufferedWriter writer = new BufferedWriter( new FileWriter( "poissons.txt" ) ))
-        {
-            for ( Poisson p : lstPoisson )
-            {
-                writer.write( p.getEspece() + " " + p.getX() + " " + p.getY() );
-                writer.newLine();
-            }
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    // Sauvegarde la configuration des zones dans un fichier
-
-    public void sauvegarderZones( Zone[][] grilleZone )
-    {
-        try (BufferedWriter writer = new BufferedWriter( new FileWriter( "zones.txt" ) ))
-        {
-            for ( int y = 0; y < grilleZone[0].length; y++ )
-            {
-                for ( int x = 0; x < grilleZone.length; x++ )
-                {
-                    if ( grilleZone[x][y] != null )
-                    {
-                        writer.write( grilleZone[x][y].getNumZone() + " " );
-                    } else
-                    {
-                        writer.write( ". " );
-                    }
-                }
-                writer.newLine();
-            }
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    // Sauvegarde la liste des liaisons dans un fichier
-
-    public void sauvegarderLiaisons( List<Liaison> lstLiaisons )
-    {
-        try (BufferedWriter writer = new BufferedWriter( new FileWriter( "liaisons.txt" ) ))
-        {
-            for ( Liaison l : lstLiaisons )
-            {
-                writer.write(
-                              l.getP1().getEspece() + " (" + l.getP1().getX() + ", " + l.getP1().getY() + ") <-> "
-                                  + l.getP2().getEspece() + " (" + l.getP2().getX() + ", " + l.getP2().getY() + ")" );
-                writer.newLine();
-            }
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
+    
+    
 
     // Affiche la grille de poissons
 
