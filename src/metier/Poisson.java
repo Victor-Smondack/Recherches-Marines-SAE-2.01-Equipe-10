@@ -9,6 +9,7 @@ public class Poisson
     private String     espece;
 
     private boolean    estLab;
+    private String     couleurLab;
 
     private int        x;
     private int        y;
@@ -20,6 +21,8 @@ public class Poisson
         this.espece = espece;
         this.x = x;
         this.y = y;
+        this.estLab = false;
+        this.couleurLab = "";
     }
 
 
@@ -47,6 +50,12 @@ public class Poisson
     }
 
 
+    public String getCouleurLab()
+    {
+        return this.couleurLab;
+    }
+
+
     public int getId()
     {
         return this.id;
@@ -68,6 +77,12 @@ public class Poisson
     public void setEstLab( boolean estLab )
     {
         this.estLab = estLab;
+    }
+
+
+    public void setCouleurLab( String couleurLab )
+    {
+        this.couleurLab = couleurLab;
     }
 
 
