@@ -175,7 +175,7 @@ public class PanelChoix extends JPanel implements ActionListener
 	{
 		if ( e.getSource() == this.btnValider )
 		{
-			System.out.println( "Bouton Valider cliqué !" );
+			this.ctrl.Sauvergarder();
 			return;
 		}
 
