@@ -1,5 +1,6 @@
 package src.ihm;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -19,10 +20,16 @@ public class PanelChoix extends JPanel implements ActionListener
 {
 	private ButtonGroup		btngChoix;
 	private JToggleButton[]	tabTgbPoisson;
+
 	private JLabel			lblZone;
-	private JButton			btnGauche;
+	private JButton			btnGaucheZone;
 	private JToggleButton	tgbZone;
-	private JButton			btnDroite;
+	private JButton			btnDroiteZone;
+
+	private JLabel			lblLabo;
+	private JButton			btnGaucheLabo;
+	private JToggleButton	tgbLabo;
+	private JButton			btnDroiteLabo;
 	private JToggleButton	tgbGomme;
 
 	private String[]		tabEspece;
@@ -33,14 +40,17 @@ public class PanelChoix extends JPanel implements ActionListener
 
 	public PanelChoix(Controleur ctrl, int nbSymbole)
 	{
-		this.ctrl		= ctrl;
-		this.tabEspece	= this.ctrl.getEspeces();
-		this.setLayout( new GridLayout( 4, 1 ) );
+		this.ctrl = ctrl;
+		this.ctrl.setPanelChoix( this );
+
+		this.tabEspece = this.ctrl.getEspeces();
+		this.setLayout( new BorderLayout() );
 
 		this.btngChoix		= new ButtonGroup();
-		this.tabTgbPoisson	= new JToggleButton[nbSymbole + 1];
+		this.tabTgbPoisson	= new JToggleButton[nbSymbole];
 
-		JPanel pnlSymbole = new JPanel();
+
+		JPanel pnlSymbole = new JPanel( new GridLayout( 0, 4 ) );
 
 
 		for ( int i = 0; i < nbSymbole; i++ )
@@ -69,27 +79,31 @@ public class PanelChoix extends JPanel implements ActionListener
 			.getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
 
 		JPanel	pnlZone			= new JPanel();
-		this.btnGauche	= new JButton( new ImageIcon( flecheGauche ) );
-		this.tgbZone	= new JToggleButton( "Zone 1" );
-		this.btngChoix.add( this.tgbZone );
-		this.btnDroite	= new JButton( new ImageIcon( flecheDroite ) );
-		this.tgbGomme	= new JToggleButton( "Gomme" );
+		this.btnGaucheZone	= new JButton( new ImageIcon( flecheGauche ) );
+		this.tgbZone		= new JToggleButton( "Zone " + this.numZoneActive );
+		this.btnDroiteZone	= new JButton( new ImageIcon( flecheDroite ) );
+		this.tgbGomme		= new JToggleButton( "Gomme" );
+
 		this.btngChoix.add( this.tgbZone );
 		this.btngChoix.add( this.tgbGomme );
 
 
-		this.add( pnlSymbole );
-		this.add( lblZone );
-		pnlZone.add( this.btnGauche );
+		pnlZone.add( this.btnGaucheZone );
 		pnlZone.add( this.tgbZone );
-		pnlZone.add( this.btnDroite );
-		this.add( pnlZone );
-		this.add( tgbGomme );
+		pnlZone.add( this.btnDroiteZone );
+
+		JPanel pnlBas = new JPanel( new GridLayout( 2, 1 ) );
+		pnlBas.add( pnlZone );
+		pnlBas.add( this.tgbGomme );
+
+		this.add( pnlSymbole, BorderLayout.NORTH );
+		this.add( this.lblZone, BorderLayout.CENTER );
+		this.add( pnlBas, BorderLayout.SOUTH );
 
 
 		this.tgbZone.addActionListener( this );
-		this.btnGauche.addActionListener( this );
-		this.btnDroite.addActionListener( this );
+		this.btnGaucheZone.addActionListener( this );
+		this.btnDroiteZone.addActionListener( this );
 		this.tgbGomme.addActionListener( this );
 
 
@@ -99,7 +113,11 @@ public class PanelChoix extends JPanel implements ActionListener
 
 	public ImageIcon getImagePoisson( int i )
 	{
-		return (ImageIcon) this.tabTgbPoisson[i].getIcon();
+		if ( i >= 0 && i < this.tabTgbPoisson.length )
+		{
+			return (ImageIcon) this.tabTgbPoisson[i].getIcon();
+		}
+		return null;
 	}
 
 
@@ -109,69 +127,66 @@ public class PanelChoix extends JPanel implements ActionListener
 	}
 
 
+	public boolean isGommeActive()
+	{
+		return this.tgbGomme.isSelected();
+	}
+
+
 	@Override
 	public void actionPerformed( ActionEvent e )
 	{
-		if ( e.getSource() instanceof JToggleButton && e.getSource() != this.tgbZone )
+		if ( e.getSource() == this.btnGaucheZone || e.getSource() == this.btnDroiteZone )
 		{
-			JToggleButton boutonClique = (JToggleButton) e.getSource();
-
-			if ( boutonClique == this.dernierBoutonPresse )
+			if ( e.getSource() == this.btnGaucheZone && this.numZoneActive > 1 )
 			{
-				this.btngChoix.clearSelection();
-				this.ctrl.setPoissonSelect( -1 );
-				this.dernierBoutonPresse = null;
+				this.numZoneActive--;
+			} else if ( e.getSource() == this.btnDroiteZone && this.ctrl.zoneExiste( this.numZoneActive )
+				&& this.numZoneActive < 10 )
+			{
+				this.numZoneActive++;
 			}
+			this.tgbZone.setText( "Zone " + this.numZoneActive );
+			this.lblZone.setBackground( this.ctrl.getCouleur( this.numZoneActive ) );
+			this.ctrl.setZoneActive( this.numZoneActive );
+			return;
+		}
 
-			else
+		JToggleButton boutonClique = (JToggleButton) e.getSource();
+
+		if ( boutonClique == this.dernierBoutonPresse )
+		{
+			this.btngChoix.clearSelection();
+			this.ctrl.setPoissonSelect( -1 );
+			this.ctrl.setZoneSelect( false );
+			this.ctrl.setGommeSelect( false );
+			this.dernierBoutonPresse = null;
+		}
+
+		else
+		{
+			this.dernierBoutonPresse = boutonClique;
+
+			this.ctrl.setPoissonSelect( -1 );
+			this.ctrl.setZoneSelect( false );
+			this.ctrl.setGommeSelect( false );
+
+			if ( boutonClique == this.tgbZone )
+			{
+				this.ctrl.setZoneSelect( true );
+			} else if ( boutonClique == this.tgbGomme )
+			{
+				this.ctrl.setGommeSelect( true );
+			} else
 			{
 				for ( int i = 0; i < this.tabTgbPoisson.length; i++ )
 				{
 					if ( boutonClique == this.tabTgbPoisson[i] )
 					{
 						this.ctrl.setPoissonSelect( i );
-						this.dernierBoutonPresse = boutonClique;
 						break;
 					}
 				}
-			}
-		} else
-		{
-			if ( e.getSource() == this.tgbZone )
-			{
-				JToggleButton boutonZone = (JToggleButton) e.getSource();
-
-				if ( boutonZone == this.dernierBoutonPresse )
-				{
-					this.btngChoix.clearSelection();
-					this.ctrl.setZoneSelect( false );
-					this.dernierBoutonPresse = null;
-				} else
-				{
-					this.ctrl.setZoneSelect( true );
-					this.dernierBoutonPresse = boutonZone;
-				}
-			}
-			if ( e.getSource() == this.btnGauche && this.numZoneActive > 1 )
-			{
-				this.numZoneActive--;
-				this.tgbZone.setText( "Zone " + this.numZoneActive );
-				this.lblZone.setBackground( this.ctrl.getCouleur( this.numZoneActive ) );
-				this.ctrl.setZoneActive( this.numZoneActive );
-			} else
-			{
-				if ( e.getSource() == this.btnDroite && this.ctrl.zoneExiste( this.numZoneActive )
-					&& this.numZoneActive < 10 )
-				{
-					this.numZoneActive++;
-					this.tgbZone.setText( "Zone " + this.numZoneActive );
-					this.lblZone.setBackground( this.ctrl.getCouleur( this.numZoneActive ) );
-					this.ctrl.setZoneActive( this.numZoneActive );
-				}
-			}
-			if ( e.getSource() == this.tgbGomme )
-			{
-				this.ctrl.setGommeSelect( true );
 			}
 		}
 	}

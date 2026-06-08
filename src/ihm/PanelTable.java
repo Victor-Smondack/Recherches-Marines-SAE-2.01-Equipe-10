@@ -7,10 +7,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -47,6 +47,10 @@ public class PanelTable extends JPanel
 				this.cases[i][j] = new JLabel();
 				this.cases[i][j].setSize( tailleCase, tailleCase );
 				this.cases[i][j].setOpaque( true );
+
+
+				this.cases[i][j].setBorder( BorderFactory.createLineBorder( Color.LIGHT_GRAY ) );
+
 				this.add( this.cases[i][j] );
 				this.cases[i][j].addMouseListener( souris );
 			}
@@ -60,7 +64,7 @@ public class PanelTable extends JPanel
 		super.paintChildren( g );
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setColor( Color.RED );
+		g2.setColor( Color.GRAY );
 		g2.setStroke( new BasicStroke( 3 ) );
 
 		int[][] liaisons = this.ctrl.getCoordonneesLiaisons();
@@ -121,17 +125,12 @@ public class PanelTable extends JPanel
 							}
 						}
 					}
-				} else
-				{
-					String poissonSelected = "";
-					try
-					{
-						poissonSelected = PanelTable.this.ctrl.getPoissonSelect();
-					} catch (Exception e)
-					{
-					}
+				}
 
-					if ( poissonSelected != null && poissonSelected.equals( "" ) == false )
+				else
+				{
+
+					if ( PanelTable.this.ctrl.getGommeSelect() )
 					{
 						for ( int i = 0; i < PanelTable.this.longueur; i++ )
 						{
@@ -139,34 +138,57 @@ public class PanelTable extends JPanel
 							{
 								if ( lblClique == PanelTable.this.cases[i][j] )
 								{
-									lblClique.setIcon(
-														new ImageIcon(
-															new ImageIcon( "./src/ihm/images/poissons/"
-																+ poissonSelected + ".png" )
-																	.getImage()
-																	.getScaledInstance(
-																						tailleCase / 2,
-																						tailleCase / 2,
-																						Image.SCALE_SMOOTH ) ) );
-									lblClique.setHorizontalAlignment( SwingConstants.CENTER );
-									PanelTable.this.ctrl.positionnePoisson( i, j, poissonSelected );
-									PanelTable.this.ctrl.genererLiaisons();
+									lblClique.setIcon( null );
+									lblClique.setBackground( null );
+
+									PanelTable.this.ctrl.gommer( i, j );
+									break;
 								}
 							}
 						}
-					} else
+					}
+
+					else
 					{
-						if ( PanelTable.this.ctrl.getGommeSelect() )
+						String poissonSelected = "";
+						try
 						{
-							lblClique.setIcon( null );
-							lblClique.setBackground( null );
-							PanelTable.this.ctrl.setGommeSelect( false );
+							poissonSelected = PanelTable.this.ctrl.getPoissonSelect();
+						} catch (Exception e)
+						{
+						}
+
+						if ( poissonSelected != null && poissonSelected.equals( "" ) == false )
+						{
+							for ( int i = 0; i < PanelTable.this.longueur; i++ )
+							{
+								for ( int j = 0; j < PanelTable.this.largeur; j++ )
+								{
+									if ( lblClique == PanelTable.this.cases[i][j] )
+									{
+										lblClique.setIcon(
+															new ImageIcon(
+																new ImageIcon( "./src/ihm/images/poissons/"
+																	+ poissonSelected + ".png" )
+																		.getImage()
+																		.getScaledInstance(
+																							tailleCase / 2,
+																							tailleCase / 2,
+																							Image.SCALE_SMOOTH ) ) );
+										lblClique.setHorizontalAlignment( SwingConstants.CENTER );
+										PanelTable.this.ctrl.positionnePoisson( i, j, poissonSelected );
+										PanelTable.this.ctrl.genererLiaisons();
+										break;
+									}
+								}
+							}
 						}
 					}
+
+					PanelTable.this.repaint();
 				}
-				PanelTable.this.repaint();
 			}
+
 		}
 	}
 }
-

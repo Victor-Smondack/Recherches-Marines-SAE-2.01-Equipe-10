@@ -1,15 +1,16 @@
 package src;
 
 import java.awt.Color;
+import java.util.List;
 
 import src.ihm.FrameMenu;
 import src.ihm.FrameTable;
+import src.ihm.PanelChoix;
 import src.metier.Couleur;
 import src.metier.Liaison;
 import src.metier.Metier;
 import src.metier.Poisson;
 import src.metier.Zone;
-import java.util.List;
 
 public class Controleur
 {
@@ -20,6 +21,7 @@ public class Controleur
     private FrameTable frameTable;
     private Metier     metier;
     private boolean    gommeActive = false;
+    private PanelChoix panelChoix;
 
 
     public Controleur()
@@ -33,6 +35,12 @@ public class Controleur
     {
         this.frameTable = new FrameTable( this, longueur, largeur, tailleCase );
         this.frameMenu.changerPanel( nbSymbole );
+    }
+
+
+    public void setPanelChoix( PanelChoix panelChoix )
+    {
+        this.panelChoix = panelChoix;
     }
 
 
@@ -50,7 +58,17 @@ public class Controleur
 
     public boolean getGommeSelect()
     {
+        if ( this.panelChoix != null )
+        {
+            return this.panelChoix.isGommeActive();
+        }
         return this.gommeActive;
+    }
+
+
+    public void gommer( int x, int y )
+    {
+        this.metier.gommer( x, y );
     }
 
 
@@ -159,7 +177,7 @@ public class Controleur
         }
 
         List<Liaison> lias   = this.metier.getLstLiaisons();
-        int[][]                 coords = new int[lias.size()][4];
+        int[][]       coords = new int[lias.size()][4];
 
         for ( int i = 0; i < lias.size(); i++ )
         {
