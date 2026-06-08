@@ -8,9 +8,10 @@ import src.Controleur;
 public class FrameMenu extends JFrame
 {
 	private PanelMenu	panelMenu;
-	private PanelChoix	panelChoix;	// Référence conservée ici
+	private PanelChoix	panelChoix;
 	private Controleur	ctrl;
 
+	// Création d'un controleur qui gére la configuration de la grille
 	public FrameMenu(Controleur ctrl)
 	{
 		this.setTitle( "Configuration de la partie" );
@@ -27,6 +28,8 @@ public class FrameMenu extends JFrame
 	}
 
 
+	// Méthode qui permet de changer entre le panel de configuration de la
+	// grille et de positionnement
 	public void changerPanel( int nbSymbole )
 	{
 		this.remove( this.panelMenu );
@@ -39,6 +42,7 @@ public class FrameMenu extends JFrame
 	}
 
 
+	// Retourne l'image associé à un poissson
 	public ImageIcon getImagePoisson( int i )
 	{
 		if ( this.panelChoix != null )

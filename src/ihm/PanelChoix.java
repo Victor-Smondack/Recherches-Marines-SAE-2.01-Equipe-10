@@ -42,6 +42,7 @@ public class PanelChoix extends JPanel implements ActionListener
 	private int				numLaboActive		= 1;
 
 
+	// Création du panel des choix de positionnement poissons labo zone
 	public PanelChoix(Controleur ctrl, int nbSymbole)
 	{
 		this.ctrl = ctrl;
@@ -148,6 +149,7 @@ public class PanelChoix extends JPanel implements ActionListener
 	}
 
 
+	// Retourne l'image d'un poisson à partir de l'indice du boutton de poissson
 	public ImageIcon getImagePoisson( int i )
 	{
 		if ( i >= 0 && i < this.tabTgbPoisson.length )
@@ -158,27 +160,33 @@ public class PanelChoix extends JPanel implements ActionListener
 	}
 
 
+	// Retourne la zone qui est choisi
 	public int getNumZoneActive()
 	{
 		return this.numZoneActive;
 	}
 
 
+	// Retourne si la gomm est active ou pas
 	public boolean isGommeActive()
 	{
 		return this.tgbGomme.isSelected();
 	}
 
 
+	// Commande en fonction du bouton
 	@Override
 	public void actionPerformed( ActionEvent e )
 	{
+		// Si le bouton valider est cliqué on sauvegarde
 		if ( e.getSource() == this.btnValider )
 		{
 			this.ctrl.Sauvergarder();
 			return;
 		}
 
+		// Si le bouton est les flèches des zone on change le numéro de la zone
+		// qu'on place'
 		if ( e.getSource() == this.btnGaucheZone || e.getSource() == this.btnDroiteZone )
 		{
 			if ( e.getSource() == this.btnGaucheZone && this.numZoneActive > 1 )
@@ -195,6 +203,9 @@ public class PanelChoix extends JPanel implements ActionListener
 			return;
 		}
 
+
+		// Si le bouton est les flèches des zone on change le numéro du labo
+		// qu'on place
 		if ( e.getSource() == this.btnGaucheLabo || e.getSource() == this.btnDroiteLabo )
 		{
 			if ( e.getSource() == this.btnGaucheLabo && this.numLaboActive > 1 )
@@ -212,6 +223,8 @@ public class PanelChoix extends JPanel implements ActionListener
 
 		JToggleButton boutonClique = (JToggleButton) e.getSource();
 
+		// Permet de déselectionné si on reclique sur le bouton qu'on a
+		// selectionné'
 		if ( boutonClique == this.dernierBoutonPresse )
 		{
 			this.btngChoix.clearSelection();

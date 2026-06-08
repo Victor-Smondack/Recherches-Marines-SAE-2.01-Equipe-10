@@ -103,6 +103,7 @@ public class PanelMenu extends JPanel implements ActionListener
 	}
 
 
+	// Réinitialise tout le panel
 	public void reinitialierPanel()
 	{
 		this.txtLongueur.setText( "" );
@@ -110,6 +111,8 @@ public class PanelMenu extends JPanel implements ActionListener
 		this.txtNbSymbole.setText( "" );
 		this.txtTailleCase.setText( "" );
 	}
+
+	// Envoie toutes les informations en fonctions des valeurs
 
 
 	public void actionPerformed( ActionEvent e )
