@@ -316,12 +316,14 @@ public class Metier
         }
     }
 
+    // Récupère la zone à une position donnée
 
     public String getPoissonSelect()
     {
         return this.poissonSelect;
     }
 
+    // Place une zone à une position donnée
 
     public void setZoneSelect( boolean select )
     {
@@ -333,12 +335,14 @@ public class Metier
         }
     }
 
+    // Récupère la zone à une position donnée
 
     public boolean isZoneSelect()
     {
         return this.zoneSelect;
     }
 
+    // Place un laboratoire à une position donnée
 
     public void setLaboSelect( boolean select )
     {
@@ -350,18 +354,21 @@ public class Metier
         }
     }
 
+    // Récupère le laboratoire sélectionné à une position donnée
 
     public boolean isLaboSelect()
     {
         return this.laboSelect;
     }
 
+    // Récupère la grille des laboratoires
 
     public int[][] getGrilleLabo()
     {
         return this.grilleLabo;
     }
 
+    // Vérifie si une zone peut être placée à une position donnée
 
     public boolean isZonePossible( int x, int y, int zone )
     {
@@ -402,6 +409,8 @@ public class Metier
         // refuse le placement
         return false;
     }
+
+    // Sauvegarde de la grille, des poissons, des zones et des liaisons
 
     public void Sauvegarder()
     {

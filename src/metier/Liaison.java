@@ -2,8 +2,12 @@ package src.metier;
 
 public class Liaison
 {
+    // attributs
+
     private Poisson p1;
     private Poisson p2;
+
+    // constructeur
 
     public Liaison(Poisson p1, Poisson p2)
     {
@@ -11,6 +15,7 @@ public class Liaison
         this.p2 = p2;
     }
 
+    // getters
 
     public Poisson getP1()
     {
@@ -23,7 +28,8 @@ public class Liaison
         return p2;
     }
 
-
+    // toString
+    
     @Override
     public String toString()
     {
