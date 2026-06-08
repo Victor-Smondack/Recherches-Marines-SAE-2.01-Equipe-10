@@ -8,8 +8,13 @@ import java.util.List;
 
 public class Metier
 {
+    /**********************/
+    /*     Attributs      */
+    /**********************/
+
     private Poisson[][]   grillePoisson;
     private String        poissonSelect;
+    private boolean zoneSelect = false;
     private List<Liaison> lstLiaisons;
     private Zone[][]      grilleZone;
     private List<Poisson> lstPoisson;
@@ -22,6 +27,10 @@ public class Metier
         "Colin",
         "Maquereau" };
 
+    /**********************/
+    /*    Constructeur    */
+    /**********************/
+
     public Metier(int longueur, int largeur)
     {
         this.grillePoisson  = new Poisson[longueur][largeur];
@@ -31,6 +40,12 @@ public class Metier
         this.grilleZone     = new Zone[longueur][largeur];
     }
 
+    /**********************/
+    /*      Méthodes      */
+    /**********************/
+
+
+    // Génère les liaisons entre les poissons
 
     public void genererLiaisons()
     {
@@ -83,6 +98,7 @@ public class Metier
         }
     }
 
+    // Vérifie s'il existe un poisson entre p1 et p2
 
     private boolean existePoissonIntermediaire( Poisson p1, Poisson p2 )
     {
@@ -101,13 +117,17 @@ public class Metier
         return false;
     }
 
+    // Place un poisson à une position donnée
 
-    public void positionPoisson( int x, int y, String espece )
+
+    public void positionnePoisson( int x, int y, String espece )
     {
         Poisson p = new Poisson( espece, x, y );
         this.grillePoisson[x][y] = p;
         this.lstPoisson.add( p );
     }
+
+    // Récupère le poisson à une position donnée
 
 
     public Poisson getPoisson( int x, int y )
@@ -115,11 +135,15 @@ public class Metier
         return this.grillePoisson[x][y];
     }
 
+    // Récupère les liaisons à une position donnée
+
 
     public Poisson[][] getGrillePoisson()
     {
         return this.grillePoisson;
     }
+
+    // Récupère la liste des poissons
 
 
     public List<Poisson> getLstPoisson()
@@ -127,6 +151,7 @@ public class Metier
         return this.lstPoisson;
     }
 
+    // Supprime le poisson à une position donnée
 
     public void gommer( int x, int y )
     {
@@ -143,6 +168,8 @@ public class Metier
         this.genererLiaisons();
     }
 
+    // Récupère les liaisons à une position donnée
+
 
     public Liaison getLiaisons( int x, int y )
     {
@@ -156,12 +183,14 @@ public class Metier
         return null;
     }
 
+    // Récupère la liste des liaisons
 
     public List<Liaison> getLstLiaisons()
     {
         return this.lstLiaisons;
     }
 
+    // Vérifie si deux poissons sont liés
 
     public boolean estLie( Poisson p1, Poisson p2 )
     {
@@ -176,6 +205,8 @@ public class Metier
         return false;
     }
 
+    // Échange la position de deux poissons
+
 
     public void positionneZone( int indiceX, int indiceY, int numZone )
     {
@@ -183,6 +214,7 @@ public class Metier
         this.grilleZone[indiceX][indiceY] = z;
     }
 
+    // Récupère la zone à une position donnée
 
     public Zone getZone( int x, int y )
     {
@@ -190,11 +222,13 @@ public class Metier
     }
 
 
+
     public Zone[][] getGrilleZone()
     {
         return this.grilleZone;
     }
 
+    // Sauvegarde la configuration de la grille dans un fichier
 
     public void sauvegarderGrille( int longueur, int largeur, int nbSymbole, int tailleCases )
     {
@@ -207,6 +241,7 @@ public class Metier
         }
     }
 
+    // Sauvegarde la liste des poissons dans un fichier
 
     public void sauvegarderPoissons( List<Poisson> lstPoisson )
     {
@@ -223,6 +258,7 @@ public class Metier
         }
     }
 
+    // Sauvegarde la configuration des zones dans un fichier
 
     public void sauvegarderZones( Zone[][] grilleZone )
     {
@@ -248,6 +284,7 @@ public class Metier
         }
     }
 
+    // Sauvegarde la liste des liaisons dans un fichier
 
     public void sauvegarderLiaisons( List<Liaison> lstLiaisons )
     {
@@ -266,6 +303,7 @@ public class Metier
         }
     }
 
+    // Affiche la grille de poissons
 
     public String toString()
     {
@@ -289,6 +327,7 @@ public class Metier
         return sb.toString();
     }
 
+    // Affiche la grille des liaisons
 
     public String toStringLiaisons()
     {
@@ -307,6 +346,7 @@ public class Metier
         return sb.toString();
     }
 
+    // Place une zone à une position donnée
 
     public boolean zoneExiste( int numZone )
     {
@@ -326,20 +366,14 @@ public class Metier
         return false;
     }
 
-
-    public void positionnePoisson( int indiceX, int indiceY, String espece )
-    {
-        Poisson p = new Poisson( espece, indiceX, indiceY );
-        this.grillePoisson[indiceX][indiceY] = p;
-    }
-
+    // Échange la position de deux poissons
 
     public String[] getEspeces()
     {
         return this.espece;
     }
 
-    private boolean zoneSelect = false;
+    // Place une zone à une position donnée
 
     public void setPoissonSelect( int numEspece )
     {
