@@ -17,6 +17,7 @@ public class Controleur
     private int        yGrille     = 1;
     private int        xGrille     = 1;
     private int        zoneActive  = 1;
+    private int        laboActive  = 1;
     private FrameMenu  frameMenu;
     private FrameTable frameTable;
     private Metier     metier;
@@ -32,9 +33,9 @@ public class Controleur
 
     public void initialiserGrille( int longueur, int largeur, int nbSymbole, int tailleCase )
     {
-        this.yGrille = longueur;
-        this.xGrille = largeur;
-        this.metier    = new Metier( this.yGrille, this.xGrille );
+        this.yGrille    = longueur;
+        this.xGrille    = largeur;
+        this.metier     = new Metier( this.yGrille, this.xGrille );
         this.frameTable = new FrameTable( this, longueur, largeur, tailleCase );
         this.frameMenu.changerPanel( nbSymbole );
     }
@@ -143,9 +144,7 @@ public class Controleur
     public void positionnePoisson( int indiceX, int indiceY, String espece )
     {
         this.metier.positionnePoisson( indiceX, indiceY, espece );
-        this.metier.positionPoisson( indiceX, indiceY, espece );
     }
-
 
 
     public void genererLiaisons()
@@ -192,6 +191,36 @@ public class Controleur
     public void setZoneActive( int zoneActive )
     {
         this.zoneActive = zoneActive;
+    }
+
+
+    public void setLaboSelect( boolean select )
+    {
+        this.metier.setLaboSelect( select );
+    }
+
+
+    public boolean isLaboSelect()
+    {
+        return this.metier.isLaboSelect();
+    }
+
+
+    public int getLaboActive()
+    {
+        return this.laboActive;
+    }
+
+
+    public void setLaboActive( int laboActive )
+    {
+        this.laboActive = laboActive;
+    }
+
+
+    public void positionneLabo( int indiceX, int indiceY, int numLabo )
+    {
+        this.metier.positionneLabo( indiceX, indiceY, numLabo );
     }
 
 

@@ -37,6 +37,7 @@ public class PanelChoix extends JPanel implements ActionListener
 	private Controleur		ctrl;
 	private JToggleButton	dernierBoutonPresse	= null;
 	private int				numZoneActive		= 1;
+	private int				numLaboActive		= 1;
 
 
 	public PanelChoix(Controleur ctrl, int nbSymbole)
@@ -65,10 +66,10 @@ public class PanelChoix extends JPanel implements ActionListener
 			button.addActionListener( this );
 			this.tabTgbPoisson[i] = button;
 		}
-		
+
 		Image imgGomme = new ImageIcon( "./src/ihm/images/Gomme.png" ).getImage()
-				.getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
-		this.tgbGomme  = new JToggleButton( new ImageIcon( imgGomme ) );
+			.getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
+		this.tgbGomme = new JToggleButton( new ImageIcon( imgGomme ) );
 		this.tgbGomme.setBackground( new Color( 150, 150, 150 ) );
 		this.btngChoix.add( this.tgbGomme );
 		pnlSymbole.add( this.tgbGomme );
@@ -113,7 +114,8 @@ public class PanelChoix extends JPanel implements ActionListener
 
 		this.lblLabo = new JLabel( " " );
 		this.lblLabo.setOpaque( true );
-		this.lblLabo.setBackground( Color.RED );
+		this.lblLabo.setBackground( this.ctrl.getCouleur( 10 ) );
+
 		this.lblLabo.setPreferredSize( new Dimension( 0, 50 ) );
 
 		pnlLaboGlobal.add( this.lblLabo, BorderLayout.NORTH );
@@ -127,6 +129,10 @@ public class PanelChoix extends JPanel implements ActionListener
 		this.btnGaucheZone.addActionListener( this );
 		this.btnDroiteZone.addActionListener( this );
 		this.tgbGomme.addActionListener( this );
+
+		this.tgbLabo.addActionListener( this );
+		this.btnGaucheLabo.addActionListener( this );
+		this.btnDroiteLabo.addActionListener( this );
 
 		this.setVisible( true );
 	}
@@ -173,6 +179,21 @@ public class PanelChoix extends JPanel implements ActionListener
 			return;
 		}
 
+		if ( e.getSource() == this.btnGaucheLabo || e.getSource() == this.btnDroiteLabo )
+		{
+			if ( e.getSource() == this.btnGaucheLabo && this.numLaboActive > 1 )
+			{
+				this.numLaboActive--;
+			} else if ( e.getSource() == this.btnDroiteLabo && this.numLaboActive < this.tabTgbPoisson.length )
+			{
+				this.numLaboActive++;
+			}
+			this.tgbLabo.setText( "Labo " + this.numLaboActive );
+			this.lblLabo.setBackground( this.ctrl.getCouleur( 9 + this.numLaboActive ) );
+			this.ctrl.setLaboActive( this.numLaboActive );
+			return;
+		}
+
 		JToggleButton boutonClique = (JToggleButton) e.getSource();
 
 		if ( boutonClique == this.dernierBoutonPresse )
@@ -181,20 +202,23 @@ public class PanelChoix extends JPanel implements ActionListener
 			this.ctrl.setPoissonSelect( -1 );
 			this.ctrl.setZoneSelect( false );
 			this.ctrl.setGommeSelect( false );
+			this.ctrl.setLaboSelect( false );
 			this.dernierBoutonPresse = null;
-		}
-
-		else
+		} else
 		{
 			this.dernierBoutonPresse = boutonClique;
 
 			this.ctrl.setPoissonSelect( -1 );
 			this.ctrl.setZoneSelect( false );
 			this.ctrl.setGommeSelect( false );
+			this.ctrl.setLaboSelect( false );
 
 			if ( boutonClique == this.tgbZone )
 			{
 				this.ctrl.setZoneSelect( true );
+			} else if ( boutonClique == this.tgbLabo )
+			{
+				this.ctrl.setLaboSelect( true );
 			} else if ( boutonClique == this.tgbGomme )
 			{
 				this.ctrl.setGommeSelect( true );

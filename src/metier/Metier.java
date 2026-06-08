@@ -9,17 +9,19 @@ import java.util.List;
 public class Metier
 {
     /**********************/
-    /*     Attributs      */
+    /* Attributs */
     /**********************/
 
     private Poisson[][]   grillePoisson;
     private String        poissonSelect;
-    private boolean zoneSelect = false;
+    private boolean       zoneSelect = false;
+    private boolean       laboSelect = false;
     private List<Liaison> lstLiaisons;
     private Zone[][]      grilleZone;
     private List<Poisson> lstPoisson;
     private char[][]      grilleLiaisons;
-    private String[]      espece = { "Saumon",
+    private int[][]       grilleLabo;
+    private String[]      espece     = { "Saumon",
         "Thon",
         "Truite",
         "Sardine",
@@ -28,7 +30,7 @@ public class Metier
         "Maquereau" };
 
     /**********************/
-    /*    Constructeur    */
+    /* Constructeur */
     /**********************/
 
     public Metier(int longueur, int largeur)
@@ -38,10 +40,12 @@ public class Metier
         this.grilleLiaisons = new char[longueur][largeur];
         this.lstLiaisons    = new ArrayList<>();
         this.grilleZone     = new Zone[longueur][largeur];
+        this.grilleLabo     = new int[longueur][largeur];
     }
 
+
     /**********************/
-    /*      Méthodes      */
+    /* Méthodes */
     /**********************/
 
 
@@ -100,6 +104,7 @@ public class Metier
 
     // Vérifie s'il existe un poisson entre p1 et p2
 
+
     private boolean existePoissonIntermediaire( Poisson p1, Poisson p2 )
     {
         int dx = Integer.signum( p2.getX() - p1.getX() );
@@ -153,6 +158,7 @@ public class Metier
 
     // Supprime le poisson à une position donnée
 
+
     public void gommer( int x, int y )
     {
         for ( Poisson p : this.lstPoisson )
@@ -165,6 +171,7 @@ public class Metier
         }
         this.grillePoisson[x][y] = null;
         this.grilleZone[x][y]    = null;
+        this.grilleLabo[x][y]    = 0;
         this.genererLiaisons();
     }
 
@@ -185,12 +192,14 @@ public class Metier
 
     // Récupère la liste des liaisons
 
+
     public List<Liaison> getLstLiaisons()
     {
         return this.lstLiaisons;
     }
 
     // Vérifie si deux poissons sont liés
+
 
     public boolean estLie( Poisson p1, Poisson p2 )
     {
@@ -215,21 +224,20 @@ public class Metier
             Zone z = new Zone( numZone, indiceX, indiceY );
             this.grilleZone[indiceX][indiceY] = z;
             return true; // L'action a réussi
-        }
-        else
+        } else
         {
-            System.out.println("Action refusée : La case n'est pas adjacente.");
+            System.out.println( "Action refusée : La case n'est pas adjacente." );
             return false; // L'action a échoué
         }
     }
 
     // Récupère la zone à une position donnée
 
+
     public Zone getZone( int x, int y )
     {
         return this.grilleZone[x][y];
     }
-
 
 
     public Zone[][] getGrilleZone()
@@ -238,6 +246,7 @@ public class Metier
     }
 
     // Sauvegarde la configuration de la grille dans un fichier
+
 
     public void sauvegarderGrille( int longueur, int largeur, int nbSymbole, int tailleCases )
     {
@@ -251,6 +260,7 @@ public class Metier
     }
 
     // Sauvegarde la liste des poissons dans un fichier
+
 
     public void sauvegarderPoissons( List<Poisson> lstPoisson )
     {
@@ -268,6 +278,7 @@ public class Metier
     }
 
     // Sauvegarde la configuration des zones dans un fichier
+
 
     public void sauvegarderZones( Zone[][] grilleZone )
     {
@@ -295,6 +306,7 @@ public class Metier
 
     // Sauvegarde la liste des liaisons dans un fichier
 
+
     public void sauvegarderLiaisons( List<Liaison> lstLiaisons )
     {
         try (BufferedWriter writer = new BufferedWriter( new FileWriter( "liaisons.txt" ) ))
@@ -313,6 +325,7 @@ public class Metier
     }
 
     // Affiche la grille de poissons
+
 
     public String toString()
     {
@@ -338,6 +351,7 @@ public class Metier
 
     // Affiche la grille des liaisons
 
+
     public String toStringLiaisons()
     {
         StringBuilder sb = new StringBuilder();
@@ -356,6 +370,7 @@ public class Metier
     }
 
     // Place une zone à une position donnée
+
 
     public boolean zoneExiste( int numZone )
     {
@@ -377,6 +392,7 @@ public class Metier
 
     // Échange la position de deux poissons
 
+
     public String[] getEspeces()
     {
         return this.espece;
@@ -384,12 +400,14 @@ public class Metier
 
     // Place une zone à une position donnée
 
+
     public void setPoissonSelect( int numEspece )
     {
         if ( numEspece >= 0 && numEspece < this.espece.length )
         {
             this.poissonSelect = this.espece[numEspece];
             this.zoneSelect    = false;
+            this.laboSelect    = false;
         } else
         {
             this.poissonSelect = "";
@@ -409,6 +427,7 @@ public class Metier
         if ( select )
         {
             this.poissonSelect = "";
+            this.laboSelect    = false;
         }
     }
 
@@ -418,14 +437,45 @@ public class Metier
         return this.zoneSelect;
     }
 
+
+    public void setLaboSelect( boolean select )
+    {
+        this.laboSelect = select;
+        if ( select )
+        {
+            this.poissonSelect = "";
+            this.zoneSelect    = false;
+        }
+    }
+
+
+    public boolean isLaboSelect()
+    {
+        return this.laboSelect;
+    }
+
+
+    public void positionneLabo( int indiceX, int indiceY, int numLabo )
+    {
+        this.grilleLabo[indiceX][indiceY] = numLabo;
+    }
+
+
+    public int[][] getGrilleLabo()
+    {
+        return this.grilleLabo;
+    }
+
+
     public boolean isZonePossible( int x, int y, int zone )
     {
-        // 1. Si la zone n'existe pas encore sur la grille, le premier clic est libre
+        // 1. Si la zone n'existe pas encore sur la grille, le premier clic est
+        // libre
         if ( !zoneExiste( zone ) )
         {
             return true;
         }
-        
+
         // 2. Vérification à Gauche
         if ( x > 0 && this.grilleZone[x - 1][y] != null && this.grilleZone[x - 1][y].getNumZone() == zone )
         {
@@ -433,7 +483,8 @@ public class Metier
         }
 
         // 3. Vérification à Droite
-        if ( x < this.grilleZone.length - 1 && this.grilleZone[x + 1][y] != null && this.grilleZone[x + 1][y].getNumZone() == zone )
+        if ( x < this.grilleZone.length - 1 && this.grilleZone[x + 1][y] != null
+            && this.grilleZone[x + 1][y].getNumZone() == zone )
         {
             return true;
         }
@@ -445,12 +496,14 @@ public class Metier
         }
 
         // 5. Vérification en Bas (Correction de la limite de l'axe Y)
-        if ( y < this.grilleZone[0].length - 1 && this.grilleZone[x][y + 1] != null && this.grilleZone[x][y + 1].getNumZone() == zone )
+        if ( y < this.grilleZone[0].length - 1 && this.grilleZone[x][y + 1] != null
+            && this.grilleZone[x][y + 1].getNumZone() == zone )
         {
             return true;
-        }  
+        }
 
-        // Si la zone existe déjà mais qu'aucune case autour ne correspond, on refuse le placement
+        // Si la zone existe déjà mais qu'aucune case autour ne correspond, on
+        // refuse le placement
         return false;
     }
 }

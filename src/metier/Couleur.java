@@ -11,7 +11,16 @@ public enum Couleur
 		BLEU_ATLANTIQUE("Mer méditerranée", 0, 119, 190),
 		BLEU_SAPHIR_MARIN("Mer caspienne", 15, 82, 186),
 		BLEU_ABYSSAL("Mer du nord", 0, 51, 102),
-		BLEU_TEMPETE("Mer noire", 47, 79, 79);
+		BLEU_TEMPETE("Mer noire", 47, 79, 79),
+
+		LABO_ROUGE("Laboratoire Rouge", 255, 50, 50),
+		LABO_VERT("Laboratoire Vert", 50, 205, 50),
+		LABO_JAUNE("Laboratoire Jaune", 255, 215, 0),
+		LABO_VIOLET("Laboratoire Violet", 148, 0, 211),
+		LABO_ORANGE("Laboratoire Orange", 255, 140, 0),
+		LABO_ROSE("Laboratoire Rose", 255, 20, 147),
+		LABO_BLANC("Laboratoire Blanc", 225, 225, 225);
+
 
 	private String	libelle;
 	private int		r;
