@@ -51,7 +51,7 @@ public class Controleur
     }
 
 
-    public void getGommeSelect()
+    public boolean getGommeSelect()
     {
         return this.gommeActive;
     }
