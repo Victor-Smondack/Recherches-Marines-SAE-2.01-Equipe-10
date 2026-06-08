@@ -10,19 +10,18 @@ import src.metier.Couleur;
 import src.metier.Liaison;
 import src.metier.Metier;
 import src.metier.Poisson;
-import src.metier.Sauvegarde;
 import src.metier.Zone;
 
 public class Controleur
 {
-    private int        yGrille     = 1;
     private int        xGrille     = 1;
+    private int        yGrille     = 1;
     private int        zoneActive  = 1;
     private int        laboActive  = 1;
+    private boolean    gommeActive = false;
     private FrameMenu  frameMenu;
     private FrameTable frameTable;
     private Metier     metier;
-    private boolean    gommeActive = false;
     private PanelChoix panelChoix;
 
 
@@ -76,27 +75,15 @@ public class Controleur
     }
 
 
-    public Color getCouleur( int codeCouleur )
+    public int getZoneActive()
     {
-        Couleur c = Couleur.valueOf( codeCouleur );
-        if ( c != null )
-        {
-            return new Color( c.getR(), c.getV(), c.getB(), 128 );
-        }
-
-        return new Color( 180, 230, 255, 128 );
+        return this.zoneActive;
     }
 
 
-    public String[] getPoissons()
+    public void setZoneActive( int zoneActive )
     {
-        return this.metier.getEspeces();
-    }
-
-
-    public String getPoissonSelect()
-    {
-        return this.metier.getPoissonSelect();
+        this.zoneActive = zoneActive;
     }
 
 
@@ -112,18 +99,6 @@ public class Controleur
     }
 
 
-    public void setPoissonSelect( int numEspece )
-    {
-        this.metier.setPoissonSelect( numEspece );
-    }
-
-
-    public String[] getEspeces()
-    {
-        return this.metier.getEspeces();
-    }
-
-
     public Zone[][] getGrilleZone()
     {
         return this.metier.getGrilleZone();
@@ -136,6 +111,66 @@ public class Controleur
     }
 
 
+    public boolean zoneExiste( int numZone )
+    {
+        return this.metier.zoneExiste( numZone );
+    }
+
+
+    public int getLaboActive()
+    {
+        return this.laboActive;
+    }
+
+
+    public void setLaboActive( int laboActive )
+    {
+        this.laboActive = laboActive;
+    }
+
+
+    public void setLaboSelect( boolean select )
+    {
+        this.metier.setLaboSelect( select );
+    }
+
+
+    public boolean isLaboSelect()
+    {
+        return this.metier.isLaboSelect();
+    }
+
+
+    public int[] positionneLabo( int indiceX, int indiceY, int numLabo )
+    {
+        return this.metier.positionneLabo( indiceX, indiceY, numLabo );
+    }
+
+
+    public String[] getPoissons()
+    {
+        return this.metier.getEspeces();
+    }
+
+
+    public String getPoissonSelect()
+    {
+        return this.metier.getPoissonSelect();
+    }
+
+
+    public void setPoissonSelect( int numEspece )
+    {
+        this.metier.setPoissonSelect( numEspece );
+    }
+
+
+    public String[] getEspeces()
+    {
+        return this.metier.getEspeces();
+    }
+
+
     public Poisson[][] getGrillePoisson()
     {
         return this.metier.getGrillePoisson();
@@ -145,12 +180,6 @@ public class Controleur
     public void positionnePoisson( int indiceX, int indiceY, String espece )
     {
         this.metier.positionnePoisson( indiceX, indiceY, espece );
-    }
-
-
-    public int[] positionneLabo( int indiceX, int indiceY, int numLabo )
-    {
-        return this.metier.positionneLabo( indiceX, indiceY, numLabo );
     }
 
 
@@ -183,55 +212,26 @@ public class Controleur
     }
 
 
-    public boolean zoneExiste( int numZone )
+    public Color getCouleur( int codeCouleur )
     {
-        return this.metier.zoneExiste( numZone );
+        Couleur c = Couleur.valueOf( codeCouleur );
+        if ( c != null )
+        {
+            return new Color( c.getR(), c.getV(), c.getB(), 128 );
+        }
+
+        return new Color( 180, 230, 255, 128 );
     }
 
 
-    public int getZoneActive()
+    public void Sauvergarder()
     {
-        return this.zoneActive;
-    }
-
-
-    public void setZoneActive( int zoneActive )
-    {
-        this.zoneActive = zoneActive;
-    }
-
-
-    public void setLaboSelect( boolean select )
-    {
-        this.metier.setLaboSelect( select );
-    }
-
-
-    public boolean isLaboSelect()
-    {
-        return this.metier.isLaboSelect();
-    }
-
-
-    public int getLaboActive()
-    {
-        return this.laboActive;
-    }
-
-
-    public void setLaboActive( int laboActive )
-    {
-        this.laboActive = laboActive;
+        this.metier.Sauvegarder();
     }
 
 
     public static void main( String[] args )
     {
         new Controleur();
-    }
-
-    public void Sauvergarder()
-    {
-        this.metier.Sauvegarder();
     }
 }
