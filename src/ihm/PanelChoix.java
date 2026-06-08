@@ -33,6 +33,8 @@ public class PanelChoix extends JPanel implements ActionListener
 	private JButton			btnDroiteLabo;
 	private JToggleButton	tgbGomme;
 
+	private JButton			btnValider;
+
 	private String[]		tabEspece;
 	private Controleur		ctrl;
 	private JToggleButton	dernierBoutonPresse	= null;
@@ -95,7 +97,7 @@ public class PanelChoix extends JPanel implements ActionListener
 		this.lblZone = new JLabel( " " );
 		this.lblZone.setOpaque( true );
 		this.lblZone.setBackground( this.ctrl.getCouleur( 1 ) );
-		this.lblZone.setPreferredSize( new Dimension( 0, 50 ) );
+		this.lblZone.setPreferredSize( new Dimension( 0, 30 ) );
 
 		pnlZoneGlobal.add( this.lblZone, BorderLayout.NORTH );
 		pnlZoneGlobal.add( pnlZoneAction, BorderLayout.CENTER );
@@ -115,15 +117,21 @@ public class PanelChoix extends JPanel implements ActionListener
 		this.lblLabo = new JLabel( " " );
 		this.lblLabo.setOpaque( true );
 		this.lblLabo.setBackground( this.ctrl.getCouleur( 10 ) );
-
-		this.lblLabo.setPreferredSize( new Dimension( 0, 50 ) );
+		this.lblLabo.setPreferredSize( new Dimension( 0, 30 ) );
 
 		pnlLaboGlobal.add( this.lblLabo, BorderLayout.NORTH );
 		pnlLaboGlobal.add( pnlLaboAction, BorderLayout.CENTER );
 
+		JPanel pnlBas = new JPanel( new BorderLayout() );
+		pnlBas.add( pnlLaboGlobal, BorderLayout.CENTER );
+
+		this.btnValider = new JButton( "Valider" );
+		this.btnValider.setPreferredSize( new Dimension( 0, 40 ) );
+		pnlBas.add( this.btnValider, BorderLayout.SOUTH );
+
 		this.add( pnlSymbole, BorderLayout.NORTH );
 		this.add( pnlZoneGlobal, BorderLayout.CENTER );
-		this.add( pnlLaboGlobal, BorderLayout.SOUTH );
+		this.add( pnlBas, BorderLayout.SOUTH );
 
 		this.tgbZone.addActionListener( this );
 		this.btnGaucheZone.addActionListener( this );
@@ -133,6 +141,8 @@ public class PanelChoix extends JPanel implements ActionListener
 		this.tgbLabo.addActionListener( this );
 		this.btnGaucheLabo.addActionListener( this );
 		this.btnDroiteLabo.addActionListener( this );
+
+		this.btnValider.addActionListener( this );
 
 		this.setVisible( true );
 	}
@@ -163,6 +173,12 @@ public class PanelChoix extends JPanel implements ActionListener
 	@Override
 	public void actionPerformed( ActionEvent e )
 	{
+		if ( e.getSource() == this.btnValider )
+		{
+			System.out.println( "Bouton Valider cliqué !" );
+			return;
+		}
+
 		if ( e.getSource() == this.btnGaucheZone || e.getSource() == this.btnDroiteZone )
 		{
 			if ( e.getSource() == this.btnGaucheZone && this.numZoneActive > 1 )
@@ -216,20 +232,26 @@ public class PanelChoix extends JPanel implements ActionListener
 			if ( boutonClique == this.tgbZone )
 			{
 				this.ctrl.setZoneSelect( true );
-			} else if ( boutonClique == this.tgbLabo )
-			{
-				this.ctrl.setLaboSelect( true );
-			} else if ( boutonClique == this.tgbGomme )
-			{
-				this.ctrl.setGommeSelect( true );
 			} else
 			{
-				for ( int i = 0; i < this.tabTgbPoisson.length; i++ )
+				if ( boutonClique == this.tgbLabo )
 				{
-					if ( boutonClique == this.tabTgbPoisson[i] )
+					this.ctrl.setLaboSelect( true );
+				} else
+				{
+					if ( boutonClique == this.tgbGomme )
 					{
-						this.ctrl.setPoissonSelect( i );
-						break;
+						this.ctrl.setGommeSelect( true );
+					} else
+					{
+						for ( int i = 0; i < this.tabTgbPoisson.length; i++ )
+						{
+							if ( boutonClique == this.tabTgbPoisson[i] )
+							{
+								this.ctrl.setPoissonSelect( i );
+								break;
+							}
+						}
 					}
 				}
 			}

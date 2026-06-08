@@ -8,6 +8,8 @@ public class Zone
 
     public Zone(int numZone, int x, int y)
     {
+        this.x       = x;
+        this.y       = y;
         this.numZone = numZone;
     }
 
@@ -17,10 +19,12 @@ public class Zone
         return this.numZone;
     }
 
+
     public int getZoneX()
     {
         return this.x;
     }
+
 
     public int getZoneY()
     {

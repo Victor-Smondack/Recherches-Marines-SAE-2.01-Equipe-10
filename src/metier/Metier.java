@@ -223,13 +223,39 @@ public class Metier
         {
             Zone z = new Zone( numZone, indiceX, indiceY );
             this.grilleZone[indiceX][indiceY] = z;
-            return true; // L'action a réussi
+            return true;
         } else
         {
-            System.out.println( "Action refusée : La case n'est pas adjacente." );
-            return false; // L'action a échoué
+            return false;
         }
     }
+
+
+    public int[] positionneLabo( int indiceX, int indiceY, int numLabo )
+    {
+        int[] anciennesCoords = null;
+
+        for ( int i = 0; i < this.grilleLabo.length; i++ )
+        {
+            for ( int j = 0; j < this.grilleLabo[i].length; j++ )
+            {
+                if ( this.grilleLabo[i][j] == numLabo )
+                {
+                    if ( i != indiceX || j != indiceY )
+                    {
+                        anciennesCoords       = new int[] { i,
+                            j };
+                        this.grilleLabo[i][j] = 0;
+                    }
+                }
+            }
+        }
+
+        this.grilleLabo[indiceX][indiceY] = numLabo;
+
+        return anciennesCoords; //
+    }
+
 
     // Récupère la zone à une position donnée
 
@@ -451,12 +477,6 @@ public class Metier
     public boolean isLaboSelect()
     {
         return this.laboSelect;
-    }
-
-
-    public void positionneLabo( int indiceX, int indiceY, int numLabo )
-    {
-        this.grilleLabo[indiceX][indiceY] = numLabo;
     }
 
 

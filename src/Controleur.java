@@ -129,9 +129,9 @@ public class Controleur
     }
 
 
-    public void positionneZone( int indiceX, int indiceY, int numZone )
+    public boolean positionneZone( int indiceX, int indiceY, int numZone )
     {
-        this.metier.positionneZone( indiceX, indiceY, numZone );
+        return this.metier.positionneZone( indiceX, indiceY, numZone );
     }
 
 
@@ -144,6 +144,12 @@ public class Controleur
     public void positionnePoisson( int indiceX, int indiceY, String espece )
     {
         this.metier.positionnePoisson( indiceX, indiceY, espece );
+    }
+
+
+    public int[] positionneLabo( int indiceX, int indiceY, int numLabo )
+    {
+        return this.metier.positionneLabo( indiceX, indiceY, numLabo );
     }
 
 
@@ -215,12 +221,6 @@ public class Controleur
     public void setLaboActive( int laboActive )
     {
         this.laboActive = laboActive;
-    }
-
-
-    public void positionneLabo( int indiceX, int indiceY, int numLabo )
-    {
-        this.metier.positionneLabo( indiceX, indiceY, numLabo );
     }
 
 
