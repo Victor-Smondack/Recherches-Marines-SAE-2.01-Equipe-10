@@ -1,0 +1,12 @@
+*.class
+*.jar
+bin/
+out/
+build/
+class/
+.idea/
+.settings/
+.vscode/
+.project
+.classpath
+.DS_Store

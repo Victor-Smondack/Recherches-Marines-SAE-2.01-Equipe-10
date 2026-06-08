@@ -5,33 +5,32 @@ import java.awt.Color;
 import src.ihm.FrameMenu;
 import src.ihm.FrameTable;
 import src.metier.Couleur;
-import src.metier.Metiertemp;
+import src.metier.Liaison;
 import src.metier.Metier;
+import src.metier.Plateau;
 import src.metier.Poisson;
 import src.metier.Zone;
 
 public class Controleur
 {
-    // --- ATTRIBUTS IHM ---
     private int        yGrille     = 7;
     private int        xGrille     = 7;
     private int        zoneActive  = 1;
     private FrameMenu  frameMenu;
     private FrameTable frameTable;
-    private Metiertemp     metier;
-    private Metier    plateau;
+    private Metier     metier;
+    private Plateau    plateau;
     private boolean    gommeActive = false;
 
 
     public Controleur()
     {
-
-        this.metier    = new Metiertemp( this.yGrille, this.xGrille );
+        this.metier    = new Metier( this.yGrille, this.xGrille );
+        this.plateau   = new Plateau( this.yGrille, this.xGrille );
         this.frameMenu = new FrameMenu( this );
     }
 
 
-    // --- MÉTHODES IHM ---
     public void initialiserGrille( int longueur, int largeur, int nbSymbole, int tailleCase )
     {
         this.frameTable = new FrameTable( this, longueur, largeur, tailleCase );
@@ -75,8 +74,7 @@ public class Controleur
     }
 
 
-    public String getPoissonSelect() // Envoyer vers l'IHM le poisson
-                                     // sélectionné
+    public String getPoissonSelect()
     {
         return this.metier.getPoissonSelect();
     }
@@ -94,8 +92,7 @@ public class Controleur
     }
 
 
-    public void setPoissonSelect( int numEspece ) // Envoyer vers le métier le
-                                                  // poisson sélectionné
+    public void setPoissonSelect( int numEspece )
     {
         this.metier.setPoissonSelect( numEspece );
     }
@@ -128,13 +125,13 @@ public class Controleur
     public void positionnePoisson( int indiceX, int indiceY, String espece )
     {
         this.metier.positionnePoisson( indiceX, indiceY, espece );
+        this.plateau.positionPoisson( indiceX, indiceY, espece, indiceX, indiceY );
     }
 
 
     public boolean deplacement( int xDest, int yDest )
     {
-        if ( (xDest >= 0) &&
-            (xDest < this.xGrille) && (yDest >= 0) && (yDest < this.yGrille) )
+        if ( (xDest >= 0) && (xDest < this.xGrille) && (yDest >= 0) && (yDest < this.yGrille) )
         {
             deplacer( xDest, yDest );
             return true;
@@ -147,13 +144,35 @@ public class Controleur
 
     private void deplacer( int xDest, int yDest )
     {
-        /* Rien */
     }
 
 
     public void genererLiaisons()
     {
         this.plateau.genererLiaisons();
+    }
+
+
+    public int[][] getCoordonneesLiaisons()
+    {
+        if ( this.plateau == null || this.plateau.getLstLiaisons() == null )
+        {
+            return null;
+        }
+
+        java.util.List<Liaison> lias   = this.plateau.getLstLiaisons();
+        int[][]                 coords = new int[lias.size()][4];
+
+        for ( int i = 0; i < lias.size(); i++ )
+        {
+            Liaison l = lias.get( i );
+            coords[i][0] = l.getP1().getX();
+            coords[i][1] = l.getP1().getY();
+            coords[i][2] = l.getP2().getX();
+            coords[i][3] = l.getP2().getY();
+        }
+
+        return coords;
     }
 
 
@@ -175,7 +194,6 @@ public class Controleur
     }
 
 
-    // --- MAIN ---
     public static void main( String[] args )
     {
         new Controleur();

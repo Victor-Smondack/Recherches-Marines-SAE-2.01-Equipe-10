@@ -1,9 +1,13 @@
 package src.ihm;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -16,7 +20,6 @@ import src.Controleur;
 
 public class PanelTable extends JPanel
 {
-
 	private int			longueur;
 	private int			largeur;
 	private int			tailleCase;
@@ -35,7 +38,6 @@ public class PanelTable extends JPanel
 
 		this.cases = new JLabel[this.longueur][this.largeur];
 
-
 		GereSouris souris = new GereSouris();
 
 		for ( int i = 0; i < this.longueur; i++ )
@@ -49,7 +51,44 @@ public class PanelTable extends JPanel
 				this.cases[i][j].addMouseListener( souris );
 			}
 		}
+	}
 
+
+	@Override
+	protected void paintChildren( Graphics g )
+	{
+		super.paintChildren( g );
+
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setColor( Color.RED );
+		g2.setStroke( new BasicStroke( 3 ) );
+
+		int[][] liaisons = this.ctrl.getCoordonneesLiaisons();
+
+		if ( liaisons != null )
+		{
+			for ( int[] l : liaisons )
+			{
+				int	x1	= l[0];
+				int	y1	= l[1];
+				int	x2	= l[2];
+				int	y2	= l[3];
+
+				if ( x1 >= 0 && x1 < longueur && y1 >= 0 && y1 < largeur &&
+					x2 >= 0 && x2 < longueur && y2 >= 0 && y2 < largeur )
+				{
+					JLabel	lbl1	= this.cases[x1][y1];
+					JLabel	lbl2	= this.cases[x2][y2];
+
+					int		startX	= lbl1.getX() + lbl1.getWidth() / 2;
+					int		startY	= lbl1.getY() + lbl1.getHeight() / 2;
+					int		endX	= lbl2.getX() + lbl2.getWidth() / 2;
+					int		endY	= lbl2.getY() + lbl2.getHeight() / 2;
+
+					g2.drawLine( startX, startY, endX, endY );
+				}
+			}
+		}
 	}
 
 	private class GereSouris extends MouseAdapter
@@ -77,7 +116,6 @@ public class PanelTable extends JPanel
 							if ( lblClique == PanelTable.this.cases[i][j] )
 							{
 								lblClique.setBackground( PanelTable.this.ctrl.getCouleur( zoneActive ) );
-
 								PanelTable.this.ctrl.positionneZone( i, j, zoneActive );
 								break;
 							}
@@ -112,27 +150,22 @@ public class PanelTable extends JPanel
 																						Image.SCALE_SMOOTH ) ) );
 									lblClique.setHorizontalAlignment( SwingConstants.CENTER );
 									PanelTable.this.ctrl.positionnePoisson( i, j, poissonSelected );
+									PanelTable.this.ctrl.genererLiaisons();
 								}
 							}
 						}
-
-					}
-
-					else
+					} else
 					{
 						if ( PanelTable.this.ctrl.getGommeSelect() )
 						{
 							lblClique.setIcon( null );
 							PanelTable.this.ctrl.setGommeSelect( false );
 						}
-
 					}
-
-
 				}
-
 				PanelTable.this.repaint();
 			}
 		}
 	}
 }
+
