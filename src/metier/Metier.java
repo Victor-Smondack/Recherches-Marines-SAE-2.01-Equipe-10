@@ -9,6 +9,7 @@ import java.util.List;
 public class Metier
 {
     private Poisson[][]   grillePoisson;
+    private String        poissonSelect;
     private List<Liaison> lstLiaisons;
     private Zone[][]      grilleZone;
     private List<Poisson> lstPoisson;
@@ -317,5 +318,68 @@ public class Metier
         }
 
         return sb.toString();
+    }
+
+    public boolean zoneExiste( int numZone )
+    {
+        if ( this.grilleZone == null )
+            return false;
+
+        for ( int i = 0; i < this.grilleZone.length; i++ )
+        {
+            for ( int j = 0; j < this.grilleZone[i].length; j++ )
+            {
+                if ( this.grilleZone[i][j] != null && this.grilleZone[i][j].getNumZone() == numZone )
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void positionnePoisson( int indiceX, int indiceY, String espece )
+    {
+        Poisson p = new Poisson( espece, indiceX, indiceY );
+        this.grillePoisson[indiceX][indiceY] = p;
+    }
+
+    public String[] getEspeces()
+    {
+        return this.espece;
+    }
+
+    private boolean zoneSelect = false;
+
+    public void setPoissonSelect( int numEspece )
+    {
+        if ( numEspece >= 0 && numEspece < this.espece.length )
+        {
+            this.poissonSelect = this.espece[numEspece];
+            this.zoneSelect    = false;
+        } 
+        else
+        {
+            this.poissonSelect = "";
+        }
+    }
+
+    public String getPoissonSelect()
+    {
+        return this.poissonSelect;
+    }
+
+    public void setZoneSelect( boolean select )
+    {
+        this.zoneSelect = select;
+        if ( select )
+        {
+            this.poissonSelect = "";
+        }
+    }
+
+    public boolean isZoneSelect()
+    {
+        return this.zoneSelect;
     }
 }

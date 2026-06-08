@@ -7,9 +7,9 @@ import src.ihm.FrameTable;
 import src.metier.Couleur;
 import src.metier.Liaison;
 import src.metier.Metier;
-import src.metier.Plateau;
 import src.metier.Poisson;
 import src.metier.Zone;
+import java.util.List;
 
 public class Controleur
 {
@@ -19,14 +19,12 @@ public class Controleur
     private FrameMenu  frameMenu;
     private FrameTable frameTable;
     private Metier     metier;
-    private Plateau    plateau;
     private boolean    gommeActive = false;
 
 
     public Controleur()
     {
         this.metier    = new Metier( this.yGrille, this.xGrille );
-        this.plateau   = new Plateau( this.yGrille, this.xGrille );
         this.frameMenu = new FrameMenu( this );
     }
 
@@ -106,7 +104,7 @@ public class Controleur
 
     public Zone[][] getGrilleZone()
     {
-        return this.plateau.getGrilleZone();
+        return this.metier.getGrilleZone();
     }
 
 
@@ -118,14 +116,14 @@ public class Controleur
 
     public Poisson[][] getGrillePoisson()
     {
-        return this.plateau.getGrillePoisson();
+        return this.metier.getGrillePoisson();
     }
 
 
     public void positionnePoisson( int indiceX, int indiceY, String espece )
     {
         this.metier.positionnePoisson( indiceX, indiceY, espece );
-        this.plateau.positionPoisson( indiceX, indiceY, espece, indiceX, indiceY );
+        this.metier.positionPoisson( indiceX, indiceY, espece );
     }
 
 
@@ -149,18 +147,18 @@ public class Controleur
 
     public void genererLiaisons()
     {
-        this.plateau.genererLiaisons();
+        this.metier.genererLiaisons();
     }
 
 
     public int[][] getCoordonneesLiaisons()
     {
-        if ( this.plateau == null || this.plateau.getLstLiaisons() == null )
+        if ( this.metier == null || this.metier.getLstLiaisons() == null )
         {
             return null;
         }
 
-        java.util.List<Liaison> lias   = this.plateau.getLstLiaisons();
+        List<Liaison> lias   = this.metier.getLstLiaisons();
         int[][]                 coords = new int[lias.size()][4];
 
         for ( int i = 0; i < lias.size(); i++ )

@@ -75,6 +75,7 @@ public class PanelChoix extends JPanel implements ActionListener
 		this.btnDroite	= new JButton( new ImageIcon( flecheDroite ) );
 		this.tgbGomme	= new JToggleButton( "Gomme" );
 		this.btngChoix.add( this.tgbZone );
+		this.btngChoix.add( this.tgbGomme );
 
 
 		this.add( pnlSymbole );

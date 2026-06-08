@@ -11,8 +11,6 @@
 ./metier/Labo.java
 ./metier/Metier.java
 ./metier/Poisson.java
-./metier/Plateau.java
-./metier/TestPlateau.java
 ./metier/Zone.java
 ./metier/Liaison.java
 
