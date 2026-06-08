@@ -13,7 +13,7 @@ public class FrameMenu extends JFrame
 
 	public FrameMenu(Controleur ctrl)
 	{
-		this.setTitle( "Menu" );
+		this.setTitle( "Configuration de la partie" );
 		this.setSize( 400, 400 );
 		this.setLocation( 50, 50 );
 

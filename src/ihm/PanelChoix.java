@@ -82,7 +82,7 @@ public class PanelChoix extends JPanel implements ActionListener
 		JPanel	pnlZoneGlobal	= new JPanel( new BorderLayout() );
 		JPanel	pnlZoneAction	= new JPanel();
 		this.btnGaucheZone	= new JButton( new ImageIcon( flecheGauche ) );
-		this.tgbZone		= new JToggleButton( "Zone " + this.numZoneActive );
+		this.tgbZone		= new JToggleButton( "Mer " + this.numZoneActive );
 		this.btnDroiteZone	= new JButton( new ImageIcon( flecheDroite ) );
 
 		this.btngChoix.add( this.tgbZone );

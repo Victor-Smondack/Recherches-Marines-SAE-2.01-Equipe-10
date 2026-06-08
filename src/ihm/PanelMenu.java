@@ -72,7 +72,7 @@ public class PanelMenu extends JPanel implements ActionListener
 		panelLargeur.add( this.txtLargeur );
 
 		this.add( panelLargeur );
-		panelSymboles.add( new JLabel( "Nombre de couleurs / symboles :" ) );
+		panelSymboles.add( new JLabel( "Nombre de laboratoires / espèces de poisson :" ) );
 		panelSymboles.add( this.txtNbSymbole );
 
 		this.add( panelSymboles );
