@@ -6,11 +6,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import src.Controleur;
-
 public class Metier
 {
+    private Poisson[][]   grillePoisson;
+    private List<Liaison> lstLiaisons;
+    private Zone[][]      grilleZone;
     private List<Poisson> lstPoisson;
+    private char[][]      grilleLiaisons;
     private String[]      espece = { "Saumon",
         "Thon",
         "Truite",
@@ -18,81 +20,190 @@ public class Metier
         "Bar",
         "Colin",
         "Maquereau" };
-    private Poisson[][]   grillePoisson;
-    private Zone[][]      grilleZone;
-    private String        poissonSelect;
-    private Plateau       plateau;
-
-    private Controleur    ctrl;
 
     public Metier(int longueur, int largeur)
     {
-        this.lstPoisson    = new ArrayList<>();
         this.grillePoisson = new Poisson[longueur][largeur];
+        this.lstPoisson    = new ArrayList<Poisson>();
+        this.grilleLiaisons = new char[longueur][largeur];
+        this.lstLiaisons   = new ArrayList<>();
         this.grilleZone    = new Zone[longueur][largeur];
     }
 
+
+    public void genererLiaisons()
+{
+    this.lstLiaisons.clear();
+
+    // Réinitialisation de la grille des liaisons
+    for (int x = 0; x < grilleLiaisons.length; x++)
+        for (int y = 0; y < grilleLiaisons[x].length; y++)
+            grilleLiaisons[x][y] = '.';
+
+    // Collecte de tous les poissons présents dans la grille
+    List<Poisson> lstPoisson = new ArrayList<>();
+
+    for (int x = 0; x < grillePoisson.length; x++)
+        for (int y = 0; y < grillePoisson[x].length; y++)
+            if (grillePoisson[x][y] != null)
+                lstPoisson.add(grillePoisson[x][y]);
+
+    // Génération des liaisons
+    for (int i = 0; i < lstPoisson.size(); i++)
+    {
+        for (int j = i + 1; j < lstPoisson.size(); j++)
+        {
+            Poisson p1 = lstPoisson.get(i);
+            Poisson p2 = lstPoisson.get(j);
+
+            int dx = p2.getX() - p1.getX();
+            int dy = p2.getY() - p1.getY();
+
+            boolean alignes =
+                dx == 0 ||
+                dy == 0 ||
+                Math.abs(dx) == Math.abs(dy);
+
+            if (alignes && !existePoissonIntermediaire(p1, p2))
+            {
+                Liaison l = new Liaison(p1, p2);
+                this.lstLiaisons.add(l);
+
+                // Marquage des cases traversées
+                int pasX = Integer.signum(dx);
+                int pasY = Integer.signum(dy);
+
+                int x = p1.getX() + pasX;
+                int y = p1.getY() + pasY;
+
+                while (x != p2.getX() || y != p2.getY())
+                {
+                    // On ne marque que les cases intermédiaires
+                    grilleLiaisons[x][y] = '*';
+
+                    x += pasX;
+                    y += pasY;
+                }
+            }
+        }
+    }
+}
+
+
+    private boolean existePoissonIntermediaire( Poisson p1, Poisson p2 )
+    {
+        int dx = Integer.signum( p2.getX() - p1.getX() );
+        int dy = Integer.signum( p2.getY() - p1.getY() );
+        int x  = p1.getX() + dx;
+        int y  = p1.getY() + dy;
+
+        while ( x != p2.getX() || y != p2.getY() )
+        {
+            if ( grillePoisson[x][y] != null )
+                return true;
+            x += dx;
+            y += dy;
+        }
+        return false;
+    }
+
+
+    public Poisson getPoisson( int x, int y )
+    {
+        return this.grillePoisson[x][y];
+    }
+
+    public Poisson[][] getGrillePoisson()
+    {
+        return this.grillePoisson;
+    }
 
     public List<Poisson> getLstPoisson()
     {
         return this.lstPoisson;
     }
 
-
-    public void positionPoisson( int x, int y, String espece, int indiceX, int indiceY )
+    public void positionPoisson( int x, int y, String espece)
     {
         Poisson p = new Poisson( espece, x, y );
-        this.grillePoisson[indiceX][indiceY] = p;
+        this.grillePoisson[x][y] = p;
         this.lstPoisson.add( p );
     }
 
 
-    public void echangerPoisson( int xDep, int yDep, int xDest, int yDest )
+    public void supprimerPoisson( int x, int y )
     {
         for ( Poisson p : this.lstPoisson )
         {
-            if ( (p.getX() == xDep) && (p.getY() == yDep) && (p.getX() == xDest) && (p.getY() == yDest) )
+            if ( (p.getX() == x) && (p.getY() == y) )
             {
-                Poisson ptemp = new Poisson( p.getEspece(), p.getX(), p.getY() );
-                p.setX( xDest );
-                p.setY( yDest );
-                ptemp.setX( xDep );
-                ptemp.setY( yDep );
-            } else if ( (p.getX() == xDep) && (p.getY() == yDep) )
-            {
-                p.setX( xDest );
-                p.setY( yDest );
+                this.lstPoisson.remove( p );
+                this.grillePoisson[x][y] = null;
+                break;
             }
         }
     }
 
+    //méthodes pour obtenir les liaisons d'un poisson à une position donnée
+
+    public Liaison getLiaisons( int x, int y )
+    {
+        for ( Liaison l : this.lstLiaisons )
+        {
+            if ( (l.getP1().getX() == x && l.getP1().getY() == y) || (l.getP2().getX() == x && l.getP2().getY() == y) )
+            {
+                return l;
+            }
+        }
+        return null;
+    }
+
+    // Méthode pour obtenir la liste de toutes les liaisons
+
+    public List<Liaison> getLstLiaisons()
+    {
+        return this.lstLiaisons;
+    }
+
+    // Méthode pour vérifier si deux poissons sont liés
+
+    public boolean estLie( Poisson p1, Poisson p2 )
+    {
+        for ( Liaison l : this.lstLiaisons )
+        {
+            if ( (l.getP1().equals( p1 ) && l.getP2().equals( p2 ))
+                || (l.getP1().equals( p2 ) && l.getP2().equals( p1 )) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Méthode de positionnement d'une zone dans la grille
 
     public void positionneZone( int indiceX, int indiceY, int numZone )
     {
         Zone z = new Zone( numZone );
         this.grilleZone[indiceX][indiceY] = z;
     }
+    
+    // Méthode pour obtenir une zone à une position donnée
 
-
-    public void positionnePoisson( int indiceX, int indiceY, String espece )
+    public Zone getZone( int x, int y )
     {
-        Poisson p = new Poisson( espece, indiceX, indiceY );
-        this.grillePoisson[indiceX][indiceY] = p;
+        return this.grilleZone[x][y];
     }
 
-
-    public Poisson[][] getGrillePoisson()
-    {
-        return this.plateau.getGrillePoisson();
-    }
-
+    // Méthode pour obtenir la grille des zones
 
     public Zone[][] getGrilleZone()
     {
-        return this.plateau.getGrilleZone();
+        return this.grilleZone;
     }
 
-
+    // Méthodes de sauvegarde
+    
     public void sauvegarderGrille( int longueur, int largeur, int nbSymbole, int tailleCases )
     {
         try (BufferedWriter writer = new BufferedWriter( new FileWriter( "grille.txt" ) ))
@@ -120,68 +231,43 @@ public class Metier
         }
     }
 
-    private boolean zoneSelect = false;
-
-    public void setPoissonSelect( int numEspece )
+    
+    public String toString()
     {
-        if ( numEspece >= 0 && numEspece < this.espece.length )
+        StringBuilder sb = new StringBuilder();
+        for ( int y = 0; y < grillePoisson[0].length; y++ )
         {
-            this.poissonSelect = this.espece[numEspece];
-            this.zoneSelect    = false;
-        } else
-        {
-            this.poissonSelect = "";
-        }
-    }
-
-
-    public void setZoneSelect( boolean select )
-    {
-        this.zoneSelect = select;
-        if ( select )
-        {
-            this.poissonSelect = "";
-        }
-    }
-
-
-    public boolean isZoneSelect()
-    {
-        return this.zoneSelect;
-    }
-
-
-    public String getPoissonSelect()
-    {
-        return this.poissonSelect;
-    }
-
-
-    public String[] getEspeces()
-    {
-        return this.espece;
-    }
-
-
-    public boolean zoneExiste( int numZone )
-    {
-        if ( this.grilleZone == null )
-            return false;
-
-        for ( int i = 0; i < this.grilleZone.length; i++ )
-        {
-            for ( int j = 0; j < this.grilleZone[i].length; j++ )
+            for ( int x = 0; x < grillePoisson.length; x++ )
             {
-                if ( this.grilleZone[i][j] != null && this.grilleZone[i][j].getNumZone() == numZone )
+                if ( grillePoisson[x][y] != null )
                 {
-                    return true;
+                    sb.append( grillePoisson[x][y].getEspece().charAt( 0 ) ).append( " " );
+                } else
+                {
+                    sb.append( ". " );
                 }
             }
+
+            sb.append( "\n" );
         }
-        return false;
+
+        return sb.toString();
     }
 
-    // public String getCouleur(int indice) { return this.couleur[indice]; }
+    public String toStringLiaisons()
+    {
+        StringBuilder sb = new StringBuilder();
 
+        for (int y = 0; y < grilleLiaisons[0].length; y++)
+        {
+            for (int x = 0; x < grilleLiaisons.length; x++)
+            {
+                sb.append(grilleLiaisons[x][y]).append(" ");
+            }
 
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
 }

@@ -5,8 +5,8 @@ import java.awt.Color;
 import src.ihm.FrameMenu;
 import src.ihm.FrameTable;
 import src.metier.Couleur;
+import src.metier.Metiertemp;
 import src.metier.Metier;
-import src.metier.Plateau;
 import src.metier.Poisson;
 import src.metier.Zone;
 
@@ -18,15 +18,15 @@ public class Controleur
     private int        zoneActive  = 1;
     private FrameMenu  frameMenu;
     private FrameTable frameTable;
-    private Metier     metier;
-    private Plateau    plateau;
+    private Metiertemp     metier;
+    private Metier    plateau;
     private boolean    gommeActive = false;
 
 
     public Controleur()
     {
 
-        this.metier    = new Metier( this.yGrille, this.xGrille );
+        this.metier    = new Metiertemp( this.yGrille, this.xGrille );
         this.frameMenu = new FrameMenu( this );
     }
 

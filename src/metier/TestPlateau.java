@@ -17,7 +17,7 @@ public class TestPlateau
 		int			longueur	= 5;
 		int			largeur		= 5;
 
-		Plateau		p			= new Plateau( longueur, largeur );
+		Metier		p			= new Metier( longueur, largeur );
 
 		// Placement des poissons dans le plateau
 		p.positionPoisson( 0, 0, espece[0], 0, 0 );
