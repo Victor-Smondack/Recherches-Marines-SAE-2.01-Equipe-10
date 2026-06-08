@@ -271,129 +271,6 @@ public class Metier
         return this.grilleZone;
     }
 
-    // Sauvegarde la configuration de la grille dans un fichier
-
-
-    public void sauvegarderGrille( int longueur, int largeur, int nbSymbole, int tailleCases )
-    {
-        try (BufferedWriter writer = new BufferedWriter( new FileWriter( "grille.txt" ) ))
-        {
-            writer.write( longueur + " " + largeur + " " + nbSymbole + " " + tailleCases );
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    // Sauvegarde la liste des poissons dans un fichier
-
-
-    public void sauvegarderPoissons( List<Poisson> lstPoisson )
-    {
-        try (BufferedWriter writer = new BufferedWriter( new FileWriter( "poissons.txt" ) ))
-        {
-            for ( Poisson p : lstPoisson )
-            {
-                writer.write( p.getEspece() + " " + p.getX() + " " + p.getY() );
-                writer.newLine();
-            }
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    // Sauvegarde la configuration des zones dans un fichier
-
-
-    public void sauvegarderZones( Zone[][] grilleZone )
-    {
-        try (BufferedWriter writer = new BufferedWriter( new FileWriter( "zones.txt" ) ))
-        {
-            for ( int y = 0; y < grilleZone[0].length; y++ )
-            {
-                for ( int x = 0; x < grilleZone.length; x++ )
-                {
-                    if ( grilleZone[x][y] != null )
-                    {
-                        writer.write( grilleZone[x][y].getNumZone() + " " );
-                    } else
-                    {
-                        writer.write( ". " );
-                    }
-                }
-                writer.newLine();
-            }
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    // Sauvegarde la liste des liaisons dans un fichier
-
-
-    public void sauvegarderLiaisons( List<Liaison> lstLiaisons )
-    {
-        try (BufferedWriter writer = new BufferedWriter( new FileWriter( "liaisons.txt" ) ))
-        {
-            for ( Liaison l : lstLiaisons )
-            {
-                writer.write(
-                              l.getP1().getEspece() + " (" + l.getP1().getX() + ", " + l.getP1().getY() + ") <-> "
-                                  + l.getP2().getEspece() + " (" + l.getP2().getX() + ", " + l.getP2().getY() + ")" );
-                writer.newLine();
-            }
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-    // Affiche la grille de poissons
-
-
-    public String toString()
-    {
-        StringBuilder sb = new StringBuilder();
-        for ( int y = 0; y < grillePoisson[0].length; y++ )
-        {
-            for ( int x = 0; x < grillePoisson.length; x++ )
-            {
-                if ( grillePoisson[x][y] != null )
-                {
-                    sb.append( grillePoisson[x][y].getEspece().charAt( 0 ) ).append( " " );
-                } else
-                {
-                    sb.append( ". " );
-                }
-            }
-
-            sb.append( "\n" );
-        }
-
-        return sb.toString();
-    }
-
-    // Affiche la grille des liaisons
-
-
-    public String toStringLiaisons()
-    {
-        StringBuilder sb = new StringBuilder();
-
-        for ( int y = 0; y < grilleLiaisons[0].length; y++ )
-        {
-            for ( int x = 0; x < grilleLiaisons.length; x++ )
-            {
-                sb.append( grilleLiaisons[x][y] ).append( " " );
-            }
-
-            sb.append( "\n" );
-        }
-
-        return sb.toString();
-    }
-
     // Place une zone à une position donnée
 
 
@@ -524,6 +401,57 @@ public class Metier
         // Si la zone existe déjà mais qu'aucune case autour ne correspond, on
         // refuse le placement
         return false;
+    }
+
+    public void Sauvegarder()
+    {
+        Sauvegarde.sauvegarderGrille( this.grillePoisson.length, this.grillePoisson[0].length, this.espece.length, 50 );
+        Sauvegarde.sauvegarderPoissons( this.lstPoisson );
+        Sauvegarde.sauvegarderZones( this.grilleZone );
+        Sauvegarde.sauvegarderLiaisons( this.lstLiaisons );
+    }
+
+    // Affiche la grille de poissons
+
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        for ( int y = 0; y < grillePoisson[0].length; y++ )
+        {
+            for ( int x = 0; x < grillePoisson.length; x++ )
+            {
+                if ( grillePoisson[x][y] != null )
+                {
+                    sb.append( grillePoisson[x][y].getEspece().charAt( 0 ) ).append( " " );
+                } else
+                {
+                    sb.append( ". " );
+                }
+            }
+
+            sb.append( "\n" );
+        }
+
+        return sb.toString();
+    }
+
+    // Affiche la grille des liaisons
+
+    public String toStringLiaisons()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        for ( int y = 0; y < grilleLiaisons[0].length; y++ )
+        {
+            for ( int x = 0; x < grilleLiaisons.length; x++ )
+            {
+                sb.append( grilleLiaisons[x][y] ).append( " " );
+            }
+
+            sb.append( "\n" );
+        }
+
+        return sb.toString();
     }
 }
 
