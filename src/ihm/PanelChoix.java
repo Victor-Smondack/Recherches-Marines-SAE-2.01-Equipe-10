@@ -29,7 +29,6 @@ public class PanelChoix extends JPanel implements ActionListener
 	private Controleur		ctrl;
 	private JToggleButton	dernierBoutonPresse	= null;
 	private int				numZoneActive		= 1;
-	
 
 
 	public PanelChoix(Controleur ctrl, int nbSymbole)
@@ -73,8 +72,9 @@ public class PanelChoix extends JPanel implements ActionListener
 		this.btnGauche	= new JButton( new ImageIcon( flecheGauche ) );
 		this.tgbZone	= new JToggleButton( "Zone 1" );
 		this.btngChoix.add( this.tgbZone );
-		this.btnDroite = new JButton( new ImageIcon( flecheDroite ) );
+		this.btnDroite	= new JButton( new ImageIcon( flecheDroite ) );
 		this.tgbGomme	= new JToggleButton( "Gomme" );
+		this.btngChoix.add( this.tgbZone );
 
 
 		this.add( pnlSymbole );
@@ -83,6 +83,7 @@ public class PanelChoix extends JPanel implements ActionListener
 		pnlZone.add( this.tgbZone );
 		pnlZone.add( this.btnDroite );
 		this.add( pnlZone );
+		this.add( tgbGomme );
 
 
 		this.tgbZone.addActionListener( this );
