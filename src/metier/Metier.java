@@ -177,10 +177,19 @@ public class Metier
     }
 
 
-    public void positionneZone( int indiceX, int indiceY, int numZone )
+    public boolean positionneZone( int indiceX, int indiceY, int numZone )
     {
-        Zone z = new Zone( numZone );
-        this.grilleZone[indiceX][indiceY] = z;
+        if ( isZonePossible( indiceX, indiceY, numZone ) )
+        {
+            Zone z = new Zone( numZone, indiceX, indiceY );
+            this.grilleZone[indiceX][indiceY] = z;
+            return true; // L'action a réussi
+        }
+        else
+        {
+            System.out.println("Action refusée : La case n'est pas adjacente.");
+            return false; // L'action a échoué
+        }
     }
 
 
@@ -374,4 +383,41 @@ public class Metier
     {
         return this.zoneSelect;
     }
+
+    public boolean isZonePossible( int x, int y, int zone )
+    {
+        // 1. Si la zone n'existe pas encore sur la grille, le premier clic est libre
+        if ( !zoneExiste( zone ) )
+        {
+            return true;
+        }
+        
+        // 2. Vérification à Gauche
+        if ( x > 0 && this.grilleZone[x - 1][y] != null && this.grilleZone[x - 1][y].getNumZone() == zone )
+        {
+            return true;
+        }
+
+        // 3. Vérification à Droite
+        if ( x < this.grilleZone.length - 1 && this.grilleZone[x + 1][y] != null && this.grilleZone[x + 1][y].getNumZone() == zone )
+        {
+            return true;
+        }
+
+        // 4. Vérification en Haut
+        if ( y > 0 && this.grilleZone[x][y - 1] != null && this.grilleZone[x][y - 1].getNumZone() == zone )
+        {
+            return true;
+        }
+
+        // 5. Vérification en Bas (Correction de la limite de l'axe Y)
+        if ( y < this.grilleZone[0].length - 1 && this.grilleZone[x][y + 1] != null && this.grilleZone[x][y + 1].getNumZone() == zone )
+        {
+            return true;
+        }  
+
+        // Si la zone existe déjà mais qu'aucune case autour ne correspond, on refuse le placement
+        return false;
+    }
 }
+
