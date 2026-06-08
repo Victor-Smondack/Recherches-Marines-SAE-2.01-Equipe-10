@@ -147,23 +147,6 @@ public class Controleur
     }
 
 
-    public boolean deplacement( int xDest, int yDest )
-    {
-        if ( (xDest >= 0) && (xDest < this.xGrille) && (yDest >= 0) && (yDest < this.yGrille) )
-        {
-            deplacer( xDest, yDest );
-            return true;
-        } else
-        {
-            return false;
-        }
-    }
-
-
-    private void deplacer( int xDest, int yDest )
-    {
-    }
-
 
     public void genererLiaisons()
     {
