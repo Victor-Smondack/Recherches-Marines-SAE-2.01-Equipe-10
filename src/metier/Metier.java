@@ -323,7 +323,6 @@ public class Metier
             e.printStackTrace();
         }
     }
-
     // Affiche la grille de poissons
 
 
