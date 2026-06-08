@@ -68,6 +68,11 @@ public class PanelChoix extends JPanel implements ActionListener
 			this.tabTgbPoisson[i] = button;
 		}
 
+		this.tgbGomme = new JToggleButton( "Gomme" );
+		this.tgbGomme.setBackground( new Color( 150, 150, 150 ) );
+		this.btngChoix.add( this.tgbGomme );
+		pnlSymbole.add( this.tgbGomme );
+
 		this.lblZone = new JLabel( "" );
 		this.lblZone.setOpaque( true );
 		this.lblZone.setBackground( this.ctrl.getCouleur( 1 ) );
@@ -82,10 +87,8 @@ public class PanelChoix extends JPanel implements ActionListener
 		this.btnGaucheZone	= new JButton( new ImageIcon( flecheGauche ) );
 		this.tgbZone		= new JToggleButton( "Zone " + this.numZoneActive );
 		this.btnDroiteZone	= new JButton( new ImageIcon( flecheDroite ) );
-		this.tgbGomme		= new JToggleButton( "Gomme" );
 
 		this.btngChoix.add( this.tgbZone );
-		this.btngChoix.add( this.tgbGomme );
 
 
 		pnlZone.add( this.btnGaucheZone );
@@ -94,7 +97,6 @@ public class PanelChoix extends JPanel implements ActionListener
 
 		JPanel pnlBas = new JPanel( new GridLayout( 2, 1 ) );
 		pnlBas.add( pnlZone );
-		pnlBas.add( this.tgbGomme );
 
 		this.add( pnlSymbole, BorderLayout.NORTH );
 		this.add( this.lblZone, BorderLayout.CENTER );
