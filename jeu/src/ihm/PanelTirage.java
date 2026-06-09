@@ -51,7 +51,8 @@ public class PanelTirage extends JPanel implements ActionListener
     @Override
     public void actionPerformed( ActionEvent e )
     {
-
+        if ( e.getSource() == this.btnTirer )
+            System.out.println( "Une carte est tirée");
 
     }
 }
