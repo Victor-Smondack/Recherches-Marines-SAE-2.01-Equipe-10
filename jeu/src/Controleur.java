@@ -245,6 +245,11 @@ public class Controleur
         this.carte.resetPioche();
     }
 
+    public int getNbCartesRestantes()
+    {
+        return this.carte.getNbCartesRestantes();
+    }
+
 
     public static void main( String[] args )
     {

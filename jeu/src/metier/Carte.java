@@ -32,6 +32,8 @@ public class Carte
         add("Colin foncé");
         add("Maquereau clair");
         add("Maquereau foncé");
+        add("Joker Clair");
+        add("Joker Foncé");
     }};;
 
     private    static          ArrayList<String> pioche = new ArrayList<>(lstCartes);
@@ -93,6 +95,11 @@ public class Carte
     public static void melangerPioche()
     {
         java.util.Collections.shuffle(pioche);
+    }
+
+    public static int getNbCartesRestantes()
+    {
+        return pioche.size();
     }
 
 
