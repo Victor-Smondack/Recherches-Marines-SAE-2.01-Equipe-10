@@ -1,15 +1,15 @@
 package src.ihm;
 
-public PanelCarte extends JPanel
+public class PanelTirage extends JPanel
 {
     // Attributs
     private Controleur ctrl;
 
     // Constructeurs du panel
-    public PanelCarte( Controleur ctrl )
+    public PanelTirage( Controleur ctrl )
     {
         this.ctrl = ctrl;
         this.setLayout( new BorderLayout() );
-        this.add( new JLabel( "Panel Carte" ), BorderLayout.CENTER );
+        this.add( new JLabel( "Panel Tirage" ), BorderLayout.CENTER );
     }
 }

@@ -1,17 +1,17 @@
 package src.ihm;
 
-public class FrameCarte extends JFrame
+public class FrameTirage extends JFrame
 {
     // Attributs
     private Controleur ctrl;
     private PanelCarte panelCarte;
 
     // Constructeurs de la frame
-    public FrameCarte(Controleur ctrl)
+    public FrameTirage(Controleur ctrl)
     {
         this.ctrl = ctrl;
 
-        this.setTitle   ( "Carte" );
+        this.setTitle   ( "Tirage" );
 		this.setSize    ( 100,300 );
 		this.setLocation( 100, 50 );
 
