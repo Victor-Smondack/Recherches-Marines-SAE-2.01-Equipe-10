@@ -18,8 +18,8 @@ public class FrameTirage extends JFrame
         this.ctrl = ctrl;
 
         this.setTitle   ( "Tirage" );
-		this.setSize    ( 200,500 );
-		this.setLocation( 100, 50 );
+		this.setSize    ( 250,500 );
+		this.setLocation( 20, 50 );
 
         
         this.panelTirage = new PanelTirage( ctrl );
