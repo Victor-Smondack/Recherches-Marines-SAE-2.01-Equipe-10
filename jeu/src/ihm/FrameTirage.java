@@ -18,7 +18,7 @@ public class FrameTirage extends JFrame
         this.ctrl = ctrl;
 
         this.setTitle   ( "Tirage" );
-		this.setSize    ( 100,300 );
+		this.setSize    ( 200,500 );
 		this.setLocation( 100, 50 );
 
         
