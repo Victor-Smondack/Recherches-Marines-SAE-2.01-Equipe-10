@@ -1,120 +1,83 @@
 package src.metier;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.IOException;
 import java.util.List;
 
 public class Sauvegarde
 {
-    // Constantes pour les noms de fichiers et le dossier de sauvegarde
+    private static final String FICHIER_GRILLE   = "grille.data";
+    private static final String FICHIER_POISSONS = "poissons.data";
+    private static final String FICHIER_LIAISONS = "liaisons.data";
+    private static final String FICHIER_ZONES    = "zones.data";
+    
+    private static final String DOSSIER = "src/data/";
 
-    private static final String FICHIER_GRILLE   = "grille.txt";
-    private static final String FICHIER_POISSONS = "poissons.txt";
-    private static final String FICHIER_LIAISONS = "liaisons.txt";
-    private static final String DOSSIER = "src/txt/";
+    private Sauvegarde() {}
 
-    // Constructeur privé pour empêcher l'instanciation de la classe
-    private Sauvegarde()
+    public static void sauvegarderGrille(int longueur, int largeur, int nbSymbole, int tailleCases)
     {
-        // Empêche l'instanciation de la classe
-    }
-
-    // Méthodes de sauvegarde
-    public static void sauvegarderGrille(int longueur,
-                                         int largeur,
-                                         int nbSymbole,
-                                         int tailleCases)
-    {
-        try (BufferedWriter writer =
-                new BufferedWriter(new FileWriter(DOSSIER + FICHIER_GRILLE)))
+        try (PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(DOSSIER + FICHIER_GRILLE), "UTF8")))
         {
-            writer.write(
-                longueur + ";" +
-                largeur + ";" +
-                nbSymbole + ";" +
-                tailleCases
-            );
+            pw.println(longueur + "\t" + largeur + "\t" + nbSymbole + "\t" + tailleCases);
         }
         catch (IOException e)
         {
-            System.err.println( "Erreur lors de la sauvegarde de la grille : " + e.getMessage());
+            System.err.println("Erreur lors de la sauvegarde de la grille : " + e.getMessage());
         }
     }
-
-    // Sauvegarde de la liste des poissons
 
     public static void sauvegarderPoissons(List<Poisson> lstPoissons)
     {
-        try (BufferedWriter writer =
-                new BufferedWriter(new FileWriter(DOSSIER + FICHIER_POISSONS)))
+        try (PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(DOSSIER + FICHIER_POISSONS), "UTF8")))
         {
             for (Poisson p : lstPoissons)
             {
-                writer.write(
-                    p.getId() + ";" +
-                    p.getEspece() + ";" +
-                    p.getX() + ";" +
-                    p.getY()
-                );
-
-                writer.newLine();
+                pw.println(p.getId() + "\t" + p.getEspece() + "\t" + p.getX() + "\t" + p.getY());
             }
         }
         catch (IOException e)
         {
-            System.err.println( "Erreur lors de la sauvegarde des poissons : " + e.getMessage() );
+            System.err.println("Erreur lors de la sauvegarde des poissons : " + e.getMessage());
         }
     }
-
-    // Sauvegarde de la liste des liaisons
 
     public static void sauvegarderLiaisons(List<Liaison> lstLiaisons)
     {
-        try (BufferedWriter writer =
-                new BufferedWriter(new FileWriter(DOSSIER + FICHIER_LIAISONS)))
+        try (PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(DOSSIER + FICHIER_LIAISONS), "UTF8")))
         {
             for (Liaison liaison : lstLiaisons)
             {
-                writer.write(
-                    liaison.getP1().getId() + ";" +
-                    liaison.getP2().getId()
-                );
-
-                writer.newLine();
+                pw.println(liaison.getP1().getId() + "\t" + liaison.getP2().getId());
             }
         }
         catch (IOException e)
         {
-            System.err.println( "Erreur lors de la sauvegarde des liaisons : " + e.getMessage() );
+            System.err.println("Erreur lors de la sauvegarde des liaisons : " + e.getMessage());
         }
     }
 
-    // Sauvegarde de la grille des zones
-    
     public static void sauvegarderZones(Zone[][] grilleZone)
+{
+    try (PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(DOSSIER + FICHIER_ZONES), "UTF8")))
     {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(DOSSIER + "zones.txt")))
+        for (int i = 0; i < grilleZone.length; i++)
         {
-            for (int y = 0; y < grilleZone[0].length; y++)
+            for (int j = 0; j < grilleZone[i].length; j++)
             {
-                for (int x = 0; x < grilleZone.length; x++)
-                {
-                    if (grilleZone[x][y] != null)
-                    {
-                        writer.write(grilleZone[x][y].getNumZone() + ";");
-                    }
-                    else
-                    {
-                        writer.write(".;");
-                    }
-                }
-                writer.newLine();
+                if (grilleZone[i][j] != null)
+                    pw.print(grilleZone[i][j].getNumZone() + "\t");
+                else
+                    pw.print(".\t");
             }
-        }
-        catch (IOException e)
-        {
-            System.err.println( "Erreur lors de la sauvegarde des zones : " + e.getMessage() );
+            pw.println(); 
         }
     }
+    catch (IOException e)
+    {
+        System.err.println("Erreur lors de la sauvegarde des zones : " + e.getMessage());
+    }
+}
 }
