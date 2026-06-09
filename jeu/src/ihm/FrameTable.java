@@ -15,7 +15,7 @@ public class FrameTable extends JFrame
 		int	longueurFrame	= (longueur * tailleCase);
 		int	largeurFrame	= (largeur * tailleCase);
 
-		this.setTitle( "Grille" );
+		this.setTitle( "Jeu" );
 		this.setSize( longueurFrame, largeurFrame );
 		this.setLocation( 450, 50 );
 
@@ -29,6 +29,4 @@ public class FrameTable extends JFrame
 		this.setVisible( true );
 
 	}
-
-
 }

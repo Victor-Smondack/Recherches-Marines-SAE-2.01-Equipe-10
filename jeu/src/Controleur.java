@@ -3,7 +3,6 @@ package src;
 import java.awt.Color;
 import java.util.List;
 
-import src.ihm.FrameMenu;
 import src.ihm.FrameTable;
 import src.ihm.PanelChoix;
 import src.metier.Couleur;
@@ -14,21 +13,18 @@ import src.metier.Zone;
 
 public class Controleur
 {
-    private int        xGrille     = 1;
-    private int        yGrille     = 1;
-    private int        zoneActive  = 1;
-    private int        laboActive  = 1;
-    private boolean    gommeActive = false;
-    private FrameMenu  frameMenu;
-    private FrameTable frameTable;
-    private Plateau    metier;
+    private int         xGrille = 1;
+    private int         yGrille = 1;
+    private FrameTable  frameTable;
+    private Plateau     metier;
     private FrameTirage frameTirage;
-    private PanelChoix panelChoix;
+    private PanelChoix  panelChoix;
 
 
     public Controleur()
     {
-        this.frameMenu = new FrameMenu( this );
+        this.frameTable = new FrameTable( this, 7, 6, 100 );
+        this.metier     = new Plateau( 7, 6 );
     }
 
 
@@ -36,20 +32,14 @@ public class Controleur
     {
         this.yGrille    = longueur;
         this.xGrille    = largeur;
-        this.metier     = new Plateau( this.yGrille, this.xGrille );
+
         this.frameTable = new FrameTable( this, longueur, largeur, tailleCase );
-        this.frameMenu.changerPanel( nbSymbole );
-    }
-
-
-    public void setPanelChoix( PanelChoix panelChoix )
-    {
-        this.panelChoix = panelChoix;
     }
 
 
     public void getImagePoisson( int i )
     {
+
         this.frameMenu.getImagePoisson( i );
     }
 
@@ -58,9 +48,6 @@ public class Controleur
     {
         this.gommeActive = select;
     }
-
-
-   
 
 
     public void gommer( int x, int y )
@@ -108,18 +95,6 @@ public class Controleur
     public boolean zoneExiste( int numZone )
     {
         return this.metier.zoneExiste( numZone );
-    }
-
-
-    public int getLaboActive()
-    {
-        return this.laboActive;
-    }
-
-
-    public void setLaboActive( int laboActive )
-    {
-        this.laboActive = laboActive;
     }
 
 
