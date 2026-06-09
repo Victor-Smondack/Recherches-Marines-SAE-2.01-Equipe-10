@@ -23,6 +23,7 @@ public class Controleur
     private FrameTable frameTable;
     private Plateau    metier;
     private PanelChoix panelChoix;
+    private Carte      carte;
 
 
     public Controleur()
@@ -229,9 +230,27 @@ public class Controleur
         this.metier.Sauvegarder();
     }
 
+    public void piocherCarte()
+    {
+        this.carte.piocherCarte();
+    }
+
+    public void melangerPioche()
+    {
+        this.carte.melangerPioche();
+    }
+
+    public void resetPioche()
+    {
+        this.carte.resetPioche();
+    }
+
 
     public static void main( String[] args )
     {
         new Controleur();
     }
+
+
+    
 }
