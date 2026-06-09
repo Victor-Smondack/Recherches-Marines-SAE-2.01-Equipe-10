@@ -8,9 +8,9 @@
 ./metier/Couleur.java
 ./metier/Plateau.java
 ./metier/LireDonnees.java
-./metier/TestLireDonnees.java
 ./metier/Poisson.java
 ./metier/Sauvegarde.java
 ./metier/Zone.java
 ./metier/Liaison.java
+./metier/Carte.java
 
