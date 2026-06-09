@@ -3,9 +3,10 @@ package src;
 import java.awt.Color;
 import java.util.List;
 
-import src.ihm.FrameMenu;
+//import src.ihm.FrameMenu;
 import src.ihm.FrameTable;
-import src.ihm.PanelChoix;
+//import src.ihm.PanelChoix;
+import src.ihm.FrameTirage;
 import src.metier.Couleur;
 import src.metier.Liaison;
 import src.metier.Plateau;
@@ -19,15 +20,17 @@ public class Controleur
     private int        zoneActive  = 1;
     private int        laboActive  = 1;
     private boolean    gommeActive = false;
-    private FrameMenu  frameMenu;
+    //private FrameMenu  frameMenu;
     private FrameTable frameTable;
     private Plateau    metier;
-    private PanelChoix panelChoix;
+    private FrameTirage frameTirage;
+    //private PanelChoix panelChoix;
 
 
     public Controleur()
     {
-        this.frameMenu = new FrameMenu( this );
+        //this.frameMenu = new FrameMenu( this );
+        this.frameTirage = new FrameTirage( this );
     }
 
 
@@ -37,19 +40,19 @@ public class Controleur
         this.xGrille    = largeur;
         this.metier     = new Plateau( this.yGrille, this.xGrille );
         this.frameTable = new FrameTable( this, longueur, largeur, tailleCase );
-        this.frameMenu.changerPanel( nbSymbole );
+        //this.frameMenu.changerPanel( nbSymbole );
     }
 
 
-    public void setPanelChoix( PanelChoix panelChoix )
+   /*  public void setPanelChoix( PanelChoix panelChoix )
     {
         this.panelChoix = panelChoix;
-    }
+    }*/
 
 
     public void getImagePoisson( int i )
     {
-        this.frameMenu.getImagePoisson( i );
+        //this.frameMenu.getImagePoisson( i );
     }
 
 
@@ -61,11 +64,7 @@ public class Controleur
 
     public boolean getGommeSelect()
     {
-        if ( this.panelChoix != null )
-        {
-            return this.panelChoix.isGommeActive();
-        }
-        return this.gommeActive;
+        return true;
     }
 
 

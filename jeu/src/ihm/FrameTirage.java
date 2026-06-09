@@ -1,10 +1,16 @@
 package src.ihm;
 
+import javax.swing.*;
+import java.awt.event.*;
+import src.ihm.*;
+import src.Controleur;
+
+
 public class FrameTirage extends JFrame
 {
     // Attributs
     private Controleur ctrl;
-    private PanelCarte panelCarte;
+    private PanelTirage panelTirage;
 
     // Constructeurs de la frame
     public FrameTirage(Controleur ctrl)
@@ -16,9 +22,9 @@ public class FrameTirage extends JFrame
 		this.setLocation( 100, 50 );
 
         
-        this.panelCarte = new PanelCarte( ctrl );
+        this.panelTirage = new PanelTirage( ctrl );
 
-        this.add( this.panelCarte );
+        this.add( this.panelTirage );
         this.setVisible( true );
     }
 }
