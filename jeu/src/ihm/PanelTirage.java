@@ -1,12 +1,16 @@
 package src.ihm;
 
-import javax.swing.*;
 import java.awt.GridLayout;
-import java.awt.BorderLayout;
-import src.Controleur;
-import java.awt.event.*;
-import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import src.Controleur;
 
 
 public class PanelTirage extends JPanel implements ActionListener
@@ -19,7 +23,7 @@ public class PanelTirage extends JPanel implements ActionListener
     private JLabel     lblCartesRestantes;
 
     // Constructeurs du panel
-    public PanelTirage( Controleur ctrl )
+    public PanelTirage(Controleur ctrl)
     {
 
         this.ctrl = ctrl;
@@ -27,12 +31,13 @@ public class PanelTirage extends JPanel implements ActionListener
         this.add( new JLabel( "Panel Tirage" ) );
 
         // Création des composants
-        this.carteTiree         = new JLabel(  new ImageIcon ( new ImageIcon( "./src/ihm/images/cartes/JokerNoir.png" ) .getImage()));
-                                                                           .getScaledInstance( 75,200, Image.SCALE_SMOOTH ) ) );
-        
-        this.lblPoints          = new JLabel( "Un nombre de points à déterminer");
+        this.carteTiree         = new JLabel(
+            new ImageIcon( new ImageIcon( "./src/ihm/images/cartes/JokerNoir.png" ).getImage()
+                .getScaledInstance( 75, 200, Image.SCALE_SMOOTH ) ) );
+
+        this.lblPoints          = new JLabel( "Un nombre de points à déterminer" );
         this.lblCartesRestantes = new JLabel( "Un nombre de cartes restantes à déterminer" );
-    
+
         this.btnTirer           = new JButton( "Tirer une carte" );
 
         // Positionnement des composants
@@ -49,12 +54,14 @@ public class PanelTirage extends JPanel implements ActionListener
 
 
     }
+
+
     // Méthode pour gérer l'action du bouton
     @Override
     public void actionPerformed( ActionEvent e )
     {
         if ( e.getSource() == this.btnTirer )
-            System.out.println( "Une carte est tirée");
+            System.out.println( "Une carte est tirée" );
 
     }
 }
