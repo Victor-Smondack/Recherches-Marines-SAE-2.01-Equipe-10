@@ -419,7 +419,7 @@ public class Plateau
         }
         else 
         {
-            if (this.progressionLabo.getExtremite2() == null && this.progressionLabo.getExtremite1().estLie(p))
+            if (this.progressionLabo.getExtremite2() == null && estLie(this.progressionLabo.getExtremite1(),p))
             {
                 this.progressionLabo.setExtremite2(p);
                 return "Première étude du laboratoire sur un(e) " + p.getEspece();
