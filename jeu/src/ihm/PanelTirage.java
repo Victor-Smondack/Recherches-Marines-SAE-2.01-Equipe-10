@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import src.Controleur;
 import java.awt.event.*;
 import java.awt.Dimension;
+import java.awt.Image;
 
 
 public class PanelTirage extends JPanel implements ActionListener
@@ -26,7 +27,8 @@ public class PanelTirage extends JPanel implements ActionListener
         this.add( new JLabel( "Panel Tirage" ) );
 
         // Création des composants
-        this.carteTiree         = new JLabel( new ImageIcon( "path/to/carte/image.png" ) ); // Remplacez par le chemin de votre image
+        this.carteTiree         = new JLabel(  new ImageIcon ( new ImageIcon( "./src/ihm/images/cartes/JokerNoir.png" ) .getImage()));
+                                                                           .getScaledInstance( 75,200, Image.SCALE_SMOOTH ) ) );
         
         this.lblPoints          = new JLabel( "Un nombre de points à déterminer");
         this.lblCartesRestantes = new JLabel( "Un nombre de cartes restantes à déterminer" );
