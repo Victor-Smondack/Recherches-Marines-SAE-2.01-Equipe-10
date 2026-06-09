@@ -35,7 +35,7 @@ public class Sauvegarde
         {
             for (Poisson p : lstPoissons)
             {
-                pw.println(p.getId() + "\t" + p.getEspece() + "\t" + p.getX() + "\t" + p.getY());
+                pw.println(p.getId() + "\t" + p.getEspece() + "\t" + p.getX() + "\t" + p.getY() + "\t" + p.getEstLab() + "\t" + p.getCouleurLab());
             }
         }
         catch (IOException e)
