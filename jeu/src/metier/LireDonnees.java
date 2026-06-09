@@ -28,7 +28,7 @@ public class LireDonnees
                     int largeur = Integer.parseInt(dec[1]);
                     int nbSymbole = Integer.parseInt(dec[2]);
                     int taille = Integer.parseInt(dec[3]);
-                    //this.plateau.initTableau(longueur, largeur, nbSymbole, taille);
+                    this.plateau.initTableau(longueur, largeur, nbSymbole, taille);
                 }
             }
         } 

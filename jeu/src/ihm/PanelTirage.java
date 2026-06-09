@@ -36,7 +36,7 @@ public class PanelTirage extends JPanel implements ActionListener
                 .getScaledInstance( 75, 200, Image.SCALE_SMOOTH ) ) );
 
         this.lblPoints          = new JLabel( "Un nombre de points à déterminer" );
-        this.lblCartesRestantes = new JLabel( "Un nombre de cartes restantes à déterminer" );
+        this.lblCartesRestantes = new JLabel( ""+this.ctrl.getNbCartesRestantes() );
 
         this.btnTirer           = new JButton( "Tirer une carte" );
 
