@@ -10,6 +10,7 @@ public class Plateau
     /**********************/
 
     private Poisson[][]   grillePoisson;
+    private ProgressionLabo progressionLabo;
     private String        poissonSelect;
     private boolean       zoneSelect = false;
     private boolean       laboSelect = false;
@@ -291,14 +292,12 @@ public class Plateau
 
     // Échange la position de deux poissons
 
-
     public String[] getEspeces()
     {
         return this.espece;
     }
 
-    // Place une zone à une position donnée
-
+    // Place un poisson à une position donnée
 
     public void setPoissonSelect( int numEspece )
     {
@@ -315,14 +314,12 @@ public class Plateau
 
     // Récupère la zone à une position donnée
 
-
     public String getPoissonSelect()
     {
         return this.poissonSelect;
     }
 
     // Place une zone à une position donnée
-
 
     public void setZoneSelect( boolean select )
     {
@@ -334,8 +331,7 @@ public class Plateau
         }
     }
 
-    // Récupère la zone à une position donnée
-
+    // Vérifie si une zone est sélectionnée
 
     public boolean isZoneSelect()
     {
@@ -414,8 +410,42 @@ public class Plateau
         return false;
     }
 
-    // Sauvegarde de la grille, des poissons, des zones et des liaisons
+    public String etudePoisson( Poisson p)
+    {
+        if (p.getEstLab() == true && this.progressionLabo == null)
+        {
+            this.progressionLabo = new ProgressionLabo(p);
+            return "Début de l'étude du laboratoire sur un(e) " + p.getEspece() + " avec le laboratoire " + p.getCouleurLab();
+        }
+        else 
+        {
+            if (this.progressionLabo.getExtremite2() == null && this.progressionLabo.getExtremite1().estLie(p))
+            {
+                this.progressionLabo.setExtremite2(p);
+                return "Première étude du laboratoire sur un(e) " + p.getEspece();
+                
+            }
+            else
+            {
+                if (estLie(this.progressionLabo.getExtremite1(),p))
+                {
+                    this.progressionLabo.setExtremite1(p);
+                    return "Nouvelle étude du laboratoire sur un(e) " + p.getEspece();
+                }
+                else if (estLie(this.progressionLabo.getExtremite2(), p))
+                {
+                    this.progressionLabo.setExtremite2(p);
+                    return "Nouvelle étude du laboratoire sur un(e) " + p.getEspece();
+                }
+                else 
+                {
+                    return "Ce/Cette " + p.getEspece() + " n'est pas lié à l'étude en cours.";
+                }
+            }
+        }
+    }
 
+    // Sauvegarde de la grille, des poissons, des zones et des liaisons
 
     public void Sauvegarder()
     {
@@ -424,9 +454,8 @@ public class Plateau
         Sauvegarde.sauvegarderZones( this.grilleZone );
         Sauvegarde.sauvegarderLiaisons( this.lstLiaisons );
     }
-
+    
     // Affiche la grille de poissons
-
 
     public String toString()
     {
