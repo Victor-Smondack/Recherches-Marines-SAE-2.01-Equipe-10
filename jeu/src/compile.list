@@ -1,9 +1,7 @@
 ./Controleur.java
 
-./ihm/FrameMenu.java
-./ihm/PanelMenu.java
-./ihm/PanelChoix.java
-
+./ihm/FrameTirage.java
+./ihm/PanelTirage.java
 ./ihm/FrameTable.java
 ./ihm/PanelTable.java
 

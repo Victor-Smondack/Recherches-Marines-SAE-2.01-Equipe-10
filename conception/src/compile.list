@@ -8,7 +8,7 @@
 ./ihm/PanelTable.java
 
 ./metier/Couleur.java
-./metier/Metier.java
+./metier/Plateau.java
 ./metier/Sauvegarde.java
 ./metier/Poisson.java
 ./metier/Zone.java
