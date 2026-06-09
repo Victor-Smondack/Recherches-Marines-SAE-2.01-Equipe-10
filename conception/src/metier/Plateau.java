@@ -1,12 +1,9 @@
 package src.metier;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Metier
+public class Plateau
 {
     /**********************/
     /* Attributs */
@@ -33,7 +30,7 @@ public class Metier
     /* Constructeur */
     /**********************/
 
-    public Metier(int longueur, int largeur)
+    public Plateau(int longueur, int largeur)
     {
         this.grillePoisson  = new Poisson[longueur][largeur];
         this.lstPoisson     = new ArrayList<Poisson>();
@@ -318,12 +315,14 @@ public class Metier
 
     // Récupère la zone à une position donnée
 
+
     public String getPoissonSelect()
     {
         return this.poissonSelect;
     }
 
     // Place une zone à une position donnée
+
 
     public void setZoneSelect( boolean select )
     {
@@ -337,12 +336,14 @@ public class Metier
 
     // Récupère la zone à une position donnée
 
+
     public boolean isZoneSelect()
     {
         return this.zoneSelect;
     }
 
     // Place un laboratoire à une position donnée
+
 
     public void setLaboSelect( boolean select )
     {
@@ -356,6 +357,7 @@ public class Metier
 
     // Récupère le laboratoire sélectionné à une position donnée
 
+
     public boolean isLaboSelect()
     {
         return this.laboSelect;
@@ -363,12 +365,14 @@ public class Metier
 
     // Récupère la grille des laboratoires
 
+
     public int[][] getGrilleLabo()
     {
         return this.grilleLabo;
     }
 
     // Vérifie si une zone peut être placée à une position donnée
+
 
     public boolean isZonePossible( int x, int y, int zone )
     {
@@ -412,6 +416,7 @@ public class Metier
 
     // Sauvegarde de la grille, des poissons, des zones et des liaisons
 
+
     public void Sauvegarder()
     {
         Sauvegarde.sauvegarderGrille( this.grillePoisson.length, this.grillePoisson[0].length, this.espece.length, 50 );
@@ -421,6 +426,7 @@ public class Metier
     }
 
     // Affiche la grille de poissons
+
 
     public String toString()
     {
@@ -445,6 +451,7 @@ public class Metier
     }
 
     // Affiche la grille des liaisons
+
 
     public String toStringLiaisons()
     {

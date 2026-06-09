@@ -8,7 +8,7 @@ import src.ihm.FrameTable;
 import src.ihm.PanelChoix;
 import src.metier.Couleur;
 import src.metier.Liaison;
-import src.metier.Metier;
+import src.metier.Plateau;
 import src.metier.Poisson;
 import src.metier.Zone;
 
@@ -21,7 +21,7 @@ public class Controleur
     private boolean    gommeActive = false;
     private FrameMenu  frameMenu;
     private FrameTable frameTable;
-    private Metier     metier;
+    private Plateau    metier;
     private PanelChoix panelChoix;
 
 
@@ -35,7 +35,7 @@ public class Controleur
     {
         this.yGrille    = longueur;
         this.xGrille    = largeur;
-        this.metier     = new Metier( this.yGrille, this.xGrille );
+        this.metier     = new Plateau( this.yGrille, this.xGrille );
         this.frameTable = new FrameTable( this, longueur, largeur, tailleCase );
         this.frameMenu.changerPanel( nbSymbole );
     }
