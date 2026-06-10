@@ -139,8 +139,8 @@ public class PanelTable extends JPanel
 
                 for ( int i = 0; i < PanelTable.this.cases.length; i++ )
                 {
-                    for ( int j = 0; i < PanelTable.this.cases[i].length; j++ )
-                        if ( PanelTable.this.cases[i][j].length == lblClique )
+                    for ( int j = 0; j < PanelTable.this.cases[i].length; j++ )
+                        if ( PanelTable.this.cases[i][j] == lblClique )
                         {
                             PanelTable.this.ctrl.getPoissonSelect( i, j );
                         }

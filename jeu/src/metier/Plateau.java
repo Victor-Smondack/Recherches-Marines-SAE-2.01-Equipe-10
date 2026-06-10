@@ -301,9 +301,10 @@ public class Plateau
     {
         for ( int i = 0; i < this.grillePoisson.length; i++ )
         {
-            for ( int j = 0; i < this.grillePoisson[i].length; j++ )
+            for ( int j = 0; j < this.grillePoisson[i].length; j++ )
                 if ( this.grillePoisson[i][j] != null && i == indiceX && j == indiceY )
                 {
+                    System.out.println( this.grillePoisson[i][j].getEspece() );
                     return this.grillePoisson[i][j].getEspece();
                 }
         }
@@ -311,47 +312,6 @@ public class Plateau
         return "";
     }
 
-    // Place une zone à une position donnée
-
-
-    public void setZoneSelect( boolean select )
-    {
-        this.zoneSelect = select;
-        if ( select )
-        {
-            this.poissonSelect = "";
-            this.laboSelect    = false;
-        }
-    }
-
-    // Vérifie si une zone est sélectionnée
-
-
-    public boolean isZoneSelect()
-    {
-        return this.zoneSelect;
-    }
-
-    // Place un laboratoire à une position donnée
-
-
-    public void setLaboSelect( boolean select )
-    {
-        this.laboSelect = select;
-        if ( select )
-        {
-            this.poissonSelect = "";
-            this.zoneSelect    = false;
-        }
-    }
-
-    // Récupère le laboratoire sélectionné à une position donnée
-
-
-    public boolean isLaboSelect()
-    {
-        return this.laboSelect;
-    }
 
     // Récupère la grille des laboratoires
 
@@ -434,7 +394,7 @@ public class Plateau
         }
     }
 
-    // Sauvegarde de la grille, des poissons, des zones et des liaisons
+    // Initialise la grille, des poissons, des zones et des liaisons
 
 
     public void initTableau( int longueur, int largeur, int nbSymbole, int tailleCases )
