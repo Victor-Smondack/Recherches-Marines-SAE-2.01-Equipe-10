@@ -10,6 +10,7 @@ public class Sauvegarde
 {
     private static final String FICHIER_GRILLE   = "grille.data";
     private static final String FICHIER_POISSONS = "poissons.data";
+    private static final String FICHIER_LABOS   = "labos.data";
     private static final String FICHIER_LIAISONS = "liaisons.data";
     private static final String FICHIER_ZONES    = "zones.data";
     
@@ -60,24 +61,46 @@ public class Sauvegarde
     }
 
     public static void sauvegarderZones(Zone[][] grilleZone)
-{
-    try (PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(DOSSIER + FICHIER_ZONES), "UTF8")))
     {
-        for (int i = 0; i < grilleZone.length; i++)
+        try (PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(DOSSIER + FICHIER_ZONES), "UTF8")))
         {
-            for (int j = 0; j < grilleZone[i].length; j++)
+            for (int i = 0; i < grilleZone.length; i++)
             {
-                if (grilleZone[i][j] != null)
-                    pw.print(grilleZone[i][j].getNumZone() + "\t");
-                else
-                    pw.print(".\t");
+                for (int j = 0; j < grilleZone[i].length; j++)
+                {
+                    if (grilleZone[i][j] != null)
+                        pw.print(grilleZone[i][j].getNumZone() + "\t");
+                    else
+                        pw.print(".\t");
+                }
+                pw.println(); 
             }
-            pw.println(); 
+        }
+        catch (IOException e)
+        {
+            System.err.println("Erreur lors de la sauvegarde des zones : " + e.getMessage());
         }
     }
-    catch (IOException e)
+
+    public static void sauvegarderLabo(int[][] grilleLabo)
     {
-        System.err.println("Erreur lors de la sauvegarde des zones : " + e.getMessage());
+        try (PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(DOSSIER + FICHIER_LABOS), "UTF8")))
+        {
+            for (int i = 0; i < grilleLabo.length; i++)
+            {
+                for (int j = 0; j < grilleLabo[i].length; j++)
+                {
+                    if (grilleLabo[i][j] != 0)
+                        pw.print(grilleLabo[i][j] + "\t");
+                    else
+                        pw.print(".\t");
+                }
+                pw.println(); 
+            }
+        }
+        catch (IOException e)
+        {
+            System.err.println("Erreur lors de la sauvegarde des labos : " + e.getMessage());
+        }
     }
-}
 }

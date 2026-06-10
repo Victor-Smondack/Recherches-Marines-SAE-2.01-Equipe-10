@@ -417,6 +417,7 @@ public class Plateau
         Sauvegarde.sauvegarderPoissons( this.lstPoisson );
         Sauvegarde.sauvegarderZones( this.grilleZone );
         Sauvegarde.sauvegarderLiaisons( this.lstLiaisons );
+        Sauvegarde.sauvegarderLabo( this.grilleLabo );
     }
 
     // Affiche la grille de poissons
