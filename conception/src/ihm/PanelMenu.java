@@ -21,7 +21,6 @@ public class PanelMenu extends JPanel implements ActionListener
 	private JTextField	txtLongueur;
 	private JTextField	txtLargeur;
 	private JTextField	txtNbSymbole;
-	private JTextField  txtNbLabo;
 	private JTextField	txtTailleCase;
 
 	private JLabel		lblMessage;
@@ -70,10 +69,12 @@ public class PanelMenu extends JPanel implements ActionListener
 		this.add( new JLabel( "Taille :" ) );
 		panelLongueur.add( new JLabel( "Nombre de colonnes :" ) );
 		panelLongueur.add( this.txtLongueur );
+
 		this.add( panelLongueur );
 
 		panelLargeur.add( new JLabel( "Nombre de lignes :" ) );
 		panelLargeur.add( this.txtLargeur );
+
 		this.add( panelLargeur );
 
 		panelSymboles.add( new JLabel( "Nombre d'espèces de poisson :" ) );
