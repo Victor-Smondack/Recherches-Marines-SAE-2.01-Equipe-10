@@ -410,7 +410,15 @@ public class Plateau
         return false;
     }
 
-    public String etudePoisson( Poisson p)
+    public boolean estMemePoisson( Poisson p1, Poisson p2 )
+    {
+        if ( p1 == null || p2 == null )
+            return false;
+
+        return p1.getX() == p2.getX() && p1.getY() == p2.getY() && p1.getEspece().equals( p2.getEspece() );
+    }
+
+    public String etudePoisson( Poisson p, int xSelect, int ySelect )
     {
         if (p.getEstLab() == true && this.progressionLabo == null)
         {
@@ -427,12 +435,12 @@ public class Plateau
             }
             else
             {
-                if (estLie(this.progressionLabo.getExtremite1(),p))
+                if (estMemePoisson(new Poisson(getPoissonSelect(), xSelect, ySelect), this.progressionLabo.getExtremite1()) && estLie(this.progressionLabo.getExtremite1(),p))
                 {
                     this.progressionLabo.setExtremite1(p);
                     return "Nouvelle étude du laboratoire sur un(e) " + p.getEspece();
                 }
-                else if (estLie(this.progressionLabo.getExtremite2(), p))
+                else if (estMemePoisson(new Poisson(getPoissonSelect(), xSelect, ySelect), this.progressionLabo.getExtremite2()) && estLie(this.progressionLabo.getExtremite2(), p))
                 {
                     this.progressionLabo.setExtremite2(p);
                     return "Nouvelle étude du laboratoire sur un(e) " + p.getEspece();
