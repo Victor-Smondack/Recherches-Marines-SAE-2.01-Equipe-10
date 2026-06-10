@@ -90,7 +90,7 @@ public class Carte
         }
         String cartePiochée = pioche.remove(0);
         System.out.println("Carte piochée : " + cartePiochée);
-        return cartePiochée
+        return cartePiochée;
     }
 
     public static void melangerPioche()
