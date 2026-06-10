@@ -99,3 +99,9 @@ CAS PARTICULIERS
                    réalisé le meilleur score sur une seule et unique manche remporte
                    la victoire. Si il y a toujours égalité, les joueurs partagent
                    la victoire.
+
+
+  Pour exécuter le jeu, dans un terminal:
+   Se mettre dans le dossier [Recherches-Marines-SAE-2.01-Equipe-10]
+    Pour Windows lancer la commande: ./Recherches-Maritimes.ps1
+    Pour Linux/Mac lancer la commande: ./Recherches-Maritimes.sh
