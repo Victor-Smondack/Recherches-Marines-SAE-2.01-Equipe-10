@@ -36,7 +36,7 @@ public class PanelTirage extends JPanel implements ActionListener
                 .getScaledInstance( 75, 200, Image.SCALE_SMOOTH ) ) );
 
         this.lblPoints          = new JLabel( "Un nombre de points à déterminer" );
-        this.lblCartesRestantes = new JLabel( ""+this.ctrl.getNbCartesRestantes() );
+        this.lblCartesRestantes = new JLabel( "Il reste "+ this.ctrl.getNbCartesRestantes() + " cartes dans la pioche" );
 
         this.btnTirer           = new JButton( "Tirer une carte" );
 
@@ -61,7 +61,11 @@ public class PanelTirage extends JPanel implements ActionListener
     public void actionPerformed( ActionEvent e )
     {
         if ( e.getSource() == this.btnTirer )
+        {
             System.out.println( "Une carte est tirée" );
+            this.ctrl.piocherCarte();
+            this.lblCartesRestantes.setText( "Il reste "+ this.ctrl.getNbCartesRestantes() + " cartes dans la pioche" );
+        }
 
     }
 }
