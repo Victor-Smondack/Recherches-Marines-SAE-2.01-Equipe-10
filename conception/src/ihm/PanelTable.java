@@ -80,8 +80,7 @@ public class PanelTable extends JPanel
                 int x2 = l[2];
                 int y2 = l[3];
 
-                if ( x1 >= 0 && x1 < longueur && y1 >= 0 && y1 < largeur &&
-                    x2 >= 0 && x2 < longueur && y2 >= 0 && y2 < largeur )
+                if ( x1 >= 0 && x1 < longueur && y1 >= 0 && y1 < largeur && x2 >= 0 && x2 < longueur && y2 >= 0 && y2 < largeur )
                 {
                     JLabel lbl1   = this.cases[x1][y1];
                     JLabel lbl2   = this.cases[x2][y2];
@@ -152,8 +151,7 @@ public class PanelTable extends JPanel
                                         {
                                             int oldX = anciennesCoords[0];
                                             int oldY = anciennesCoords[1];
-                                            PanelTable.this.cases[oldX][oldY]
-                                                .setBorder( BorderFactory.createLineBorder( Color.LIGHT_GRAY ) );
+                                            PanelTable.this.cases[oldX][oldY].setBorder( BorderFactory.createLineBorder( Color.LIGHT_GRAY ) );
                                         }
 
                                         Color colLabo = PanelTable.this.ctrl.getCouleur( 9 + laboActive );
@@ -200,16 +198,8 @@ public class PanelTable extends JPanel
                                     {
                                         if ( lblClique == PanelTable.this.cases[i][j] )
                                         {
-                                            lblClique.setIcon(
-                                                               new ImageIcon(
-                                                                   new ImageIcon( "./src/ihm/images/poissons/"
-                                                                       + poissonSelected
-                                                                       + ".png" )
-                                                                           .getImage()
-                                                                           .getScaledInstance(
-                                                                                               tailleCase / 2,
-                                                                                               tailleCase / 2,
-                                                                                               Image.SCALE_SMOOTH ) ) );
+                                            lblClique.setIcon( new ImageIcon( new ImageIcon( "./src/ihm/images/poissons/" + poissonSelected + ".png" )
+                                                .getImage().getScaledInstance( tailleCase / 2, tailleCase / 2, Image.SCALE_SMOOTH ) ) );
                                             lblClique.setHorizontalAlignment( SwingConstants.CENTER );
                                             PanelTable.this.ctrl.positionnePoisson( i, j, poissonSelected );
                                             break;
@@ -227,3 +217,4 @@ public class PanelTable extends JPanel
         }
     }
 }
+
