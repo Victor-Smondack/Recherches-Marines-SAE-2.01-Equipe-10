@@ -138,7 +138,6 @@ public class PanelMenu extends JPanel implements ActionListener
 					int	longueur	= Integer.parseInt( this.txtLongueur  .getText() );
 					int	largeur		= Integer.parseInt( this.txtLargeur   .getText() );
 					int	nbSymbole	= Integer.parseInt( this.txtNbSymbole .getText() );
-					int nbLabo      = Integer.parseInt( this.txtNbLabo    .getText() );
 					int	tailleCase	= Integer.parseInt( this.txtTailleCase.getText() );
 
 					if ( nbSymbole > 7 )
@@ -152,8 +151,8 @@ public class PanelMenu extends JPanel implements ActionListener
 						this.lblMessage.setText( "Le largeur doit être inférieur à la longueur");
 						return;
 					}
-					
-					this.ctrl.initialiserGrille( longueur, largeur, nbSymbole,nbLabo, tailleCase );
+
+					this.ctrl.initialiserGrille( longueur, largeur, nbSymbole,tailleCase );
 					
 
 				}
