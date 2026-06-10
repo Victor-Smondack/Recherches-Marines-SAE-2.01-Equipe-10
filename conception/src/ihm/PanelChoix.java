@@ -59,7 +59,7 @@ public class PanelChoix extends JPanel implements ActionListener
 
 		for ( int i = 0; i < nbSymbole; i++ )
 		{
-			Image			imgPoisson	= new ImageIcon( "./src/ihm/images/poissons/" + tabEspece[i] + ".png" ).getImage().getScaledInstance( 50, 50,
+			Image			imgPoisson	= new ImageIcon( "../images/poissons/" + tabEspece[i] + ".png" ).getImage().getScaledInstance( 50, 50,
 				Image.SCALE_SMOOTH );
 			JToggleButton	button		= new JToggleButton( new ImageIcon( imgPoisson ) );
 			button.setBackground( new Color( 200, 200, 200 ) );
@@ -71,16 +71,16 @@ public class PanelChoix extends JPanel implements ActionListener
 			this.tabTgbPoisson[i] = button;
 		}
 
-		Image imgGomme = new ImageIcon( "./src/ihm/images/Gomme.png" ).getImage().getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
+		Image imgGomme = new ImageIcon( "../images/Gomme.png" ).getImage().getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
 		this.tgbGomme = new JToggleButton( new ImageIcon( imgGomme ) );
 		this.tgbGomme.setBackground( new Color( 200, 200, 200 ) );
 		this.tgbGomme.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
 		this.btngChoix.add( this.tgbGomme );
 		pnlSymbole.add( this.tgbGomme );
 
-		Image	flecheGauche	= new ImageIcon( "./src/ihm/images/flecheGauche.png" ).getImage().getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
+		Image	flecheGauche	= new ImageIcon( "../images/flecheGauche.png" ).getImage().getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
 
-		Image	flecheDroite	= new ImageIcon( "./src/ihm/images/flecheDroite.png" ).getImage().getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
+		Image	flecheDroite	= new ImageIcon( "../images/flecheDroite.png" ).getImage().getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
 
 		JPanel	pnlZoneGlobal	= new JPanel( new BorderLayout() );
 		JPanel	pnlZoneAction	= new JPanel();
