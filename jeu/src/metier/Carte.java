@@ -81,15 +81,16 @@ public class Carte
         pioche = new ArrayList<>(lstCartes);
     }
 
-    public static void piocherCarte()
+    public static String piocherCarte()
     {
         if (pioche.isEmpty()) 
         {
             System.out.println("La pioche est vide !");
-            return;
+            return null;
         }
         String cartePiochée = pioche.remove(0);
         System.out.println("Carte piochée : " + cartePiochée);
+        return cartePiochée
     }
 
     public static void melangerPioche()

@@ -167,9 +167,9 @@ public class Controleur
     }
 
 
-    public void piocherCarte()
+    public String piocherCarte()
     {
-        this.carte.piocherCarte();
+        return this.carte.piocherCarte();
     }
 
 
