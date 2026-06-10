@@ -58,9 +58,8 @@ public class PanelChoix extends JPanel implements ActionListener
 
 		for ( int i = 0; i < nbSymbole; i++ )
 		{
-			Image			imgPoisson	= new ImageIcon( "./src/ihm/images/poissons/" + tabEspece[i] + ".png" )
-				.getImage()
-				.getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
+			Image			imgPoisson	= new ImageIcon( "./src/ihm/images/poissons/" + tabEspece[i] + ".png" ).getImage().getScaledInstance( 50, 50,
+				Image.SCALE_SMOOTH );
 			JToggleButton	button		= new JToggleButton( new ImageIcon( imgPoisson ) );
 			button.setBackground( new Color( 150, 150, 150 ) );
 
@@ -70,18 +69,15 @@ public class PanelChoix extends JPanel implements ActionListener
 			this.tabTgbPoisson[i] = button;
 		}
 
-		Image imgGomme = new ImageIcon( "./src/ihm/images/Gomme.png" ).getImage()
-			.getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
+		Image imgGomme = new ImageIcon( "./src/ihm/images/Gomme.png" ).getImage().getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
 		this.tgbGomme = new JToggleButton( new ImageIcon( imgGomme ) );
 		this.tgbGomme.setBackground( new Color( 150, 150, 150 ) );
 		this.btngChoix.add( this.tgbGomme );
 		pnlSymbole.add( this.tgbGomme );
 
-		Image	flecheGauche	= new ImageIcon( "./src/ihm/images/flecheGauche.png" ).getImage()
-			.getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
+		Image	flecheGauche	= new ImageIcon( "./src/ihm/images/flecheGauche.png" ).getImage().getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
 
-		Image	flecheDroite	= new ImageIcon( "./src/ihm/images/flecheDroite.png" ).getImage()
-			.getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
+		Image	flecheDroite	= new ImageIcon( "./src/ihm/images/flecheDroite.png" ).getImage().getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
 
 		JPanel	pnlZoneGlobal	= new JPanel( new BorderLayout() );
 		JPanel	pnlZoneAction	= new JPanel();
@@ -192,12 +188,11 @@ public class PanelChoix extends JPanel implements ActionListener
 			if ( e.getSource() == this.btnGaucheZone && this.numZoneActive > 1 )
 			{
 				this.numZoneActive--;
-			} else if ( e.getSource() == this.btnDroiteZone && this.ctrl.zoneExiste( this.numZoneActive )
-				&& this.numZoneActive < 10 )
+			} else if ( e.getSource() == this.btnDroiteZone && this.ctrl.zoneExiste( this.numZoneActive ) && this.numZoneActive < 10 )
 			{
 				this.numZoneActive++;
 			}
-			this.tgbZone.setText( "Mers " + this.numZoneActive );
+			this.tgbZone.setText( "Mer " + this.numZoneActive );
 			this.lblZone.setBackground( this.ctrl.getCouleur( this.numZoneActive ) );
 			this.ctrl.setZoneActive( this.numZoneActive );
 			return;

@@ -9,17 +9,15 @@ public class Plateau
     /* Attributs */
     /**********************/
 
-    private Poisson[][]   grillePoisson;
+    private Poisson[][]     grillePoisson;
     private ProgressionLabo progressionLabo;
-    private String        poissonSelect;
-    private boolean       zoneSelect = false;
-    private boolean       laboSelect = false;
-    private List<Liaison> lstLiaisons;
-    private Zone[][]      grilleZone;
-    private List<Poisson> lstPoisson;
-    private char[][]      grilleLiaisons;
-    private int[][]       grilleLabo;
-    private String[]      espece     = { "Saumon",
+    private List<Liaison>   lstLiaisons;
+    private Zone[][]        grilleZone;
+    private List<Poisson>   lstPoisson;
+    private char[][]        grilleLiaisons;
+    private int[][]         grilleLabo;
+    private String[]        espece = {
+        "Saumon",
         "Thon",
         "Truite",
         "Sardine",
@@ -74,9 +72,7 @@ public class Plateau
                 int     dx      = p2.getX() - p1.getX();
                 int     dy      = p2.getY() - p1.getY();
 
-                boolean alignes = dx == 0 ||
-                    dy == 0 ||
-                    Math.abs( dx ) == Math.abs( dy );
+                boolean alignes = dx == 0 || dy == 0 || Math.abs( dx ) == Math.abs( dy );
 
                 if ( alignes && !existePoissonIntermediaire( p1, p2 ) )
                 {
@@ -172,8 +168,7 @@ public class Plateau
     {
         for ( Liaison l : this.lstLiaisons )
         {
-            if ( (l.getP1().equals( p1 ) && l.getP2().equals( p2 ))
-                || (l.getP1().equals( p2 ) && l.getP2().equals( p1 )) )
+            if ( (l.getP1().equals( p1 ) && l.getP2().equals( p2 )) || (l.getP1().equals( p2 ) && l.getP2().equals( p1 )) )
             {
                 return true;
             }
@@ -214,74 +209,31 @@ public class Plateau
         return false;
     }
 
-    // Retourne les espèces disponibles
+    // Échange la position de deux poissons
 
     public String[] getEspeces()
     {
         return this.espece;
     }
 
-    // Place un poisson à une position donnée
-
-    public void setPoissonSelect( int numEspece )
-    {
-        if ( numEspece >= 0 && numEspece < this.espece.length )
-        {
-            this.poissonSelect = this.espece[numEspece];
-            this.zoneSelect    = false;
-            this.laboSelect    = false;
-        } else
-        {
-            this.poissonSelect = "";
-        }
-    }
-
     // Récupère le poisson sélectionné à une position donnée
 
-    public String getPoissonSelect()
-    {
-        return this.poissonSelect;
-    }
 
-    // Place une zone à une position donnée
-
-    public void setZoneSelect( boolean select )
+    public String getPoissonSelect( int indiceX, int indiceY )
     {
-        this.zoneSelect = select;
-        if ( select )
+        for ( int i = 0; i < this.grillePoisson.length; i++ )
         {
-            this.poissonSelect = "";
-            this.laboSelect    = false;
+            for ( int j = 0; j < this.grillePoisson[i].length; j++ )
+                if ( this.grillePoisson[i][j] != null && i == indiceX && j == indiceY )
+                {
+                    System.out.println( this.grillePoisson[i][j].getEspece() );
+                    return this.grillePoisson[i][j].getEspece();
+                }
         }
+
+        return "";
     }
 
-    // Vérifie si une zone est sélectionnée
-
-    public boolean isZoneSelect()
-    {
-        return this.zoneSelect;
-    }
-
-    // Place un laboratoire à une position donnée
-
-
-    public void setLaboSelect( boolean select )
-    {
-        this.laboSelect = select;
-        if ( select )
-        {
-            this.poissonSelect = "";
-            this.zoneSelect    = false;
-        }
-    }
-
-    // Récupère le laboratoire sélectionné à une position donnée
-
-
-    public boolean isLaboSelect()
-    {
-        return this.laboSelect;
-    }
 
     // Récupère la grille des laboratoires
 
@@ -310,8 +262,7 @@ public class Plateau
         }
 
         // 3. Vérification à Droite
-        if ( x < this.grilleZone.length - 1 && this.grilleZone[x + 1][y] != null
-            && this.grilleZone[x + 1][y].getNumZone() == zone )
+        if ( x < this.grilleZone.length - 1 && this.grilleZone[x + 1][y] != null && this.grilleZone[x + 1][y].getNumZone() == zone )
         {
             return true;
         }
@@ -323,8 +274,7 @@ public class Plateau
         }
 
         // 5. Vérification en Bas (Correction de la limite de l'axe Y)
-        if ( y < this.grilleZone[0].length - 1 && this.grilleZone[x][y + 1] != null
-            && this.grilleZone[x][y + 1].getNumZone() == zone )
+        if ( y < this.grilleZone[0].length - 1 && this.grilleZone[x][y + 1] != null && this.grilleZone[x][y + 1].getNumZone() == zone )
         {
             return true;
         }
@@ -334,47 +284,90 @@ public class Plateau
         return false;
     }
 
-    public boolean estMemePoisson( Poisson p1, Poisson p2 )
+    public String etudePoisson( Poisson p)
     {
-        if ( p1 == null || p2 == null )
-            return false;
-
-        return p1.getX() == p2.getX() && p1.getY() == p2.getY() && p1.getEspece().equals( p2.getEspece() );
-    }
-
-    public String etudePoisson( Poisson p, int xSelect, int ySelect )
-    {
-        if (p.getEstLab() == true && this.progressionLabo == null)
+        if ( p.getEstLab() == true && this.progressionLabo == null )
         {
-            this.progressionLabo = new ProgressionLabo(p);
+            this.progressionLabo = new ProgressionLabo( p );
             return "Début de l'étude du laboratoire sur un(e) " + p.getEspece() + " avec le laboratoire " + p.getCouleurLab();
-        }
-        else 
+        } else
         {
-            if (this.progressionLabo.getExtremite2() == null && estLie(this.progressionLabo.getExtremite1(),p))
+            if (this.progressionLabo.getExtremite2() == null && this.progressionLabo.getExtremite1().estLie(p))
             {
-                this.progressionLabo.setExtremite2(p);
+                this.progressionLabo.setExtremite2( p );
                 return "Première étude du laboratoire sur un(e) " + p.getEspece();
-                
-            }
-            else
+
+            } else
             {
-                if (estMemePoisson(new Poisson(getPoissonSelect(), xSelect, ySelect), this.progressionLabo.getExtremite1()) && estLie(this.progressionLabo.getExtremite1(),p))
+                if (estLie(this.progressionLabo.getExtremite1(),p))
                 {
-                    this.progressionLabo.setExtremite1(p);
+                    this.progressionLabo.setExtremite1( p );
                     return "Nouvelle étude du laboratoire sur un(e) " + p.getEspece();
                 }
-                else if (estMemePoisson(new Poisson(getPoissonSelect(), xSelect, ySelect), this.progressionLabo.getExtremite2()) && estLie(this.progressionLabo.getExtremite2(), p))
+                else if (estLie(this.progressionLabo.getExtremite2(), p))
                 {
-                    this.progressionLabo.setExtremite2(p);
+                    this.progressionLabo.setExtremite2( p );
                     return "Nouvelle étude du laboratoire sur un(e) " + p.getEspece();
-                }
-                else 
+                } else
                 {
                     return "Ce/Cette " + p.getEspece() + " n'est pas lié à l'étude en cours.";
                 }
             }
         }
+    }
+
+    // Sauvegarde de la grille, des poissons, des zones et des liaisons
+
+    public void Sauvegarder()
+    {
+        Sauvegarde.sauvegarderGrille( this.grillePoisson.length, this.grillePoisson[0].length, this.espece.length, 50 );
+        Sauvegarde.sauvegarderPoissons( this.lstPoisson );
+        Sauvegarde.sauvegarderZones( this.grilleZone );
+        Sauvegarde.sauvegarderLiaisons( this.lstLiaisons );
+    }
+    
+    // Affiche la grille de poissons
+
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        for ( int y = 0; y < grillePoisson[0].length; y++ )
+        {
+            for ( int x = 0; x < grillePoisson.length; x++ )
+            {
+                if ( grillePoisson[x][y] != null )
+                {
+                    sb.append( grillePoisson[x][y].getEspece().charAt( 0 ) ).append( " " );
+                } else
+                {
+                    sb.append( ". " );
+                }
+            }
+
+            sb.append( "\n" );
+        }
+
+        return sb.toString();
+    }
+
+    // Affiche la grille des liaisons
+
+
+    public String toStringLiaisons()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        for ( int y = 0; y < grilleLiaisons[0].length; y++ )
+        {
+            for ( int x = 0; x < grilleLiaisons.length; x++ )
+            {
+                sb.append( grilleLiaisons[x][y] ).append( " " );
+            }
+
+            sb.append( "\n" );
+        }
+
+        return sb.toString();
     }
 }
 

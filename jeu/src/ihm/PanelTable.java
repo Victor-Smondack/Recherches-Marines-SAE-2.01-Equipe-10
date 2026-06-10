@@ -10,7 +10,6 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,15 +19,14 @@ import src.Controleur;
 
 public class PanelTable extends JPanel
 {
-    // Attributs
     private int        longueur;
     private int        largeur;
     private int        tailleCase;
-
+    private Graphics2D g2;
+    private Image      imgFond;
     private JLabel[][] cases;
     private Controleur ctrl;
 
-    // Constructeurs du panel
     public PanelTable(Controleur ctrl, int longueur, int largeur, int tailleCase)
     {
         this.longueur   = longueur;
@@ -36,12 +34,12 @@ public class PanelTable extends JPanel
         this.tailleCase = tailleCase;
         this.ctrl       = ctrl;
 
-        this.setLayout( new GridLayout( this.longueur, this.largeur ) );
+        this.imgFond    = new ImageIcon( "./src/ihm/images/Background.png" ).getImage();
 
+        this.setLayout( new GridLayout( this.longueur, this.largeur ) );
         this.cases = new JLabel[this.longueur][this.largeur];
 
         GereSouris souris = new GereSouris();
-
         for ( int i = 0; i < this.longueur; i++ )
         {
             for ( int j = 0; j < this.largeur; j++ )
@@ -49,18 +47,32 @@ public class PanelTable extends JPanel
                 this.cases[i][j] = new JLabel();
                 this.cases[i][j].setSize( tailleCase, tailleCase );
                 this.cases[i][j].setOpaque( true );
+                this.cases[i][j].setBackground( this.ctrl.getCouleur( i + 1 ) /*
+                                                                               * this . getCouleur ( this . getZone ( i, j ) )
+                                                                               */ );
+                this.cases[i][j].setIcon(
+                    new ImageIcon( new ImageIcon( "./src/ihm/images/poissons/Thon.png" /*
+                                                                                        * this . ctrl . getImagePoisson ( This . getPoisson ( i , j ) )
+                                                                                        */ ).getImage().getScaledInstance( tailleCase / 2, tailleCase / 2,
+                        Image.SCALE_SMOOTH ) ) );
+                this.cases[i][j].setHorizontalAlignment( SwingConstants.CENTER );
+                // this.cases[i][j].setBorder( BorderFactory.createLineBorder(
+                // this.getColor() ) );
 
-                this.cases[i][j].setBorder( BorderFactory.createLineBorder( Color.LIGHT_GRAY ) );
 
                 this.add( this.cases[i][j] );
                 this.cases[i][j].addMouseListener( souris );
+
             }
         }
+
+        PanelTable.this.repaint();
+
+        this.setVisible( true );
     }
 
 
     @Override
-    // Méthode pour dessiner les liaisons
     protected void paintChildren( Graphics g )
     {
         super.paintChildren( g );
@@ -80,8 +92,7 @@ public class PanelTable extends JPanel
                 int x2 = l[2];
                 int y2 = l[3];
 
-                if ( x1 >= 0 && x1 < longueur && y1 >= 0 && y1 < largeur &&
-                    x2 >= 0 && x2 < longueur && y2 >= 0 && y2 < largeur )
+                if ( x1 >= 0 && x1 < longueur && y1 >= 0 && y1 < largeur && x2 >= 0 && x2 < longueur && y2 >= 0 && y2 < largeur )
                 {
                     JLabel lbl1   = this.cases[x1][y1];
                     JLabel lbl2   = this.cases[x2][y2];
@@ -97,8 +108,25 @@ public class PanelTable extends JPanel
         }
     }
 
-    // Méthode privée qui détecte le clique de la souris sur la panel et fait
-    // l'action en fonction de ce qui est selectionné
+
+    @Override
+    public void paintComponent( Graphics g )
+    {
+        super.paintComponent( g );
+
+        g2 = (Graphics2D) g;
+
+        if ( imgFond != null )
+        {
+            g2.drawImage( imgFond, 0, 0, this.getWidth(), this.getHeight(), this );
+        }
+    }
+
+    // Méthode privée qui détecte le clique de la souris sur la panel et fait //
+    // l'action en
+    // fonction de
+    // ce qui
+    // est selectionné
 
     private class GereSouris extends MouseAdapter
     {
@@ -106,124 +134,21 @@ public class PanelTable extends JPanel
         public void mousePressed( MouseEvent evt )
         {
             Component composantClique = (Component) evt.getSource();
-
             if ( composantClique instanceof JLabel lblClique )
             {
-                if ( tailleCase < 2 )
+
+                for ( int i = 0; i < PanelTable.this.cases.length; i++ )
                 {
-                    tailleCase = PanelTable.this.getWidth() + 1;
+                    for ( int j = 0; j < PanelTable.this.cases[i].length; j++ )
+                        if ( PanelTable.this.cases[i][j] == lblClique )
+                        {
+                            PanelTable.this.ctrl.getPoissonSelect( i, j );
+                        }
                 }
 
-                if ( PanelTable.this.ctrl.isZoneSelect() )
-                {
-                    int zoneActive = PanelTable.this.ctrl.getZoneActive();
 
-                    for ( int i = 0; i < PanelTable.this.longueur; i++ )
-                    {
-                        for ( int j = 0; j < PanelTable.this.largeur; j++ )
-                        {
-                            if ( lblClique == PanelTable.this.cases[i][j] )
-                            {
-                                if ( PanelTable.this.ctrl.positionneZone( i, j, zoneActive ) )
-                                {
-                                    lblClique.setBackground( PanelTable.this.ctrl.getCouleur( zoneActive ) );
-                                }
-                                break;
-                            }
-                        }
-                    }
-                } else
-                {
-                    if ( PanelTable.this.ctrl.isLaboSelect() )
-                    {
-                        int laboActive = PanelTable.this.ctrl.getLaboActive();
-
-                        for ( int i = 0; i < PanelTable.this.longueur; i++ )
-                        {
-                            for ( int j = 0; j < PanelTable.this.largeur; j++ )
-                            {
-                                if ( lblClique == PanelTable.this.cases[i][j] )
-                                {
-                                    if ( PanelTable.this.ctrl.getGrillePoisson()[i][j] != null )
-                                    {
-                                        int[] anciennesCoords = PanelTable.this.ctrl.positionneLabo( i, j, laboActive );
-
-                                        if ( anciennesCoords != null )
-                                        {
-                                            int oldX = anciennesCoords[0];
-                                            int oldY = anciennesCoords[1];
-                                            PanelTable.this.cases[oldX][oldY]
-                                                .setBorder( BorderFactory.createLineBorder( Color.LIGHT_GRAY ) );
-                                        }
-
-                                        Color colLabo = PanelTable.this.ctrl.getCouleur( 9 + laboActive );
-                                        lblClique.setBorder( BorderFactory.createLineBorder( colLabo, 4 ) );
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                    } else
-                    {
-                        if ( PanelTable.this.ctrl.getGommeSelect() )
-                        {
-                            for ( int i = 0; i < PanelTable.this.longueur; i++ )
-                            {
-                                for ( int j = 0; j < PanelTable.this.largeur; j++ )
-                                {
-                                    if ( lblClique == PanelTable.this.cases[i][j] )
-                                    {
-                                        lblClique.setIcon( null );
-                                        lblClique.setBackground( null );
-                                        lblClique.setBorder( BorderFactory.createLineBorder( Color.LIGHT_GRAY ) );
-
-                                        PanelTable.this.ctrl.gommer( i, j );
-                                        break;
-                                    }
-                                }
-                            }
-                        } else
-                        {
-                            String poissonSelected = "";
-                            try
-                            {
-                                poissonSelected = PanelTable.this.ctrl.getPoissonSelect();
-                            } catch (Exception e)
-                            {
-                            }
-
-                            if ( poissonSelected != null && !poissonSelected.equals( "" ) )
-                            {
-                                for ( int i = 0; i < PanelTable.this.longueur; i++ )
-                                {
-                                    for ( int j = 0; j < PanelTable.this.largeur; j++ )
-                                    {
-                                        if ( lblClique == PanelTable.this.cases[i][j] )
-                                        {
-                                            lblClique.setIcon(
-                                                               new ImageIcon(
-                                                                   new ImageIcon( "./src/ihm/images/poissons/"
-                                                                       + poissonSelected
-                                                                       + ".png" )
-                                                                           .getImage()
-                                                                           .getScaledInstance(
-                                                                                               tailleCase / 2,
-                                                                                               tailleCase / 2,
-                                                                                               Image.SCALE_SMOOTH ) ) );
-                                            lblClique.setHorizontalAlignment( SwingConstants.CENTER );
-                                            PanelTable.this.ctrl.positionnePoisson( i, j, poissonSelected );
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                PanelTable.this.ctrl.genererLiaisons();
-                PanelTable.this.repaint();
             }
         }
     }
 }
+

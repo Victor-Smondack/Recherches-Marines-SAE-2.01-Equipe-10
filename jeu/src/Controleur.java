@@ -3,99 +3,77 @@ package src;
 import java.awt.Color;
 import java.util.List;
 
-import src.ihm.FrameMenu;
 import src.ihm.FrameTable;
-import src.ihm.PanelChoix;
+import src.ihm.FrameTirage;
+import src.metier.Carte;
 import src.metier.Couleur;
 import src.metier.Liaison;
+import src.metier.LireDonnees;
 import src.metier.Plateau;
 import src.metier.Poisson;
 import src.metier.Zone;
 
 public class Controleur
 {
-    private int        xGrille     = 1;
-    private int        yGrille     = 1;
-    private int        zoneActive  = 1;
-    private int        laboActive  = 1;
-    private boolean    gommeActive = false;
-    private FrameMenu  frameMenu;
-    private FrameTable frameTable;
-    private Plateau    metier;
-    private PanelChoix panelChoix;
+    private int         xGrille = 1;
+    private int         yGrille = 1;
+    private FrameTirage frameTirage;
+    private FrameTable  frameTable;
+    private Plateau     metier;
+    private Carte       carte;
 
 
     public Controleur()
     {
-        this.frameMenu = new FrameMenu( this );
+        this.metier = new Plateau( this.xGrille, this.yGrille );
+        LireDonnees lecteur = new LireDonnees( this.metier );
+
+        lecteur.lireGrille();
+
+        lecteur.lirePoissons();
+        lecteur.lireLiaisons();
+        lecteur.lireZones();
+        lecteur.lireLabo();
+
+        this.metier.genererLiaisons();
+
+        this.frameTirage = new FrameTirage( this );
+        this.frameTable  = new FrameTable( this, 7, 7, 100 );
     }
 
 
     public void initialiserGrille( int longueur, int largeur, int nbSymbole, int tailleCase )
     {
-        this.yGrille    = longueur;
-        this.xGrille    = largeur;
-        this.metier     = new Plateau( this.yGrille, this.xGrille );
-        this.frameTable = new FrameTable( this, longueur, largeur, tailleCase );
-        this.frameMenu.changerPanel( nbSymbole );
+        this.yGrille = longueur;
+        this.xGrille = largeur;
+
+        this.metier  = new Plateau( this.xGrille, this.yGrille );
+        // this.frameMenu.changerPanel( nbSymbole );
     }
 
-
-    public void setPanelChoix( PanelChoix panelChoix )
+    public void getNbSymbole()
     {
-        this.panelChoix = panelChoix;
+        this.nbSymbole = this.metier.getNbSymbole();
     }
 
 
-    public void getImagePoisson( int i )
-    {
-        this.frameMenu.getImagePoisson( i );
-    }
+    /*
+     * public void setPanelChoix( PanelChoix panelChoix ) { this.panelChoix = panelChoix; }
+     */
 
 
-    public void setGommeSelect( boolean select )
-    {
-        this.gommeActive = select;
-    }
+    /*
+     * public void getImagePoisson( int i ) { this.frameMenu.getImagePoisson( i ); }
+     */
 
-
-    public boolean getGommeSelect()
-    {
-        if ( this.panelChoix != null )
-        {
-            return this.panelChoix.isGommeActive();
-        }
-        return this.gommeActive;
-    }
+    /*
+     * public boolean getGommeSelect() { if ( this.panelChoix != null ) { return this.panelChoix.isGommeActive(); } return this.gommeActive; }
+     */
 
 
     public void gommer( int x, int y )
     {
         this.metier.gommer( x, y );
-    }
-
-
-    public int getZoneActive()
-    {
-        return this.zoneActive;
-    }
-
-
-    public void setZoneActive( int zoneActive )
-    {
-        this.zoneActive = zoneActive;
-    }
-
-
-    public void setZoneSelect( boolean select )
-    {
-        this.metier.setZoneSelect( select );
-    }
-
-
-    public boolean isZoneSelect()
-    {
-        return this.metier.isZoneSelect();
     }
 
 
@@ -117,30 +95,6 @@ public class Controleur
     }
 
 
-    public int getLaboActive()
-    {
-        return this.laboActive;
-    }
-
-
-    public void setLaboActive( int laboActive )
-    {
-        this.laboActive = laboActive;
-    }
-
-
-    public void setLaboSelect( boolean select )
-    {
-        this.metier.setLaboSelect( select );
-    }
-
-
-    public boolean isLaboSelect()
-    {
-        return this.metier.isLaboSelect();
-    }
-
-
     public int[] positionneLabo( int indiceX, int indiceY, int numLabo )
     {
         return this.metier.positionneLabo( indiceX, indiceY, numLabo );
@@ -150,18 +104,6 @@ public class Controleur
     public String[] getPoissons()
     {
         return this.metier.getEspeces();
-    }
-
-
-    public String getPoissonSelect()
-    {
-        return this.metier.getPoissonSelect();
-    }
-
-
-    public void setPoissonSelect( int numEspece )
-    {
-        this.metier.setPoissonSelect( numEspece );
     }
 
 
@@ -224,9 +166,33 @@ public class Controleur
     }
 
 
-    public void Sauvergarder()
+    public String getPoissonSelect( int indiceX, int indiceY )
     {
-        this.metier.Sauvegarder();
+        return this.metier.getPoissonSelect( indiceX, indiceY );
+    }
+
+
+    public String piocherCarte()
+    {
+        return this.carte.piocherCarte();
+    }
+
+
+    public void melangerPioche()
+    {
+        this.carte.melangerPioche();
+    }
+
+
+    public void resetPioche()
+    {
+        this.carte.resetPioche();
+    }
+
+
+    public int getNbCartesRestantes()
+    {
+        return this.carte.getNbCartesRestantes();
     }
 
 
@@ -234,4 +200,5 @@ public class Controleur
     {
         new Controleur();
     }
+
 }

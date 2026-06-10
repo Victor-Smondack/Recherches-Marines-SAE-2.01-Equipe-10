@@ -13,4 +13,5 @@
 ./metier/Poisson.java
 ./metier/Zone.java
 ./metier/Liaison.java
+./metier/Labo.java
 

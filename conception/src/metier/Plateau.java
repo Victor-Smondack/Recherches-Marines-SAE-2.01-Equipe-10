@@ -3,6 +3,8 @@ package src.metier;
 import java.util.ArrayList;
 import java.util.List;
 
+import src.Controleur;
+
 public class Plateau
 {
     /**********************/
@@ -19,12 +21,14 @@ public class Plateau
     private char[][]      grilleLiaisons;
     private int[][]       grilleLabo;
     private String[]      espece     = { "Saumon",
-        "Thon",
         "Truite",
+        "Thon",
         "Sardine",
         "Bar",
         "Colin",
         "Maquereau" };
+
+    private int nbSymbole;
 
     /**********************/
     /* Constructeur */
@@ -137,7 +141,7 @@ public class Plateau
         return this.grillePoisson[x][y];
     }
 
-    // Récupère les liaisons à une position donnée
+    // Récupère la grille des poissons positionné
 
 
     public Poisson[][] getGrillePoisson()
@@ -153,7 +157,7 @@ public class Plateau
         return this.lstPoisson;
     }
 
-    // Supprime le poisson à une position donnée
+    // Supprime toute les donner d'une carte à une position donnée
 
 
     public void gommer( int x, int y )
@@ -211,7 +215,7 @@ public class Plateau
         return false;
     }
 
-    // Échange la position de deux poissons
+    // Positionne les zones dans la grille
 
 
     public boolean positionneZone( int indiceX, int indiceY, int numZone )
@@ -228,6 +232,7 @@ public class Plateau
     }
 
 
+    // Positionne les labo dans la grille
     public int[] positionneLabo( int indiceX, int indiceY, int numLabo )
     {
         int[] anciennesCoords = null;
@@ -263,12 +268,13 @@ public class Plateau
     }
 
 
+    // Récupère la grille des zones
     public Zone[][] getGrilleZone()
     {
         return this.grilleZone;
     }
 
-    // Place une zone à une position donnée
+    // Vérifie si une zone existe ou pas
 
 
     public boolean zoneExiste( int numZone )
@@ -289,7 +295,7 @@ public class Plateau
         return false;
     }
 
-    // Échange la position de deux poissons
+    // Récupère la liste des espèces possible
 
 
     public String[] getEspeces()
@@ -297,7 +303,7 @@ public class Plateau
         return this.espece;
     }
 
-    // Place une zone à une position donnée
+    // Défini le poisson choisi par l'utilisateur
 
 
     public void setPoissonSelect( int numEspece )
@@ -313,7 +319,7 @@ public class Plateau
         }
     }
 
-    // Récupère la zone à une position donnée
+    // Récupère le poisson selectionné
 
 
     public String getPoissonSelect()
@@ -321,7 +327,7 @@ public class Plateau
         return this.poissonSelect;
     }
 
-    // Place une zone à une position donnée
+    // Défini la zone choisi par l'utilisateur
 
 
     public void setZoneSelect( boolean select )
@@ -334,7 +340,7 @@ public class Plateau
         }
     }
 
-    // Récupère la zone à une position donnée
+    // Récupère si la zone est selectionné
 
 
     public boolean isZoneSelect()
@@ -342,7 +348,7 @@ public class Plateau
         return this.zoneSelect;
     }
 
-    // Place un laboratoire à une position donnée
+    // Défini si la zone est choisi par l'utilisateur
 
 
     public void setLaboSelect( boolean select )
@@ -355,7 +361,7 @@ public class Plateau
         }
     }
 
-    // Récupère le laboratoire sélectionné à une position donnée
+    // Récupère si la zone est selectionné
 
 
     public boolean isLaboSelect()
@@ -376,53 +382,46 @@ public class Plateau
 
     public boolean isZonePossible( int x, int y, int zone )
     {
-        // 1. Si la zone n'existe pas encore sur la grille, le premier clic est
-        // libre
         if ( !zoneExiste( zone ) )
         {
             return true;
         }
 
-        // 2. Vérification à Gauche
         if ( x > 0 && this.grilleZone[x - 1][y] != null && this.grilleZone[x - 1][y].getNumZone() == zone )
         {
             return true;
         }
 
-        // 3. Vérification à Droite
         if ( x < this.grilleZone.length - 1 && this.grilleZone[x + 1][y] != null
             && this.grilleZone[x + 1][y].getNumZone() == zone )
         {
             return true;
         }
 
-        // 4. Vérification en Haut
         if ( y > 0 && this.grilleZone[x][y - 1] != null && this.grilleZone[x][y - 1].getNumZone() == zone )
         {
             return true;
         }
 
-        // 5. Vérification en Bas (Correction de la limite de l'axe Y)
         if ( y < this.grilleZone[0].length - 1 && this.grilleZone[x][y + 1] != null
             && this.grilleZone[x][y + 1].getNumZone() == zone )
         {
             return true;
         }
 
-        // Si la zone existe déjà mais qu'aucune case autour ne correspond, on
-        // refuse le placement
         return false;
     }
 
     // Sauvegarde de la grille, des poissons, des zones et des liaisons
 
 
-    public void Sauvegarder()
+    public void Sauvegarder(int nbSymbole)
     {
-        Sauvegarde.sauvegarderGrille( this.grillePoisson.length, this.grillePoisson[0].length, this.espece.length, 50 );
+        Sauvegarde.sauvegarderGrille( this.grillePoisson.length, this.grillePoisson[0].length, nbSymbole, 50 );
         Sauvegarde.sauvegarderPoissons( this.lstPoisson );
         Sauvegarde.sauvegarderZones( this.grilleZone );
         Sauvegarde.sauvegarderLiaisons( this.lstLiaisons );
+        Sauvegarde.sauvegarderLabo( this.grilleLabo );
     }
 
     // Affiche la grille de poissons
