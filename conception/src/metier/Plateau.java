@@ -20,7 +20,8 @@ public class Plateau
     private List<Poisson> lstPoisson;
     private char[][]      grilleLiaisons;
     private int[][]       grilleLabo;
-    private String[]      espece     = { "Saumon",
+    private String[]      espece     = {
+        "Saumon",
         "Truite",
         "Thon",
         "Sardine",
@@ -78,9 +79,7 @@ public class Plateau
                 int     dx      = p2.getX() - p1.getX();
                 int     dy      = p2.getY() - p1.getY();
 
-                boolean alignes = dx == 0 ||
-                    dy == 0 ||
-                    Math.abs( dx ) == Math.abs( dy );
+                boolean alignes = dx == 0 || dy == 0 || Math.abs( dx ) == Math.abs( dy );
 
                 if ( alignes && !existePoissonIntermediaire( p1, p2 ) )
                 {
@@ -207,8 +206,7 @@ public class Plateau
     {
         for ( Liaison l : this.lstLiaisons )
         {
-            if ( (l.getP1().equals( p1 ) && l.getP2().equals( p2 ))
-                || (l.getP1().equals( p2 ) && l.getP2().equals( p1 )) )
+            if ( (l.getP1().equals( p1 ) && l.getP2().equals( p2 )) || (l.getP1().equals( p2 ) && l.getP2().equals( p1 )) )
             {
                 return true;
             }
@@ -246,7 +244,8 @@ public class Plateau
                 {
                     if ( i != indiceX || j != indiceY )
                     {
-                        anciennesCoords       = new int[] { i,
+                        anciennesCoords       = new int[] {
+                            i,
                             j };
                         this.grilleLabo[i][j] = 0;
                     }
@@ -393,8 +392,7 @@ public class Plateau
             return true;
         }
 
-        if ( x < this.grilleZone.length - 1 && this.grilleZone[x + 1][y] != null
-            && this.grilleZone[x + 1][y].getNumZone() == zone )
+        if ( x < this.grilleZone.length - 1 && this.grilleZone[x + 1][y] != null && this.grilleZone[x + 1][y].getNumZone() == zone )
         {
             return true;
         }
@@ -404,8 +402,7 @@ public class Plateau
             return true;
         }
 
-        if ( y < this.grilleZone[0].length - 1 && this.grilleZone[x][y + 1] != null
-            && this.grilleZone[x][y + 1].getNumZone() == zone )
+        if ( y < this.grilleZone[0].length - 1 && this.grilleZone[x][y + 1] != null && this.grilleZone[x][y + 1].getNumZone() == zone )
         {
             return true;
         }

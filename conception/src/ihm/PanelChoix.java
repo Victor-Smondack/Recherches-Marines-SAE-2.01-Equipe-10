@@ -2,6 +2,7 @@ package src.ihm;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -61,7 +62,8 @@ public class PanelChoix extends JPanel implements ActionListener
 			Image			imgPoisson	= new ImageIcon( "./src/ihm/images/poissons/" + tabEspece[i] + ".png" ).getImage().getScaledInstance( 50, 50,
 				Image.SCALE_SMOOTH );
 			JToggleButton	button		= new JToggleButton( new ImageIcon( imgPoisson ) );
-			button.setBackground( new Color( 150, 150, 150 ) );
+			button.setBackground( new Color( 200, 200, 200 ) );
+			button.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
 
 			this.btngChoix.add( button );
 			pnlSymbole.add( button );
@@ -71,7 +73,8 @@ public class PanelChoix extends JPanel implements ActionListener
 
 		Image imgGomme = new ImageIcon( "./src/ihm/images/Gomme.png" ).getImage().getScaledInstance( 50, 50, Image.SCALE_SMOOTH );
 		this.tgbGomme = new JToggleButton( new ImageIcon( imgGomme ) );
-		this.tgbGomme.setBackground( new Color( 150, 150, 150 ) );
+		this.tgbGomme.setBackground( new Color( 200, 200, 200 ) );
+		this.tgbGomme.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
 		this.btngChoix.add( this.tgbGomme );
 		pnlSymbole.add( this.tgbGomme );
 
@@ -81,9 +84,15 @@ public class PanelChoix extends JPanel implements ActionListener
 
 		JPanel	pnlZoneGlobal	= new JPanel( new BorderLayout() );
 		JPanel	pnlZoneAction	= new JPanel();
-		this.btnGaucheZone	= new JButton( new ImageIcon( flecheGauche ) );
-		this.tgbZone		= new JToggleButton( "Mer " + this.numZoneActive );
-		this.btnDroiteZone	= new JButton( new ImageIcon( flecheDroite ) );
+		this.btnGaucheZone = new JButton( new ImageIcon( flecheGauche ) );
+		this.btnGaucheZone.setContentAreaFilled( false );
+		this.btnGaucheZone.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
+		this.tgbZone = new JToggleButton( "Mer " + this.numZoneActive );
+		this.tgbZone.setContentAreaFilled( false );
+		this.tgbZone.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
+		this.btnDroiteZone = new JButton( new ImageIcon( flecheDroite ) );
+		this.btnDroiteZone.setContentAreaFilled( false );
+		this.btnDroiteZone.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
 
 		this.btngChoix.add( this.tgbZone );
 
@@ -101,9 +110,15 @@ public class PanelChoix extends JPanel implements ActionListener
 
 		JPanel	pnlLaboGlobal	= new JPanel( new BorderLayout() );
 		JPanel	pnlLaboAction	= new JPanel();
-		this.btnGaucheLabo	= new JButton( new ImageIcon( flecheGauche ) );
-		this.tgbLabo		= new JToggleButton( "Labo " + this.numZoneActive );
-		this.btnDroiteLabo	= new JButton( new ImageIcon( flecheDroite ) );
+		this.btnGaucheLabo = new JButton( new ImageIcon( flecheGauche ) );
+		this.btnGaucheLabo.setContentAreaFilled( false );
+		this.btnGaucheLabo.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
+		this.tgbLabo = new JToggleButton( "Labo " + this.numZoneActive );
+		this.tgbLabo.setContentAreaFilled( false );
+		this.tgbLabo.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
+		this.btnDroiteLabo = new JButton( new ImageIcon( flecheDroite ) );
+		this.btnDroiteLabo.setContentAreaFilled( false );
+		this.btnDroiteLabo.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
 
 		this.btngChoix.add( this.tgbLabo );
 
@@ -124,6 +139,8 @@ public class PanelChoix extends JPanel implements ActionListener
 
 		this.btnValider = new JButton( "Valider" );
 		this.btnValider.setPreferredSize( new Dimension( 0, 40 ) );
+		this.btnValider.setContentAreaFilled( false );
+		this.btnValider.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
 		pnlBas.add( this.btnValider, BorderLayout.SOUTH );
 
 		this.add( pnlSymbole, BorderLayout.NORTH );

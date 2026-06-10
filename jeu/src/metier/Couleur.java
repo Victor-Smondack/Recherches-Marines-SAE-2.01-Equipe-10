@@ -2,8 +2,7 @@ package src.metier;
 
 public enum Couleur
 {
-	// Couleurs des zones
-
+		// Couleurs des zones
 		BLEU_GLACIAIRE("Océan Pacifique", 180, 230, 255),
 		BLEU_LAGON("Océan Atlantique", 64, 224, 208),
 		TURQUOISE_OCEANIQUE("Océan Indien", 72, 209, 204),
@@ -36,6 +35,7 @@ public enum Couleur
 		this.b			= b;
 	}
 
+
 	// Getters
 	public String getLibelle()
 	{
@@ -59,6 +59,7 @@ public enum Couleur
 	{
 		return this.b;
 	}
+
 
 	// Méthode pour obtenir une couleur à partir de son code ordinal
 	public static Couleur valueOf( int code )

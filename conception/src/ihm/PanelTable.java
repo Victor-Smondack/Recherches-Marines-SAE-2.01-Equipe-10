@@ -54,6 +54,7 @@ public class PanelTable extends JPanel
 
                 this.add( this.cases[i][j] );
                 this.cases[i][j].addMouseListener( souris );
+                this.cases[i][j].addMouseMotionListener( souris );
             }
         }
     }
@@ -214,6 +215,37 @@ public class PanelTable extends JPanel
                 PanelTable.this.ctrl.genererLiaisons();
                 PanelTable.this.repaint();
             }
+        }
+
+
+        @Override
+        public void mouseDragged( MouseEvent evt )
+        {
+            Component composantClique = (Component) evt.getSource();
+
+            if ( PanelTable.this.ctrl.isZoneSelect() )
+            {
+                int    zoneActive = PanelTable.this.ctrl.getZoneActive();
+
+                JLabel lblDepart  = (JLabel) evt.getSource();
+
+                int    sourisX    = lblDepart.getX() + evt.getX();
+                int    sourisY    = lblDepart.getY() + evt.getY();
+
+                int    j          = sourisX / tailleCase;
+                int    i          = sourisY / tailleCase;
+
+                if ( i >= 0 && i < PanelTable.this.longueur && j >= 0 && j < PanelTable.this.largeur )
+                {
+                    if ( PanelTable.this.ctrl.positionneZone( i, j, zoneActive ) )
+                    {
+                        PanelTable.this.cases[i][j].setBackground( PanelTable.this.ctrl.getCouleur( zoneActive ) );
+                    }
+                }
+            }
+
+            PanelTable.this.ctrl.genererLiaisons();
+            PanelTable.this.repaint();
         }
     }
 }
