@@ -42,7 +42,7 @@ public class PanelMenu extends JPanel implements ActionListener
 		this.ctrl = ctrl;
 
 
-		this.setLayout( new GridLayout( 7, 1 ) );
+		this.setLayout( new GridLayout( 0, 1 ) );
 		/* Création des composants */
 
 		this.btnAnnuler		= new JButton( "Annuler" );
@@ -76,7 +76,7 @@ public class PanelMenu extends JPanel implements ActionListener
 		panelLargeur.add( this.txtLargeur );
 		this.add( panelLargeur );
 
-		panelLabo.add( new JLabel( "Nombre d'especes de poissons :" ) );
+		panelSymboles.add( new JLabel( "Nombre d'especes de poissons :" ) );
 		panelSymboles.add( this.txtNbSymbole );
 		this.add( panelSymboles );
 
