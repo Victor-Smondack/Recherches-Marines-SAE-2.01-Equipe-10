@@ -223,9 +223,9 @@ public class Controleur
     }
 
 
-    public void Sauvergarder()
+    public String getPoissonSelect(int indiceX, int indiceY)
     {
-        this.metier.Sauvegarder();
+        return this.metier.getPoissonSelect(indiceX, indiceY);
     }
 
     public void piocherCarte()

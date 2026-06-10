@@ -9,7 +9,6 @@
 ./metier/Plateau.java
 ./metier/LireDonnees.java
 ./metier/Poisson.java
-./metier/Sauvegarde.java
 ./metier/Zone.java
 ./metier/Liaison.java
 ./metier/Carte.java

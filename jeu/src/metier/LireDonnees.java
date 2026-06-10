@@ -6,21 +6,22 @@ import java.io.IOException;
 
 public class LireDonnees 
 {
-    //private Plateau plateau;
+    private Plateau plateau;
 
-    private Labo labo;
+    private ProgressionLabo labo;
     private Liaison liaison;
     private Poisson poisson;
     private Zone zone;
 
     private static final String FICHIER_GRILLE = "grille.data";
     private static final String FICHIER_POISSONS = "poissons.data";
+    private static final String FICHIER_LABOS = "labos.data";
     private static final String FICHIER_LIAISONS = "liaisons.data";
     private static final String FICHIER_ZONES = "zones.data";
 
     private static final String DOSSIER = "conception/class/src/data/"; 
 
-    public static void lireGrille() 
+    public  void lireGrille() 
     {
         try (Scanner scFic = new Scanner(new FileInputStream(DOSSIER + FICHIER_GRILLE), "UTF8")) 
         {
@@ -33,7 +34,7 @@ public class LireDonnees
                     int largeur = Integer.parseInt(dec[1]);
                     int nbSymbole = Integer.parseInt(dec[2]);
                     int taille = Integer.parseInt(dec[3]);
-                    //this.plateau.initTableau(longueur, largeur, nbSymbole, taille);
+                    this.plateau.initTableau(longueur, largeur, nbSymbole, taille);
                 }
             }
         } 
@@ -43,7 +44,7 @@ public class LireDonnees
         }
     }
 
-    public static void lirePoissons() 
+    public  void lirePoissons() 
     {
         try (Scanner scFic = new Scanner(new FileInputStream(DOSSIER + FICHIER_POISSONS), "UTF8")) 
         {
@@ -66,7 +67,7 @@ public class LireDonnees
         }
     }
 
-    public static void lireLiaisons() 
+    public  void lireLiaisons() 
     {
         try (Scanner scFic = new Scanner(new FileInputStream(DOSSIER + FICHIER_LIAISONS), "UTF8")) 
         {
@@ -87,39 +88,26 @@ public class LireDonnees
         }
     }
 
-    public static void lireZones() 
+    public void lireZones() 
     {
         try (Scanner scFic = new Scanner(new FileInputStream(DOSSIER + FICHIER_ZONES), "UTF8")) 
         {
             System.out.println("--- Lecture des Zones ---");
-            int ligneCourante = 0;
-            
+            int y = 0;
             while (scFic.hasNextLine()) 
             {
                 String[] cases = scFic.nextLine().split("\t");
-                
-                System.out.print("Ligne " + ligneCourante + " : ");
-                
                 for (int x = 0; x < cases.length; x++) 
                 {
                     String valeur = cases[x].trim(); 
                     
-                    if (!valeur.isEmpty()) 
+                    if (!valeur.isEmpty() && !valeur.equals(".")) 
                     {
-                        if (valeur.equals(".")) 
-                        {
-                            System.out.print("[Vide] ");
-                        } 
-                        else 
-                        {
-                            int numZone = Integer.parseInt(valeur);
-                            System.out.print("[Zone " + numZone + "] ");
-                            this.plateau.initZone(x, ligneCourante, numZone);
-                        }
+                        int couleurZone = Integer.parseInt(valeur);
+                        this.plateau.initZone(couleurZone, x, y);
                     }
                 }
-                System.out.println(); 
-                ligneCourante++;
+                y++;
             }
         } 
         catch (IOException e) 
@@ -128,10 +116,33 @@ public class LireDonnees
         }
     }
 
-    public static void lireLabo() 
+    public void lireLabo() 
     {
-        
+        try (Scanner scFic = new Scanner(new FileInputStream(DOSSIER + FICHIER_LABOS), "UTF8")) 
+        {
+            System.out.println("--- Lecture du Labo ---");
+            int y = 0;
+            
+            while (scFic.hasNextLine()) 
+            {
+                String[] cases = scFic.nextLine().split("\t");
+                
+                for (int x = 0; x < cases.length; x++) 
+                {
+                    String valeur = cases[x].trim(); 
+                    
+                    if (!valeur.isEmpty() && !valeur.equals(".")) 
+                    {
+                        int couleurLabo = Integer.parseInt(valeur);
+                        this.plateau.initLabo(couleurLabo, x, y);
+                    }
+                }
+                y++;
+            }
+        }
+        catch (IOException e) 
+        {
+            System.err.println("Erreur lecture labo : " + e.getMessage());
+        }
     }
-
-
 }
