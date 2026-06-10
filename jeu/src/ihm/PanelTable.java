@@ -10,7 +10,6 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -49,42 +48,13 @@ public class PanelTable extends JPanel
                 this.cases[i][j].setSize( tailleCase, tailleCase );
                 this.cases[i][j].setOpaque( true );
                 this.cases[i][j].setBackground( this.ctrl.getCouleur( i + 1 ) /*
-                                                                               * this
-                                                                               * .
-                                                                               * getCouleur
-                                                                               * (
-                                                                               * this
-                                                                               * .
-                                                                               * getZone
-                                                                               * (
-                                                                               * i,
-                                                                               * j
-                                                                               * )
-                                                                               * )
+                                                                               * this . getCouleur ( this . getZone ( i, j ) )
                                                                                */ );
                 this.cases[i][j].setIcon(
-                                          new ImageIcon( new ImageIcon( "./src/ihm/images/poissons/Thon.png" /*
-                                                                                                              * this
-                                                                                                              * .
-                                                                                                              * ctrl
-                                                                                                              * .
-                                                                                                              * getImagePoisson
-                                                                                                              * (
-                                                                                                              * This
-                                                                                                              * .
-                                                                                                              * getPoisson
-                                                                                                              * (
-                                                                                                              * i
-                                                                                                              * ,
-                                                                                                              * j
-                                                                                                              * )
-                                                                                                              * )
-                                                                                                              */ )
-                                              .getImage()
-                                              .getScaledInstance(
-                                                                  tailleCase / 2,
-                                                                  tailleCase / 2,
-                                                                  Image.SCALE_SMOOTH ) ) );
+                    new ImageIcon( new ImageIcon( "./src/ihm/images/poissons/Thon.png" /*
+                                                                                        * this . ctrl . getImagePoisson ( This . getPoisson ( i , j ) )
+                                                                                        */ ).getImage().getScaledInstance( tailleCase / 2, tailleCase / 2,
+                        Image.SCALE_SMOOTH ) ) );
                 this.cases[i][j].setHorizontalAlignment( SwingConstants.CENTER );
                 // this.cases[i][j].setBorder( BorderFactory.createLineBorder(
                 // this.getColor() ) );
@@ -122,8 +92,7 @@ public class PanelTable extends JPanel
                 int x2 = l[2];
                 int y2 = l[3];
 
-                if ( x1 >= 0 && x1 < longueur && y1 >= 0 && y1 < largeur &&
-                    x2 >= 0 && x2 < longueur && y2 >= 0 && y2 < largeur )
+                if ( x1 >= 0 && x1 < longueur && y1 >= 0 && y1 < largeur && x2 >= 0 && x2 < longueur && y2 >= 0 && y2 < largeur )
                 {
                     JLabel lbl1   = this.cases[x1][y1];
                     JLabel lbl2   = this.cases[x2][y2];
@@ -167,7 +136,15 @@ public class PanelTable extends JPanel
             Component composantClique = (Component) evt.getSource();
             if ( composantClique instanceof JLabel lblClique )
             {
-                System.out.print( lblClique );
+
+                for ( int i = 0; i < PanelTable.this.cases.length; i++ )
+                {
+                    for ( int j = 0; i < PanelTable.this.cases[i].length; j++ )
+                        if ( PanelTable.this.cases.length[i][j] == lblClique )
+                        {
+                            PanelTable.this.ctrl.getPoissonSelect( i, j );
+                        }
+                }
 
 
             }
