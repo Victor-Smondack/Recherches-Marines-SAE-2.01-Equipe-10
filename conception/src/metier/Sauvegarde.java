@@ -32,12 +32,12 @@ public class Sauvegarde
     }
 
 
-    public static void sauvegarderGrille( int longueur, int largeur, int nbSymbole, int tailleCases )
+    public static void sauvegarderGrille( int longueur, int largeur, int nbSymbole, int tailleCases,int nbLabo )
     {
         creerDossierSiInexistant();
         try (PrintWriter pw = new PrintWriter( new OutputStreamWriter( new FileOutputStream( DOSSIER + FICHIER_GRILLE ), "UTF8" ) ))
         {
-            pw.println( longueur + "\t" + largeur + "\t" + nbSymbole + "\t" + tailleCases );
+            pw.println( longueur + "\t" + largeur + "\t" + nbSymbole +"\t" + nbLabo + "\t" + tailleCases );
         } catch (IOException e)
         {
             System.err.println( "Erreur lors de la sauvegarde de la grille : " + e.getMessage() );
