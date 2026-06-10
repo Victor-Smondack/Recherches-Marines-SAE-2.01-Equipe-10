@@ -205,7 +205,7 @@ public class PanelChoix extends JPanel implements ActionListener
 			if ( e.getSource() == this.btnGaucheZone && this.numZoneActive > 1 )
 			{
 				this.numZoneActive--;
-			} else if ( e.getSource() == this.btnDroiteZone && this.ctrl.zoneExiste( this.numZoneActive ) && this.numZoneActive < 10 )
+			} else if ( e.getSource() == this.btnDroiteZone && this.ctrl.zoneExiste( this.numZoneActive ) && this.numZoneActive < 9 )
 			{
 				this.numZoneActive++;
 			}
