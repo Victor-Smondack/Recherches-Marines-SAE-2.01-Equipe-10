@@ -21,7 +21,7 @@ public class PanelMenu extends JPanel implements ActionListener
 	private JTextField	txtLongueur;
 	private JTextField	txtLargeur;
 	private JTextField	txtNbSymbole;
-	private JTextField  txtNbLabo;
+	private JTextField  txtNbLabo;		
 	private JTextField	txtTailleCase;
 
 	private JLabel		lblMessage;
@@ -76,18 +76,17 @@ public class PanelMenu extends JPanel implements ActionListener
 		panelLargeur.add( this.txtLargeur );
 		this.add( panelLargeur );
 
-		panelSymboles.add( new JLabel( "Nombre d'espèces de poisson :" ) );
+		panelLabo.add( new JLabel( "Nombre d'especes de poissons :" ) );
 		panelSymboles.add( this.txtNbSymbole );
 		this.add( panelSymboles );
 
-		panelLabo.add( new JLabel( "Nombre de laboratiores :" ) );
+		panelLabo.add( new JLabel( "Nombre de laboratoires :" ) );
 		panelLabo.add( this.txtNbLabo );
-		this.add(panelLabo);
+		this.add( panelLabo );
 
 		panelTaille.add( new JLabel( "Taille des cases :" ) );
 		panelTaille.add( this.txtTailleCase );
 		this.add( panelTaille );
-
 
 		panelAction.add( this.btnValider );
 		panelAction.add( this.btnAnnuler );
@@ -101,10 +100,9 @@ public class PanelMenu extends JPanel implements ActionListener
 		this.btnValider.addActionListener( this );
 		this.btnAnnuler.addActionListener( this );
 
-		this.txtLongueur  .addActionListener( this );
-		this.txtLargeur   .addActionListener( this );
-		this.txtNbSymbole .addActionListener( this );
-		this.txtNbLabo    .addActionListener( this );
+		this.txtLongueur.addActionListener( this );
+		this.txtLargeur.addActionListener( this );
+		this.txtNbSymbole.addActionListener( this );
 		this.txtTailleCase.addActionListener( this );
 
 
@@ -116,10 +114,9 @@ public class PanelMenu extends JPanel implements ActionListener
 	// Réinitialise tout le panel
 	public void reinitialierPanel()
 	{
-		this.txtLongueur  .setText( "" );
-		this.txtLargeur   .setText( "" );
-		this.txtNbSymbole .setText( "" );
-		this.txtNbLabo    .setText("");
+		this.txtLongueur.setText( "" );
+		this.txtLargeur.setText( "" );
+		this.txtNbSymbole.setText( "" );
 		this.txtTailleCase.setText( "" );
 	}
 
@@ -135,25 +132,20 @@ public class PanelMenu extends JPanel implements ActionListener
 			{
 				try
 				{
-					int	longueur	= Integer.parseInt( this.txtLongueur  .getText() );
-					int	largeur		= Integer.parseInt( this.txtLargeur   .getText() );
-					int	nbSymbole	= Integer.parseInt( this.txtNbSymbole .getText() );
+					int	longueur	= Integer.parseInt( this.txtLongueur.getText() );
+					int	largeur		= Integer.parseInt( this.txtLargeur.getText() );
+					int	nbSymbole	= Integer.parseInt( this.txtNbSymbole.getText() );
+					int nbLabo     = Integer.parseInt( this.txtNbLabo.getText() );
 					int	tailleCase	= Integer.parseInt( this.txtTailleCase.getText() );
 
 					if ( nbSymbole > 7 )
 					{
 						this.lblMessage.setText( "Le nombre de symbole doit être inférieur ou égal à 7." );
 						return;
-					} 
-					
-					if ( longueur < largeur )
+					} else
 					{
-						this.lblMessage.setText( "Le largeur doit être inférieur à la longueur");
-						return;
+						this.ctrl.initialiserGrille( longueur, largeur, nbSymbole, tailleCase, nbLabo );
 					}
-
-					this.ctrl.initialiserGrille( longueur, largeur, nbSymbole,tailleCase );
-					
 
 				}
 
