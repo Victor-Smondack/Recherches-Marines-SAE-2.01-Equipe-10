@@ -199,8 +199,8 @@ public class PanelTable extends JPanel
                                     {
                                         if ( lblClique == PanelTable.this.cases[i][j] )
                                         {
-                                            lblClique.setIcon( new ImageIcon( new ImageIcon( "./src/ihm/images/poissons/" + poissonSelected + ".png" )
-                                                .getImage().getScaledInstance( tailleCase / 2, tailleCase / 2, Image.SCALE_SMOOTH ) ) );
+                                            lblClique.setIcon( new ImageIcon( new ImageIcon( "../../images/poissons/" + poissonSelected + ".png" ).getImage()
+                                                .getScaledInstance( tailleCase / 2, tailleCase / 2, Image.SCALE_SMOOTH ) ) );
                                             lblClique.setHorizontalAlignment( SwingConstants.CENTER );
                                             PanelTable.this.ctrl.positionnePoisson( i, j, poissonSelected );
                                             break;

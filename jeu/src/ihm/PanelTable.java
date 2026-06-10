@@ -34,7 +34,7 @@ public class PanelTable extends JPanel
         this.tailleCase = tailleCase;
         this.ctrl       = ctrl;
 
-        this.imgFond    = new ImageIcon( "./src/ihm/images/Background.png" ).getImage();
+        this.imgFond    = new ImageIcon( "../../images/Background.png" ).getImage();
 
         this.setLayout( new GridLayout( this.longueur, this.largeur ) );
         this.cases = new JLabel[this.longueur][this.largeur];
@@ -50,10 +50,10 @@ public class PanelTable extends JPanel
                 this.cases[i][j].setBackground( this.ctrl.getCouleur( i + 1 ) /*
                                                                                * this . getCouleur ( this . getZone ( i, j ) )
                                                                                */ );
-                this.cases[i][j].setIcon(
-                    new ImageIcon( new ImageIcon( "./src/ihm/images/poissons/Thon.png" /*
-                                                                                        * this . ctrl . getImagePoisson ( This . getPoisson ( i , j ) )
-                                                                                        */ ).getImage().getScaledInstance( tailleCase / 2, tailleCase / 2,
+                this.cases[i][j]
+                    .setIcon( new ImageIcon( new ImageIcon( "../../images/poissons/Thon.png" /*
+                                                                                              * this . ctrl . getImagePoisson ( This . getPoisson ( i , j ) )
+                                                                                              */ ).getImage().getScaledInstance( tailleCase / 2, tailleCase / 2,
                         Image.SCALE_SMOOTH ) ) );
                 this.cases[i][j].setHorizontalAlignment( SwingConstants.CENTER );
                 // this.cases[i][j].setBorder( BorderFactory.createLineBorder(
