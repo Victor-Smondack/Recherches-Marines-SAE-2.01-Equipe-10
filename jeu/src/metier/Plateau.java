@@ -116,16 +116,6 @@ public class Plateau
         return false;
     }
 
-    // Place un poisson à une position donnée
-
-
-    public void positionnePoisson( int x, int y, String espece )
-    {
-        Poisson p = new Poisson( espece, x, y );
-        this.grillePoisson[x][y] = p;
-        this.lstPoisson.add( p );
-    }
-
     // Récupère le poisson à une position donnée
 
 
@@ -148,25 +138,6 @@ public class Plateau
     public List<Poisson> getLstPoisson()
     {
         return this.lstPoisson;
-    }
-
-    // Supprime le poisson à une position donnée
-
-
-    public void gommer( int x, int y )
-    {
-        for ( Poisson p : this.lstPoisson )
-        {
-            if ( (p.getX() == x) && (p.getY() == y) )
-            {
-                this.lstPoisson.remove( p );
-                break;
-            }
-        }
-        this.grillePoisson[x][y] = null;
-        this.grilleZone[x][y]    = null;
-        this.grilleLabo[x][y]    = 0;
-        this.genererLiaisons();
     }
 
     // Récupère les liaisons à une position donnée
@@ -207,52 +178,7 @@ public class Plateau
         return false;
     }
 
-    // Échange la position de deux poissons
-
-
-    public boolean positionneZone( int indiceX, int indiceY, int numZone )
-    {
-        if ( isZonePossible( indiceX, indiceY, numZone ) )
-        {
-            Zone z = new Zone( numZone, indiceX, indiceY );
-            this.grilleZone[indiceX][indiceY] = z;
-            return true;
-        } else
-        {
-            return false;
-        }
-    }
-
-
-    public int[] positionneLabo( int indiceX, int indiceY, int numLabo )
-    {
-        int[] anciennesCoords = null;
-
-        for ( int i = 0; i < this.grilleLabo.length; i++ )
-        {
-            for ( int j = 0; j < this.grilleLabo[i].length; j++ )
-            {
-                if ( this.grilleLabo[i][j] == numLabo )
-                {
-                    if ( i != indiceX || j != indiceY )
-                    {
-                        anciennesCoords       = new int[] {
-                            i,
-                            j };
-                        this.grilleLabo[i][j] = 0;
-                    }
-                }
-            }
-        }
-
-        this.grilleLabo[indiceX][indiceY] = numLabo;
-
-        return anciennesCoords; //
-    }
-
-
     // Récupère la zone à une position donnée
-
 
     public Zone getZone( int x, int y )
     {
