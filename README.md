@@ -102,6 +102,6 @@ CAS PARTICULIERS
 
 
   Pour exécuter le jeu, dans un terminal:
-   Se mettre dans le dossier [Recherches-Marines-SAE-2.01-Equipe-10]
+   Se mettre dans le dossier [conception] ou [jeu] selon ce que vous voulez lancer
     Pour Windows lancer la commande: ./Recherches-Maritimes.ps1
     Pour Linux/Mac lancer la commande: ./Recherches-Maritimes.sh
