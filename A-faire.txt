@@ -1,0 +1,3 @@
+- Savoir quand la manche/partie est fini
+- Calcul des points
+- Changer la liste des cartes (mettre les jokers en 1er, et changer selon nbSymbole)
