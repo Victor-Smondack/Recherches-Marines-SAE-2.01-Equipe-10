@@ -33,7 +33,6 @@ public class LireDonnees
                     int largeur = Integer.parseInt(dec[1]);
                     int nbSymbole = Integer.parseInt(dec[2]);
                     int taille = Integer.parseInt(dec[3]);
-                    //this.plateau.initTableau(longueur, largeur, nbSymbole, taille);
                 }
             }
         } 
@@ -56,7 +55,6 @@ public class LireDonnees
                     String espece = dec[1];
                     int x = Integer.parseInt(dec[2]);
                     int y = Integer.parseInt(dec[3]);
-                    this.plateau.initPoisson(id, espece, x, y);
                 }
             }
         } 
@@ -77,7 +75,6 @@ public class LireDonnees
                 {
                     int id1 = Integer.parseInt(dec[0]);
                     int id2 = Integer.parseInt(dec[1]);
-                    this.plateau.initLiaison(id1, id2);
                 }
             }
         } 
@@ -114,7 +111,6 @@ public class LireDonnees
                         {
                             int numZone = Integer.parseInt(valeur);
                             System.out.print("[Zone " + numZone + "] ");
-                            this.plateau.initZone(x, ligneCourante, numZone);
                         }
                     }
                 }
