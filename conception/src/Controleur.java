@@ -239,7 +239,7 @@ public class Controleur
     }
 
 
-    public void Sauvergarder()
+    public void sauvegarder()
     {
         this.metier.Sauvegarder(this.nbSymbole, this.nbLabo);
     }
