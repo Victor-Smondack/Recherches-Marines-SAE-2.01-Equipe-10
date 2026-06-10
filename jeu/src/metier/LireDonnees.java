@@ -8,7 +8,7 @@ public class LireDonnees
 {
     //private Plateau plateau;
 
-    private Labo labo;
+    //private Labo labo;
     private Liaison liaison;
     private Poisson poisson;
     private Zone zone;
