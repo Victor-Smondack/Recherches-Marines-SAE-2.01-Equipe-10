@@ -9,17 +9,15 @@ public class Plateau
     /* Attributs */
     /**********************/
 
-    private Poisson[][]   grillePoisson;
+    private Poisson[][]     grillePoisson;
     private ProgressionLabo progressionLabo;
-    private String        poissonSelect;
-    private boolean       zoneSelect = false;
-    private boolean       laboSelect = false;
-    private List<Liaison> lstLiaisons;
-    private Zone[][]      grilleZone;
-    private List<Poisson> lstPoisson;
-    private char[][]      grilleLiaisons;
-    private int[][]       grilleLabo;
-    private String[]      espece     = { "Saumon",
+    private List<Liaison>   lstLiaisons;
+    private Zone[][]        grilleZone;
+    private List<Poisson>   lstPoisson;
+    private char[][]        grilleLiaisons;
+    private int[][]         grilleLabo;
+    private String[]        espece = {
+        "Saumon",
         "Thon",
         "Truite",
         "Sardine",
@@ -74,9 +72,7 @@ public class Plateau
                 int     dx      = p2.getX() - p1.getX();
                 int     dy      = p2.getY() - p1.getY();
 
-                boolean alignes = dx == 0 ||
-                    dy == 0 ||
-                    Math.abs( dx ) == Math.abs( dy );
+                boolean alignes = dx == 0 || dy == 0 || Math.abs( dx ) == Math.abs( dy );
 
                 if ( alignes && !existePoissonIntermediaire( p1, p2 ) )
                 {
@@ -203,8 +199,7 @@ public class Plateau
     {
         for ( Liaison l : this.lstLiaisons )
         {
-            if ( (l.getP1().equals( p1 ) && l.getP2().equals( p2 ))
-                || (l.getP1().equals( p2 ) && l.getP2().equals( p1 )) )
+            if ( (l.getP1().equals( p1 ) && l.getP2().equals( p2 )) || (l.getP1().equals( p2 ) && l.getP2().equals( p1 )) )
             {
                 return true;
             }
@@ -241,7 +236,8 @@ public class Plateau
                 {
                     if ( i != indiceX || j != indiceY )
                     {
-                        anciennesCoords       = new int[] { i,
+                        anciennesCoords       = new int[] {
+                            i,
                             j };
                         this.grilleLabo[i][j] = 0;
                     }
@@ -292,34 +288,31 @@ public class Plateau
 
     // Échange la position de deux poissons
 
+
     public String[] getEspeces()
     {
         return this.espece;
     }
 
-    // Place un poisson à une position donnée
-
-    public void setPoissonSelect( int numEspece )
-    {
-        if ( numEspece >= 0 && numEspece < this.espece.length )
-        {
-            this.poissonSelect = this.espece[numEspece];
-            this.zoneSelect    = false;
-            this.laboSelect    = false;
-        } else
-        {
-            this.poissonSelect = "";
-        }
-    }
-
     // Récupère la zone à une position donnée
 
-    public String getPoissonSelect()
+
+    public String getPoissonSelect( int indiceX, int indiceY )
     {
-        return this.poissonSelect;
+        for ( int i = 0; i < this.grillePoisson.length; i++ )
+        {
+            for ( int j = 0; i < this.grillePoisson[i].length; j++ )
+                if ( this.grillePoisson[i][j] != null && i == indiceX && j == indiceY )
+                {
+                    return this.grillePoisson[i][j].getEspece();
+                }
+        }
+
+        return "";
     }
 
     // Place une zone à une position donnée
+
 
     public void setZoneSelect( boolean select )
     {
@@ -332,6 +325,7 @@ public class Plateau
     }
 
     // Vérifie si une zone est sélectionnée
+
 
     public boolean isZoneSelect()
     {
@@ -386,8 +380,7 @@ public class Plateau
         }
 
         // 3. Vérification à Droite
-        if ( x < this.grilleZone.length - 1 && this.grilleZone[x + 1][y] != null
-            && this.grilleZone[x + 1][y].getNumZone() == zone )
+        if ( x < this.grilleZone.length - 1 && this.grilleZone[x + 1][y] != null && this.grilleZone[x + 1][y].getNumZone() == zone )
         {
             return true;
         }
@@ -399,8 +392,7 @@ public class Plateau
         }
 
         // 5. Vérification en Bas (Correction de la limite de l'axe Y)
-        if ( y < this.grilleZone[0].length - 1 && this.grilleZone[x][y + 1] != null
-            && this.grilleZone[x][y + 1].getNumZone() == zone )
+        if ( y < this.grilleZone[0].length - 1 && this.grilleZone[x][y + 1] != null && this.grilleZone[x][y + 1].getNumZone() == zone )
         {
             return true;
         }
@@ -410,34 +402,31 @@ public class Plateau
         return false;
     }
 
-    public String etudePoisson( Poisson p)
+
+    public String etudePoisson( Poisson p )
     {
-        if (p.getEstLab() == true && this.progressionLabo == null)
+        if ( p.getEstLab() == true && this.progressionLabo == null )
         {
-            this.progressionLabo = new ProgressionLabo(p);
+            this.progressionLabo = new ProgressionLabo( p );
             return "Début de l'étude du laboratoire sur un(e) " + p.getEspece() + " avec le laboratoire " + p.getCouleurLab();
-        }
-        else 
+        } else
         {
-            if (this.progressionLabo.getExtremite2() == null && estLie(this.progressionLabo.getExtremite1(),p))
+            if ( this.progressionLabo.getExtremite2() == null && estLie( this.progressionLabo.getExtremite1(), p ) )
             {
-                this.progressionLabo.setExtremite2(p);
+                this.progressionLabo.setExtremite2( p );
                 return "Première étude du laboratoire sur un(e) " + p.getEspece();
-                
-            }
-            else
+
+            } else
             {
-                if (estLie(this.progressionLabo.getExtremite1(),p))
+                if ( estLie( this.progressionLabo.getExtremite1(), p ) )
                 {
-                    this.progressionLabo.setExtremite1(p);
+                    this.progressionLabo.setExtremite1( p );
                     return "Nouvelle étude du laboratoire sur un(e) " + p.getEspece();
-                }
-                else if (estLie(this.progressionLabo.getExtremite2(), p))
+                } else if ( estLie( this.progressionLabo.getExtremite2(), p ) )
                 {
-                    this.progressionLabo.setExtremite2(p);
+                    this.progressionLabo.setExtremite2( p );
                     return "Nouvelle étude du laboratoire sur un(e) " + p.getEspece();
-                }
-                else 
+                } else
                 {
                     return "Ce/Cette " + p.getEspece() + " n'est pas lié à l'étude en cours.";
                 }
@@ -448,7 +437,6 @@ public class Plateau
     // Sauvegarde de la grille, des poissons, des zones et des liaisons
 
 
-
     public void initTableau( int longueur, int largeur, int nbSymbole, int tailleCases )
     {
         this.grillePoisson  = new Poisson[longueur][largeur];
@@ -457,6 +445,7 @@ public class Plateau
         this.grilleLabo     = new int[longueur][largeur];
     }
 
+
     public void initPoisson( int id, String espece, int x, int y )
     {
         Poisson p = new Poisson( espece, x, y );
@@ -464,16 +453,19 @@ public class Plateau
         this.lstPoisson.add( p );
     }
 
+
     public void initZone( int numZone, int x, int y )
     {
         Zone z = new Zone( numZone, x, y );
         this.grilleZone[x][y] = z;
     }
 
+
     public void initLabo( int numLabo, int x, int y )
     {
         this.grilleLabo[x][y] = numLabo;
     }
+
 
     public void initLiaison( int id1, int id2 )
     {
@@ -482,8 +474,14 @@ public class Plateau
 
         for ( Poisson p : this.lstPoisson )
         {
-            if ( p.getId() == id1 ) { p1 = p; }
-            if ( p.getId() == id2 ) { p2 = p; }
+            if ( p.getId() == id1 )
+            {
+                p1 = p;
+            }
+            if ( p.getId() == id2 )
+            {
+                p2 = p;
+            }
         }
 
         if ( p1 != null && p2 != null )
@@ -492,8 +490,9 @@ public class Plateau
             this.lstLiaisons.add( l );
         }
     }
-    
+
     // Affiche la grille de poissons
+
 
     public String toString()
     {
