@@ -13,4 +13,5 @@
 ./metier/Zone.java
 ./metier/Liaison.java
 ./metier/Carte.java
+./metier/ProgressionLabo.java
 
