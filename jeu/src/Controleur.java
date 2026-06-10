@@ -56,6 +56,11 @@ public class Controleur
         this.nbSymbole = this.metier.getNbSymbole();
     }
 
+    public int getNbLabo()
+    {
+        return this.metier.getNbLabo();
+    }
+
 
     /*
      * public void setPanelChoix( PanelChoix panelChoix ) { this.panelChoix = panelChoix; }

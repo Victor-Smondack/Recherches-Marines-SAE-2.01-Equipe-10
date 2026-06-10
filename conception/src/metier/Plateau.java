@@ -29,6 +29,7 @@ public class Plateau
         "Maquereau" };
 
     private int nbSymbole;
+    private int nbLabo;
 
     /**********************/
     /* Constructeur */
@@ -415,9 +416,9 @@ public class Plateau
     // Sauvegarde de la grille, des poissons, des zones et des liaisons
 
 
-    public void Sauvegarder(int nbSymbole)
+    public void Sauvegarder(int nbSymbole, int nbLabo)
     {
-        Sauvegarde.sauvegarderGrille( this.grillePoisson.length, this.grillePoisson[0].length, nbSymbole, 50 );
+        Sauvegarde.sauvegarderGrille( this.grillePoisson.length, this.grillePoisson[0].length, nbSymbole, 50, nbLabo );
         Sauvegarde.sauvegarderPoissons( this.lstPoisson );
         Sauvegarde.sauvegarderZones( this.grilleZone );
         Sauvegarde.sauvegarderLiaisons( this.lstLiaisons );
