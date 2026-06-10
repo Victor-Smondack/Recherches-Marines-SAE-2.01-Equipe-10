@@ -51,6 +51,11 @@ public class Controleur
         // this.frameMenu.changerPanel( nbSymbole );
     }
 
+    public void getNbSymbole()
+    {
+        this.nbSymbole = this.metier.getNbSymbole();
+    }
+
 
     /*
      * public void setPanelChoix( PanelChoix panelChoix ) { this.panelChoix = panelChoix; }

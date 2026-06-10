@@ -18,6 +18,7 @@ public class Controleur
     private int        yGrille     = 1;
     private int        zoneActive  = 1;
     private int        laboActive  = 1;
+    private int        nbSymbole;
     private boolean    gommeActive = false;
     private FrameMenu  frameMenu;
     private FrameTable frameTable;
@@ -35,9 +36,15 @@ public class Controleur
     {
         this.yGrille    = longueur;
         this.xGrille    = largeur;
+        this.nbSymbole  = nbSymbole;
         this.metier     = new Plateau( this.yGrille, this.xGrille );
         this.frameTable = new FrameTable( this, longueur, largeur, tailleCase );
         this.frameMenu.changerPanel( nbSymbole );
+    }
+
+    public int getNbSymbole()
+    {
+        return this.nbSymbole;
     }
 
 
@@ -226,7 +233,7 @@ public class Controleur
 
     public void Sauvergarder()
     {
-        this.metier.Sauvegarder();
+        this.metier.Sauvegarder(this.nbSymbole);
     }
 
 

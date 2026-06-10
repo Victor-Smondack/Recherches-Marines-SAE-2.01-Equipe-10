@@ -3,6 +3,8 @@ package src.metier;
 import java.util.ArrayList;
 import java.util.List;
 
+import src.Controleur;
+
 public class Plateau
 {
     /**********************/
@@ -25,6 +27,8 @@ public class Plateau
         "Bar",
         "Colin",
         "Maquereau" };
+
+    private int nbSymbole;
 
     /**********************/
     /* Constructeur */
@@ -411,9 +415,9 @@ public class Plateau
     // Sauvegarde de la grille, des poissons, des zones et des liaisons
 
 
-    public void Sauvegarder()
+    public void Sauvegarder(int nbSymbole)
     {
-        Sauvegarde.sauvegarderGrille( this.grillePoisson.length, this.grillePoisson[0].length, this.espece.length, 50 );
+        Sauvegarde.sauvegarderGrille( this.grillePoisson.length, this.grillePoisson[0].length, nbSymbole, 50 );
         Sauvegarde.sauvegarderPoissons( this.lstPoisson );
         Sauvegarde.sauvegarderZones( this.grilleZone );
         Sauvegarde.sauvegarderLiaisons( this.lstLiaisons );
