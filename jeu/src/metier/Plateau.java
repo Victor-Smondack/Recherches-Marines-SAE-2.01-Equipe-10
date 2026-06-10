@@ -376,50 +376,5 @@ public class Plateau
             this.lstLiaisons.add( l );
         }
     }
-
-    // Affiche la grille de poissons
-
-
-    public String toString()
-    {
-        StringBuilder sb = new StringBuilder();
-        for ( int y = 0; y < grillePoisson[0].length; y++ )
-        {
-            for ( int x = 0; x < grillePoisson.length; x++ )
-            {
-                if ( grillePoisson[x][y] != null )
-                {
-                    sb.append( grillePoisson[x][y].getEspece().charAt( 0 ) ).append( " " );
-                } else
-                {
-                    sb.append( ". " );
-                }
-            }
-
-            sb.append( "\n" );
-        }
-
-        return sb.toString();
-    }
-
-    // Affiche la grille des liaisons
-
-
-    public String toStringLiaisons()
-    {
-        StringBuilder sb = new StringBuilder();
-
-        for ( int y = 0; y < grilleLiaisons[0].length; y++ )
-        {
-            for ( int x = 0; x < grilleLiaisons.length; x++ )
-            {
-                sb.append( grilleLiaisons[x][y] ).append( " " );
-            }
-
-            sb.append( "\n" );
-        }
-
-        return sb.toString();
-    }
 }
 
