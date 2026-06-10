@@ -132,10 +132,10 @@ public class PanelMenu extends JPanel implements ActionListener
 			{
 				try
 				{
-					int	longueur	= Integer.parseInt( this.txtLongueur.getText() );
-					int	largeur		= Integer.parseInt( this.txtLargeur.getText() );
-					int	nbSymbole	= Integer.parseInt( this.txtNbSymbole.getText() );
-					int nbLabo     = Integer.parseInt( this.txtNbLabo.getText() );
+					int	longueur	= Integer.parseInt( this.txtLongueur  .getText() );
+					int	largeur		= Integer.parseInt( this.txtLargeur   .getText() );
+					int	nbSymbole	= Integer.parseInt( this.txtNbSymbole .getText() );
+					int nbLabo      = Integer.parseInt( this.txtNbLabo    .getText() );
 					int	tailleCase	= Integer.parseInt( this.txtTailleCase.getText() );
 
 					if ( nbSymbole > 7 )
