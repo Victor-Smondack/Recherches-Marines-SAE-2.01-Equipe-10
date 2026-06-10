@@ -69,7 +69,7 @@ public class PanelTirage extends JPanel implements ActionListener
         if ( e.getSource() == this.btnTirer )
         {
             System.out.println( "Une carte est tirée" );
-            this.ctrl.piocherCarte()t;
+            this.ctrl.piocherCarte();
             this.lblCartesRestantes.setText( "Il reste "+ this.ctrl.getNbCartesRestantes() + " cartes dans la pioche" );
         }
         if ( e.getSource() == this.btnLancerManche )
