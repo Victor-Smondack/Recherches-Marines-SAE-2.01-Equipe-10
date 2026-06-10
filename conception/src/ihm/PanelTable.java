@@ -62,7 +62,7 @@ public class PanelTable extends JPanel
 
     @Override
     // Méthode pour dessiner les liaisons
-    protected void paintChildren( Graphics g )
+    protected void paintComponent( Graphics g )
     {
         super.paintChildren( g );
 
