@@ -21,6 +21,7 @@ public class PanelMenu extends JPanel implements ActionListener
 	private JTextField	txtLongueur;
 	private JTextField	txtLargeur;
 	private JTextField	txtNbSymbole;
+	private JTextField  txtNbLabo;
 	private JTextField	txtTailleCase;
 
 	private JLabel		lblMessage;
@@ -33,6 +34,7 @@ public class PanelMenu extends JPanel implements ActionListener
 		JPanel	panelLongueur;
 		JPanel	panelLargeur;
 		JPanel	panelSymboles;
+		JPanel  panelLabo;
 		JPanel	panelTaille;
 		JPanel	panelAction;
 
@@ -50,6 +52,7 @@ public class PanelMenu extends JPanel implements ActionListener
 		this.txtLongueur	= new JTextField( 10 );
 		this.txtLargeur		= new JTextField( 10 );
 		this.txtNbSymbole	= new JTextField( 10 );
+		this.txtNbLabo      = new JTextField( 10 );
 		this.txtTailleCase	= new JTextField( 10 );
 
 		this.lblMessage		= new JLabel( "" );
@@ -58,28 +61,34 @@ public class PanelMenu extends JPanel implements ActionListener
 		panelLongueur	= new JPanel();
 		panelLargeur	= new JPanel();
 		panelSymboles	= new JPanel( new FlowLayout( FlowLayout.LEFT ) );
+		panelLabo    	= new JPanel( new FlowLayout( FlowLayout.LEFT ) );
 		panelTaille		= new JPanel( new FlowLayout( FlowLayout.LEFT ) );
 		panelAction		= new JPanel();
 
 
 		/* Position des composants */
 		this.add( new JLabel( "Taille :" ) );
-		panelLongueur.add( new JLabel( "Longueur :" ) );
+		panelLongueur.add( new JLabel( "Nombre de colonnes :" ) );
 		panelLongueur.add( this.txtLongueur );
-
 		this.add( panelLongueur );
-		panelLargeur.add( new JLabel( "Largeur :" ) );
+
+		panelLargeur.add( new JLabel( "Nombre de lignes :" ) );
 		panelLargeur.add( this.txtLargeur );
-
 		this.add( panelLargeur );
-		panelSymboles.add( new JLabel( "Nombre de laboratoires / espèces de poisson :" ) );
-		panelSymboles.add( this.txtNbSymbole );
 
+		panelSymboles.add( new JLabel( "Nombre d'espèces de poisson :" ) );
+		panelSymboles.add( this.txtNbSymbole );
 		this.add( panelSymboles );
+
+		panelLabo.add( new JLabel( "Nombre de laboratiores :" ) );
+		panelLabo.add( this.txtNbLabo );
+		this.add(panelLabo);
+
 		panelTaille.add( new JLabel( "Taille des cases :" ) );
 		panelTaille.add( this.txtTailleCase );
-
 		this.add( panelTaille );
+
+
 		panelAction.add( this.btnValider );
 		panelAction.add( this.btnAnnuler );
 
@@ -92,9 +101,10 @@ public class PanelMenu extends JPanel implements ActionListener
 		this.btnValider.addActionListener( this );
 		this.btnAnnuler.addActionListener( this );
 
-		this.txtLongueur.addActionListener( this );
-		this.txtLargeur.addActionListener( this );
-		this.txtNbSymbole.addActionListener( this );
+		this.txtLongueur  .addActionListener( this );
+		this.txtLargeur   .addActionListener( this );
+		this.txtNbSymbole .addActionListener( this );
+		this.txtNbLabo    .addActionListener( this );
 		this.txtTailleCase.addActionListener( this );
 
 
@@ -106,9 +116,10 @@ public class PanelMenu extends JPanel implements ActionListener
 	// Réinitialise tout le panel
 	public void reinitialierPanel()
 	{
-		this.txtLongueur.setText( "" );
-		this.txtLargeur.setText( "" );
-		this.txtNbSymbole.setText( "" );
+		this.txtLongueur  .setText( "" );
+		this.txtLargeur   .setText( "" );
+		this.txtNbSymbole .setText( "" );
+		this.txtNbLabo    .setText("");
 		this.txtTailleCase.setText( "" );
 	}
 
@@ -124,19 +135,26 @@ public class PanelMenu extends JPanel implements ActionListener
 			{
 				try
 				{
-					int	longueur	= Integer.parseInt( this.txtLongueur.getText() );
-					int	largeur		= Integer.parseInt( this.txtLargeur.getText() );
-					int	nbSymbole	= Integer.parseInt( this.txtNbSymbole.getText() );
+					int	longueur	= Integer.parseInt( this.txtLongueur  .getText() );
+					int	largeur		= Integer.parseInt( this.txtLargeur   .getText() );
+					int	nbSymbole	= Integer.parseInt( this.txtNbSymbole .getText() );
+					int nbLabo      = Integer.parseInt( this.txtNbLabo    .getText() );
 					int	tailleCase	= Integer.parseInt( this.txtTailleCase.getText() );
 
 					if ( nbSymbole > 7 )
 					{
 						this.lblMessage.setText( "Le nombre de symbole doit être inférieur ou égal à 7." );
 						return;
-					} else
+					} 
+					
+					if ( longueur < largeur )
 					{
-						this.ctrl.initialiserGrille( longueur, largeur, nbSymbole, tailleCase );
+						this.lblMessage.setText( "Le largeur doit être inférieur à la longueur");
+						return;
 					}
+					
+					this.ctrl.initialiserGrille( longueur, largeur, nbSymbole,nbLabo, tailleCase );
+					
 
 				}
 
