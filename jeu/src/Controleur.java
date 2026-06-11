@@ -195,6 +195,36 @@ public class Controleur
     }
 
 
+    public Poisson getPoissonObjet( int x, int y )
+    {
+        return this.metier.getPoisson( x, y );
+    }
+
+
+    public boolean verifierClicValide( int x, int y )
+    {
+        Poisson p = this.getPoissonObjet( x, y );
+        return this.metier.estPoissonValidePourLabo( p );
+    }
+
+
+    public void validerEtAvancerEtude( int x, int y )
+    {
+        Poisson p = this.getPoissonObjet( x, y );
+        if ( p != null )
+        {
+            String message = this.metier.etudePoisson( p );
+            System.out.println( message );
+        }
+    }
+
+
+    public boolean estUnLaboActif()
+    {
+        return this.metier.estUnLaboActif();
+    }
+
+
     public static void main( String[] args )
     {
         new Controleur();
