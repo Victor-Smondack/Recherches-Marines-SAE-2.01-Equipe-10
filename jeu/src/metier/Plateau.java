@@ -315,8 +315,6 @@ public class Plateau
             }
         }
     }
-<<<<<<< HEAD
-=======
 
     // Initialise la grille, des poissons, des zones et des liaisons
 
@@ -374,6 +372,5 @@ public class Plateau
             this.lstLiaisons.add( l );
         }
     }
->>>>>>> main
 }
 
