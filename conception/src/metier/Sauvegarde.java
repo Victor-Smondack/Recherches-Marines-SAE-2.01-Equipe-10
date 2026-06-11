@@ -22,9 +22,9 @@ public class Sauvegarde
     }
 
 
-    private static void creerDossierSiInexistant()
+    private static void creerDossierSiInexistant(String nvDossier)
     {
-        File dossier = new File( DOSSIER );
+        File dossier = new File( DOSSIER + nvDossier);
         if ( !dossier.exists() )
         {
             dossier.mkdirs();
@@ -32,10 +32,10 @@ public class Sauvegarde
     }
 
 
-    public static void sauvegarderGrille( int longueur, int largeur, int nbSymbole, int tailleCases,int nbLabo )
+    public static void sauvegarderGrille( int longueur, int largeur, int nbSymbole, int tailleCases,int nbLabo, String nvDossier )
     {
-        creerDossierSiInexistant();
-        try (PrintWriter pw = new PrintWriter( new OutputStreamWriter( new FileOutputStream( DOSSIER + FICHIER_GRILLE ), "UTF8" ) ))
+        creerDossierSiInexistant(nvDossier);
+        try (PrintWriter pw = new PrintWriter( new OutputStreamWriter( new FileOutputStream( DOSSIER + nvDossier + "/" + FICHIER_GRILLE ), "UTF8" ) ))
         {
             pw.println( longueur + "\t" + largeur + "\t" + nbSymbole +"\t" + nbLabo + "\t" + tailleCases );
         } catch (IOException e)
@@ -45,10 +45,10 @@ public class Sauvegarde
     }
 
 
-    public static void sauvegarderPoissons( List<Poisson> lstPoissons )
+    public static void sauvegarderPoissons( List<Poisson> lstPoissons, String nvDossier )
     {
-        creerDossierSiInexistant();
-        try (PrintWriter pw = new PrintWriter( new OutputStreamWriter( new FileOutputStream( DOSSIER + FICHIER_POISSONS ), "UTF8" ) ))
+        creerDossierSiInexistant(nvDossier);
+        try (PrintWriter pw = new PrintWriter( new OutputStreamWriter( new FileOutputStream( DOSSIER + nvDossier + "/" + FICHIER_POISSONS ), "UTF8" ) ))
         {
             for ( Poisson p : lstPoissons )
             {
@@ -61,10 +61,10 @@ public class Sauvegarde
     }
 
 
-    public static void sauvegarderLiaisons( List<Liaison> lstLiaisons )
+    public static void sauvegarderLiaisons( List<Liaison> lstLiaisons, String nvDossier )
     {
-        creerDossierSiInexistant();
-        try (PrintWriter pw = new PrintWriter( new OutputStreamWriter( new FileOutputStream( DOSSIER + FICHIER_LIAISONS ), "UTF8" ) ))
+        creerDossierSiInexistant(nvDossier);
+        try (PrintWriter pw = new PrintWriter( new OutputStreamWriter( new FileOutputStream( DOSSIER + nvDossier + "/" + FICHIER_LIAISONS ), "UTF8" ) ))
         {
             for ( Liaison liaison : lstLiaisons )
             {
@@ -77,10 +77,10 @@ public class Sauvegarde
     }
 
 
-    public static void sauvegarderZones( Zone[][] grilleZone )
+    public static void sauvegarderZones( Zone[][] grilleZone, String nvDossier )
     {
-        creerDossierSiInexistant();
-        try (PrintWriter pw = new PrintWriter( new OutputStreamWriter( new FileOutputStream( DOSSIER + FICHIER_ZONES ), "UTF8" ) ))
+        creerDossierSiInexistant(nvDossier);
+        try (PrintWriter pw = new PrintWriter( new OutputStreamWriter( new FileOutputStream( DOSSIER + nvDossier + "/" + FICHIER_ZONES ), "UTF8" ) ))
         {
             for ( int i = 0; i < grilleZone.length; i++ )
             {
@@ -100,10 +100,10 @@ public class Sauvegarde
     }
 
 
-    public static void sauvegarderLabo( int[][] grilleLabo )
+    public static void sauvegarderLabo( int[][] grilleLabo, String nvDossier )
     {
-        creerDossierSiInexistant();
-        try (PrintWriter pw = new PrintWriter( new OutputStreamWriter( new FileOutputStream( DOSSIER + FICHIER_LABOS ), "UTF8" ) ))
+        creerDossierSiInexistant(nvDossier);
+        try (PrintWriter pw = new PrintWriter( new OutputStreamWriter( new FileOutputStream( DOSSIER + nvDossier + "/" + FICHIER_LABOS ), "UTF8" ) ))
         {
             for ( int i = 0; i < grilleLabo.length; i++ )
             {
