@@ -27,9 +27,9 @@ public class LireDonnees
     }
 
 
-    public void lireGrille()
+    public void lireGrille(String dossier)
     {
-        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + FICHIER_GRILLE ), "UTF8" ))
+        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + dossier + "/" + FICHIER_GRILLE ), "UTF8" ))
         {
             while ( scFic.hasNextLine() )
             {
@@ -51,9 +51,9 @@ public class LireDonnees
     }
 
 
-    public void lirePoissons()
+    public void lirePoissons(String dossier)
     {
-        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + FICHIER_POISSONS ), "UTF8" ))
+        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + dossier + "/" + FICHIER_POISSONS ), "UTF8" ))
         {
             while ( scFic.hasNextLine() )
             {
@@ -75,9 +75,9 @@ public class LireDonnees
     }
 
 
-    public void lireLiaisons()
+    public void lireLiaisons(String dossier)
     {
-        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + FICHIER_LIAISONS ), "UTF8" ))
+        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + dossier + "/" + FICHIER_LIAISONS ), "UTF8" ))
         {
             while ( scFic.hasNextLine() )
             {
@@ -97,9 +97,9 @@ public class LireDonnees
     }
 
 
-    public void lireZones()
+    public void lireZones(String dossier)
     {
-        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + FICHIER_ZONES ), "UTF8" ))
+        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + dossier + "/" + FICHIER_ZONES ), "UTF8" ))
         {
             System.out.println( "--- Lecture des Zones ---" );
             int y = 0;
@@ -125,9 +125,9 @@ public class LireDonnees
     }
 
 
-    public void lireLabo()
+    public void lireLabo(String dossier)
     {
-        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + FICHIER_LABOS ), "UTF8" ))
+        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + dossier + "/" + FICHIER_LABOS ), "UTF8" ))
         {
             System.out.println( "--- Lecture du Labo ---" );
             int y = 0;
