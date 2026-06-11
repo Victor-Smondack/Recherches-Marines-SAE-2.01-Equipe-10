@@ -21,7 +21,7 @@ public class Pioche
         {
             for (String couleur : couleurs)
             {
-                lstCartes.add(new Carte(id++, poissons[i], couleur, poissons[i] + "_" + couleur + ".png"));
+                lstCartes.add(new Carte(id++, poissons[i], couleur, poissons[i] + couleur + ".png"));
             }
         }
 
