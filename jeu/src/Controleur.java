@@ -51,19 +51,12 @@ public class Controleur
         // this.frameMenu.changerPanel( nbSymbole );
     }
 
-    public void getNbSymbole()
-    {
-        this.nbSymbole = this.metier.getNbSymbole();
-    }
-
-    public int getNbLabo()
-    {
-        return this.metier.getNbLabo();
-    }
-
 
     /*
-     * public void setPanelChoix( PanelChoix panelChoix ) { this.panelChoix = panelChoix; }
+     * public void getNbSymbole() { this.nbSymbole = this.metier.getNbSymbole(); }
+     */
+    /*
+     * public int getNbLabo() { return this.metier.getNbLabo(); }
      */
 
 
@@ -76,33 +69,15 @@ public class Controleur
      */
 
 
-    public void gommer( int x, int y )
-    {
-        this.metier.gommer( x, y );
-    }
-
-
     public Zone[][] getGrilleZone()
     {
         return this.metier.getGrilleZone();
     }
 
 
-    public boolean positionneZone( int indiceX, int indiceY, int numZone )
-    {
-        return this.metier.positionneZone( indiceX, indiceY, numZone );
-    }
-
-
     public boolean zoneExiste( int numZone )
     {
         return this.metier.zoneExiste( numZone );
-    }
-
-
-    public int[] positionneLabo( int indiceX, int indiceY, int numLabo )
-    {
-        return this.metier.positionneLabo( indiceX, indiceY, numLabo );
     }
 
 
@@ -121,12 +96,6 @@ public class Controleur
     public Poisson[][] getGrillePoisson()
     {
         return this.metier.getGrillePoisson();
-    }
-
-
-    public void positionnePoisson( int indiceX, int indiceY, String espece )
-    {
-        this.metier.positionnePoisson( indiceX, indiceY, espece );
     }
 
 

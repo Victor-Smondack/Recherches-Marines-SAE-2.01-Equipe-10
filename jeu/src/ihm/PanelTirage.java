@@ -35,7 +35,7 @@ public class PanelTirage extends JPanel implements ActionListener
         panelBtn                = new JPanel();
 
         this.carteTiree         = new JLabel(
-            new ImageIcon( new ImageIcon( "../../images/cartes/JokerNoir.png" ).getImage().getScaledInstance( 75, 200, Image.SCALE_SMOOTH ) ) );
+            new ImageIcon( new ImageIcon( "../images/cartes/JokerNoir.png" ).getImage().getScaledInstance( 75, 200, Image.SCALE_SMOOTH ) ) );
 
         this.lblPoints          = new JLabel( "Un nombre de points à déterminer" );
         this.lblCartesRestantes = new JLabel( "Il reste " + this.ctrl.getNbCartesRestantes() + " cartes dans la pioche" );
