@@ -3,8 +3,9 @@ package src.metier;
 public enum Couleur
 {
 		// Couleurs des zones
+
 		BLEU_GLACIAIRE("Océan Pacifique", 180, 230, 255),
-		BLEU_LAGON("Océan Atlantique", 64, 224, 208),
+		BLEU_LAGON("Océan Atlantique", 14, 154, 208),
 		TURQUOISE_OCEANIQUE("Océan Indien", 72, 209, 204),
 		BLEU_CARAIBES("Océan Austral", 0, 191, 255),
 		BLEU_AZUR_MARIN("Océan Arctique", 0, 127, 255),

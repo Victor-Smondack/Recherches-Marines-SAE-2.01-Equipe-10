@@ -47,13 +47,9 @@ public class PanelTable extends JPanel
                 this.cases[i][j] = new JLabel();
                 this.cases[i][j].setSize( tailleCase, tailleCase );
                 this.cases[i][j].setOpaque( true );
-                this.cases[i][j].setBackground( this.ctrl.getCouleur( i + 1 ) /*
-                                                                               * this . getCouleur ( this . getZone ( i, j ) )
-                                                                               */ );
-                this.cases[i][j].setIcon( new ImageIcon(
-                    new ImageIcon( "../images/poissons/Thon.png" /*
-                                                                  * this . ctrl . getImagePoisson ( This . getPoisson ( i , j ) )
-                                                                  */ ).getImage().getScaledInstance( tailleCase / 2, tailleCase / 2, Image.SCALE_SMOOTH ) ) );
+                this.cases[i][j].setBackground( this.ctrl.getCouleur( this.ctrl.getZoneIndice( i, j ) ) );
+                this.cases[i][j].setIcon( new ImageIcon( new ImageIcon( "../images/poissons/" + this.ctrl.getPoissonIndice( i, j ) + ".png" ).getImage()
+                    .getScaledInstance( (int) (tailleCase * 0.7), (int) (tailleCase * 0.7), Image.SCALE_SMOOTH ) ) );
                 this.cases[i][j].setHorizontalAlignment( SwingConstants.CENTER );
                 // this.cases[i][j].setBorder( BorderFactory.createLineBorder(
                 // this.getColor() ) );
@@ -72,12 +68,18 @@ public class PanelTable extends JPanel
 
 
     @Override
-    protected void paintChildren( Graphics g )
+    public void paintComponent( Graphics g )
     {
-        super.paintChildren( g );
+        super.paintComponent( g );
 
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setColor( Color.GRAY );
+        g2 = (Graphics2D) g;
+
+        if ( imgFond != null )
+        {
+            g2.drawImage( imgFond, 0, 0, this.getWidth(), this.getHeight(), this );
+        }
+
+        g2.setColor( Color.BLACK );
         g2.setStroke( new BasicStroke( 3 ) );
 
         int[][] liaisons = this.ctrl.getCoordonneesLiaisons();
@@ -107,20 +109,6 @@ public class PanelTable extends JPanel
         }
     }
 
-
-    @Override
-    public void paintComponent( Graphics g )
-    {
-        super.paintComponent( g );
-
-        g2 = (Graphics2D) g;
-
-        if ( imgFond != null )
-        {
-            g2.drawImage( imgFond, 0, 0, this.getWidth(), this.getHeight(), this );
-        }
-    }
-
     // Méthode privée qui détecte le clique de la souris sur la panel et fait //
     // l'action en
     // fonction de
@@ -141,7 +129,7 @@ public class PanelTable extends JPanel
                     for ( int j = 0; j < PanelTable.this.cases[i].length; j++ )
                         if ( PanelTable.this.cases[i][j] == lblClique )
                         {
-                            PanelTable.this.ctrl.getPoissonSelect( i, j );
+                            //Rien
                         }
                 }
 
