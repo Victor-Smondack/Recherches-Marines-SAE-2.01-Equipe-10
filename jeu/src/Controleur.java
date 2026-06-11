@@ -140,9 +140,15 @@ public class Controleur
     }
 
 
-    public String getPoissonSelect( int indiceX, int indiceY )
+    public String getPoissonIndice( int indiceX, int indiceY )
     {
-        return this.metier.getPoissonSelect( indiceX, indiceY );
+        return this.metier.getPoissonIndice( indiceX, indiceY );
+    }
+
+
+    public int getZoneIndice( int indiceX, int indiceY )
+    {
+        return this.metier.getZoneIndice( indiceX, indiceY );
     }
 
 

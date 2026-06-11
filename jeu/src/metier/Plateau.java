@@ -180,6 +180,7 @@ public class Plateau
 
     // Récupère la zone à une position donnée
 
+
     public Zone getZone( int x, int y )
     {
         return this.grilleZone[x][y];
@@ -223,19 +224,33 @@ public class Plateau
     // Récupère la zone à une position donnée
 
 
-    public String getPoissonSelect( int indiceX, int indiceY )
+    public String getPoissonIndice( int indiceX, int indiceY )
     {
         for ( int i = 0; i < this.grillePoisson.length; i++ )
         {
             for ( int j = 0; j < this.grillePoisson[i].length; j++ )
                 if ( this.grillePoisson[i][j] != null && i == indiceX && j == indiceY )
                 {
-                    System.out.println( this.grillePoisson[i][j].getEspece() );
                     return this.grillePoisson[i][j].getEspece();
                 }
         }
 
         return "";
+    }
+
+
+    public int getZoneIndice( int indiceX, int indiceY )
+    {
+        for ( int i = 0; i < this.grilleZone.length; i++ )
+        {
+            for ( int j = 0; j < this.grilleZone[i].length; j++ )
+                if ( this.grilleZone[i][j] != null && i == indiceX && j == indiceY )
+                {
+                    return this.grilleZone[i][j].getNumZone();
+                }
+        }
+
+        return -1;
     }
 
 
@@ -252,39 +267,31 @@ public class Plateau
 
     public boolean isZonePossible( int x, int y, int zone )
     {
-        // 1. Si la zone n'existe pas encore sur la grille, le premier clic est
-        // libre
         if ( !zoneExiste( zone ) )
         {
             return true;
         }
 
-        // 2. Vérification à Gauche
         if ( x > 0 && this.grilleZone[x - 1][y] != null && this.grilleZone[x - 1][y].getNumZone() == zone )
         {
             return true;
         }
 
-        // 3. Vérification à Droite
         if ( x < this.grilleZone.length - 1 && this.grilleZone[x + 1][y] != null && this.grilleZone[x + 1][y].getNumZone() == zone )
         {
             return true;
         }
 
-        // 4. Vérification en Haut
         if ( y > 0 && this.grilleZone[x][y - 1] != null && this.grilleZone[x][y - 1].getNumZone() == zone )
         {
             return true;
         }
 
-        // 5. Vérification en Bas (Correction de la limite de l'axe Y)
         if ( y < this.grilleZone[0].length - 1 && this.grilleZone[x][y + 1] != null && this.grilleZone[x][y + 1].getNumZone() == zone )
         {
             return true;
         }
 
-        // Si la zone existe déjà mais qu'aucune case autour ne correspond, on
-        // refuse le placement
         return false;
     }
 
