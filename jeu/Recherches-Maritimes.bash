@@ -11,7 +11,9 @@ cd ..
 if [ $EXIT_CODE -eq 0 ]; then
     echo -e "\e[32mCompilation réussie ! Lancement du programme...\e[0m"
     echo "--------------------------------"
-    java -cp ./class src.Controleur
+    cd class || exit 1
+    java -cp . src.Controleur
+    cd ..
 else
     echo -e "\e[31mErreur lors de la compilation.\e[0m"
 fi
