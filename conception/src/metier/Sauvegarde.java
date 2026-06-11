@@ -68,7 +68,7 @@ public class Sauvegarde
         {
             for ( Liaison liaison : lstLiaisons )
             {
-                pw.println( liaison.getP1().getId() + "\t" + liaison.getP2().getId() );
+                pw.println( liaison.getP1().getX() + "\t" + liaison.getP1().getY() + "\t" + liaison.getP2().getX() + "\t" + liaison.getP2().getY() );
             }
         } catch (IOException e)
         {
