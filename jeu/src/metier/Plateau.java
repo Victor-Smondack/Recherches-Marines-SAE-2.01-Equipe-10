@@ -320,12 +320,14 @@ public class Plateau
 
     public String etudePoisson( Poisson p )
     {
-        if ( p.getEstLab() == true && this.progressionLabo == null )
+        // Correction ici aussi pour l'initialisation
+        if ( this.getLaboIndice( p.getX(), p.getY() ) != -1 && this.progressionLabo == null )
         {
             this.progressionLabo = new ProgressionLabo( p );
-            return "Début de l'étude du laboratoire sur un(e) " + p.getEspece() + " avec le laboratoire " + p.getCouleurLab();
+            return "Début de l'étude du laboratoire sur un(e) " + p.getEspece();
         } else
         {
+            // ... (le reste de ton code ne change pas)
             if ( this.progressionLabo.getExtremite2() == null && estLie( this.progressionLabo.getExtremite1(), p ) )
             {
                 this.progressionLabo.setExtremite2( p );
@@ -347,6 +349,31 @@ public class Plateau
                 }
             }
         }
+    }
+
+
+    public boolean estPoissonValidePourLabo( Poisson p )
+    {
+        if ( p == null )
+            return false;
+
+        if ( this.progressionLabo == null )
+        {
+            return this.getLaboIndice( p.getX(), p.getY() ) != -1;
+        }
+
+        if ( this.progressionLabo.getExtremite2() == null )
+        {
+            return this.estLie( this.progressionLabo.getExtremite1(), p );
+        }
+
+        return this.estLie( this.progressionLabo.getExtremite1(), p ) || this.estLie( this.progressionLabo.getExtremite2(), p );
+    }
+
+
+    public boolean estUnLaboActif()
+    {
+        return this.progressionLabo != null;
     }
 
     // Initialise la grille, des poissons, des zones et des liaisons
