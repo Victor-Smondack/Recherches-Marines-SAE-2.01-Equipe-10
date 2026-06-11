@@ -4,6 +4,8 @@
 ./ihm/PanelTirage.java
 ./ihm/FrameTable.java
 ./ihm/PanelTable.java
+./ihm/FrameDebut.java
+./ihm/PanelDebut.java
 
 ./metier/Couleur.java
 ./metier/Plateau.java

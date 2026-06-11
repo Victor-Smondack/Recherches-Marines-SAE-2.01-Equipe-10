@@ -28,4 +28,8 @@ public class PanelDebut extends JPanel implements ActionListener
 
         this.add( btnValider, BorderLayout.NORTH );
     }
+
+    public void actionPerformed(ActionEvent e)
+    {
+    }
 }

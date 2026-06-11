@@ -2,6 +2,9 @@ package src.ihm;
 
 import src.Controleur;
 
+import javax.swing.*;
+
+
 public class FrameDebut extends JFrame
 {
     private Controleur ctrl;
