@@ -16,6 +16,10 @@ public class Plateau
     private List<Poisson>   lstPoisson;
     private char[][]        grilleLiaisons;
     private int[][]         grilleLabo;
+    private int             longueur;
+    private int             largeur;
+    private int             nbSymbole;
+    private int             tailleCases;
     private String[]        espece = {
         "Saumon",
         "Thon",
@@ -142,6 +146,7 @@ public class Plateau
 
     // Récupère les liaisons à une position donnée
 
+
     public Liaison getLiaisons( int x, int y )
     {
         for ( Liaison l : this.lstLiaisons )
@@ -163,6 +168,7 @@ public class Plateau
     }
 
     // Vérifie si deux poissons sont liés
+
 
     public boolean estLie( Poisson p1, Poisson p2 )
     {
@@ -192,6 +198,7 @@ public class Plateau
 
     // Vérifie si une zone existe à une position donnée
 
+
     public boolean zoneExiste( int numZone )
     {
         if ( this.grilleZone == null )
@@ -211,6 +218,7 @@ public class Plateau
     }
 
     // Échange la position de deux poissons
+
 
     public String[] getEspeces()
     {
@@ -244,6 +252,24 @@ public class Plateau
                 {
                     return this.grilleZone[i][j].getNumZone();
                 }
+        }
+
+        return -1;
+    }
+
+
+    public int getLaboIndice( int indiceX, int indiceY )
+    {
+        for ( int i = 0; i < this.grilleLabo.length; i++ )
+        {
+            for ( int j = 0; j < this.grilleLabo[i].length; j++ )
+            {
+
+                if ( this.grilleLabo[i][j] != 0 && i == indiceX && j == indiceY )
+                {
+                    return this.grilleLabo[i][j];
+                }
+            }
         }
 
         return -1;
@@ -291,7 +317,8 @@ public class Plateau
         return false;
     }
 
-    public String etudePoisson( Poisson p)
+
+    public String etudePoisson( Poisson p )
     {
         if ( p.getEstLab() == true && this.progressionLabo == null )
         {
@@ -299,19 +326,18 @@ public class Plateau
             return "Début de l'étude du laboratoire sur un(e) " + p.getEspece() + " avec le laboratoire " + p.getCouleurLab();
         } else
         {
-            if (this.progressionLabo.getExtremite2() == null && estLie(this.progressionLabo.getExtremite1(), p))
+            if ( this.progressionLabo.getExtremite2() == null && estLie( this.progressionLabo.getExtremite1(), p ) )
             {
                 this.progressionLabo.setExtremite2( p );
                 return "Première étude du laboratoire sur un(e) " + p.getEspece();
 
             } else
             {
-                if (estLie(this.progressionLabo.getExtremite1(),p))
+                if ( estLie( this.progressionLabo.getExtremite1(), p ) )
                 {
                     this.progressionLabo.setExtremite1( p );
                     return "Nouvelle étude du laboratoire sur un(e) " + p.getEspece();
-                }
-                else if (estLie(this.progressionLabo.getExtremite2(), p))
+                } else if ( estLie( this.progressionLabo.getExtremite2(), p ) )
                 {
                     this.progressionLabo.setExtremite2( p );
                     return "Nouvelle étude du laboratoire sur un(e) " + p.getEspece();
@@ -328,6 +354,10 @@ public class Plateau
 
     public void initTableau( int longueur, int largeur, int nbSymbole, int nbLabo, int tailleCases )
     {
+        this.longueur       = longueur;
+        this.largeur        = largeur;
+        this.nbSymbole      = nbSymbole;
+        this.tailleCases    = tailleCases;
         this.grillePoisson  = new Poisson[longueur][largeur];
         this.grilleLiaisons = new char[longueur][largeur];
         this.grilleZone     = new Zone[longueur][largeur];
@@ -379,5 +409,28 @@ public class Plateau
             this.lstLiaisons.add( l );
         }
     }
-}
 
+
+    public int getLongueur()
+    {
+        return this.longueur;
+    }
+
+
+    public int getLargeur()
+    {
+        return this.largeur;
+    }
+
+
+    public int getNbSymbole()
+    {
+        return this.nbSymbole;
+    }
+
+
+    public int getTailleCase()
+    {
+        return this.tailleCases;
+    }
+}
