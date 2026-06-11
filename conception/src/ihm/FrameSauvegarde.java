@@ -10,7 +10,7 @@ public class FrameSauvegarde extends JFrame
     private Controleur      ctrl;
 
 
-    public FrameSauvegarde(Controleur ctrl)
+    public FrameSauvegarde( Controleur ctrl)
     {
         this.ctrl = ctrl;
         

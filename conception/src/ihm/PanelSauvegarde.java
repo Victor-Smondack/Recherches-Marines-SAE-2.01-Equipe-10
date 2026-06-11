@@ -22,7 +22,6 @@ public class PanelSauvegarde extends JPanel implements ActionListener
     {
         JPanel panelBouton;
         
-
         this.frameSauvegarde = frameSauvegarde;
         this.ctrl            = ctrl;
 
@@ -38,7 +37,7 @@ public class PanelSauvegarde extends JPanel implements ActionListener
 
         //Positionnement des composants
 
-        this.add( new JLabel( "Etes-vous sur d'enregistrez votre plateau ?" ) );
+        this.add( new JLabel( "Etes-vous sur d'enregistrez votre plateau ?", javax.swing.SwingConstants.CENTER ) );
         
         panelBouton.add( btnOk       );
         panelBouton.add( btnRetour   );
@@ -56,7 +55,9 @@ public class PanelSauvegarde extends JPanel implements ActionListener
         if ( e.getSource() == this.btnOk )
         {
             this.ctrl.sauvegarder();
-            this.frameSauvegarde.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+            this.ctrl.getFrameMenu ().dispose();
+            this.ctrl.getFrameTable().dispose();
+            this.frameSauvegarde     .dispose();
             
         }
         if ( e.getSource() == this.btnRetour )
