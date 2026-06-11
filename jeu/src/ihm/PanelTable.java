@@ -10,12 +10,14 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import src.Controleur;
+import src.metier.Carte;
 
 public class PanelTable extends JPanel
 {
@@ -51,18 +53,20 @@ public class PanelTable extends JPanel
                 this.cases[i][j].setIcon( new ImageIcon( new ImageIcon( "../images/poissons/" + this.ctrl.getPoissonIndice( i, j ) + ".png" ).getImage()
                     .getScaledInstance( (int) (tailleCase * 0.7), (int) (tailleCase * 0.7), Image.SCALE_SMOOTH ) ) );
                 this.cases[i][j].setHorizontalAlignment( SwingConstants.CENTER );
-                // this.cases[i][j].setBorder( BorderFactory.createLineBorder(
-                // this.getColor() ) );
+
+                int numLabo = this.ctrl.getLaboIndice( i, j );
+                if ( numLabo != -1 )
+                {
+                    this.cases[i][j].setBorder( BorderFactory.createLineBorder( this.ctrl.getCouleur( 9 + this.ctrl.getLaboIndice( i, j ) ), 4 ) );
+                }
 
 
                 this.add( this.cases[i][j] );
                 this.cases[i][j].addMouseListener( souris );
-
             }
         }
 
         PanelTable.this.repaint();
-
         this.setVisible( true );
     }
 
@@ -109,11 +113,6 @@ public class PanelTable extends JPanel
         }
     }
 
-    // Méthode privée qui détecte le clique de la souris sur la panel et fait //
-    // l'action en
-    // fonction de
-    // ce qui
-    // est selectionné
 
     private class GereSouris extends MouseAdapter
     {
@@ -123,19 +122,29 @@ public class PanelTable extends JPanel
             Component composantClique = (Component) evt.getSource();
             if ( composantClique instanceof JLabel lblClique )
             {
+                Carte carteAffichee = PanelTable.this.ctrl.getCarteVisible();
+
+                if ( carteAffichee == null )
+                    return;
 
                 for ( int i = 0; i < PanelTable.this.cases.length; i++ )
                 {
                     for ( int j = 0; j < PanelTable.this.cases[i].length; j++ )
+                    {
                         if ( PanelTable.this.cases[i][j] == lblClique )
                         {
-                            //Rien
+                            String poissonCase = PanelTable.this.ctrl.getPoissonIndice( i, j );
+                            String nomCarte    = carteAffichee.getNom();
+
+
+                            if ( poissonCase.equals( nomCarte ) || nomCarte.equals( "Joker" ) && poissonCase.equals( "" ) == false )
+                            {
+                                System.out.println( "Tiri" );
+                            }
                         }
+                    }
                 }
-
-
             }
         }
     }
 }
-
