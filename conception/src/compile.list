@@ -3,7 +3,8 @@
 ./ihm/FrameMenu.java
 ./ihm/PanelMenu.java
 ./ihm/PanelChoix.java
-
+./ihm/FrameSauvegarde.java
+./ihm/PanelSauvegarde.java
 ./ihm/FrameTable.java
 ./ihm/PanelTable.java
 

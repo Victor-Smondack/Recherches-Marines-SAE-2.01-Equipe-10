@@ -44,6 +44,14 @@ public class Controleur
         this.frameTable = new FrameTable( this, longueur, largeur, tailleCase );
         this.frameMenu.changerPanel( nbSymbole );
     }
+    public FrameTable getFrameTable()
+    {
+        return this.frameTable;
+    }
+    public FrameMenu getFrameMenu()
+    {
+        return this.frameMenu;
+    }
 
     public int getNbSymbole()
     {
@@ -239,7 +247,7 @@ public class Controleur
     }
 
 
-    public void Sauvergarder()
+    public void sauvegarder()
     {
         this.metier.Sauvegarder(this.nbSymbole, this.nbLabo);
     }

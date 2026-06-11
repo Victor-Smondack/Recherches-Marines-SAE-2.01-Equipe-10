@@ -43,8 +43,9 @@ public class PanelChoix extends JPanel implements ActionListener
 	private int				numLaboActive		= 1;
 
 
+
 	// Création du panel des choix de positionnement poissons labo zone
-	public PanelChoix(Controleur ctrl, int nbSymbole)
+	public PanelChoix( Controleur ctrl, int nbSymbole)
 	{
 		this.ctrl = ctrl;
 		this.ctrl.setPanelChoix( this );
@@ -194,7 +195,7 @@ public class PanelChoix extends JPanel implements ActionListener
 		// Si le bouton valider est cliqué on sauvegarde
 		if ( e.getSource() == this.btnValider )
 		{
-			this.ctrl.Sauvergarder();
+			FrameSauvegarde frameSauvegarde = new FrameSauvegarde( this.ctrl);
 			return;
 		}
 
