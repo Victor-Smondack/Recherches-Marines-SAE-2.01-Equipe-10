@@ -2,7 +2,6 @@ package src.ihm;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -14,13 +13,12 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import src.Controleur;
+import src.metier.Poisson;
 
 public class PanelTable extends JPanel
 {
-    // Attributs
     private int        longueur;
     private int        largeur;
     private int        tailleCase;
@@ -28,7 +26,6 @@ public class PanelTable extends JPanel
     private JLabel[][] cases;
     private Controleur ctrl;
 
-    // Constructeurs du panel
     public PanelTable(Controleur ctrl, int longueur, int largeur, int tailleCase)
     {
         this.longueur   = longueur;
@@ -61,8 +58,7 @@ public class PanelTable extends JPanel
 
 
     @Override
-    // Méthode pour dessiner les liaisons
-    protected void paintComponent( Graphics g )
+    protected void paintChildren( Graphics g )
     {
         super.paintChildren( g );
 
@@ -95,19 +91,43 @@ public class PanelTable extends JPanel
                 }
             }
         }
-    }
 
-    // Méthode privée qui détecte le clique de la souris sur la panel et fait
-    // l'action en fonction de ce qui est selectionné
+        Poisson[][] grillePoisson = this.ctrl.getGrillePoisson();
+        if ( grillePoisson != null )
+        {
+            for ( int i = 0; i < this.longueur; i++ )
+            {
+                for ( int j = 0; j < this.largeur; j++ )
+                {
+                    Poisson p = grillePoisson[i][j];
+                    if ( p != null )
+                    {
+                        String nomPoisson = p.getEspece();
+                        if ( nomPoisson != null && !nomPoisson.equals( "" ) )
+                        {
+                            JLabel lbl  = this.cases[i][j];
+                            Image  img  = new ImageIcon( "../images/poissons/" + nomPoisson + ".png" ).getImage();
+
+                            int    imgW = tailleCase / 2;
+                            int    imgH = tailleCase / 2;
+
+                            int    imgX = lbl.getX() + (lbl.getWidth() - imgW) / 2;
+                            int    imgY = lbl.getY() + (lbl.getHeight() - imgH) / 2;
+
+                            g2.drawImage( img, imgX, imgY, imgW, imgH, null );
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     private class GereSouris extends MouseAdapter
     {
         @Override
         public void mousePressed( MouseEvent evt )
         {
-            Component composantClique = (Component) evt.getSource();
-
-            if ( composantClique instanceof JLabel lblClique )
+            if ( evt.getSource() instanceof JLabel lblClique )
             {
                 if ( tailleCase < 2 )
                 {
@@ -172,7 +192,6 @@ public class PanelTable extends JPanel
                                 {
                                     if ( lblClique == PanelTable.this.cases[i][j] )
                                     {
-                                        lblClique.setIcon( null );
                                         lblClique.setBackground( null );
                                         lblClique.setBorder( BorderFactory.createLineBorder( Color.LIGHT_GRAY ) );
 
@@ -199,9 +218,6 @@ public class PanelTable extends JPanel
                                     {
                                         if ( lblClique == PanelTable.this.cases[i][j] )
                                         {
-                                            lblClique.setIcon( new ImageIcon( new ImageIcon( "../images/poissons/" + poissonSelected + ".png" ).getImage()
-                                                .getScaledInstance( tailleCase / 2, tailleCase / 2, Image.SCALE_SMOOTH ) ) );
-                                            lblClique.setHorizontalAlignment( SwingConstants.CENTER );
                                             PanelTable.this.ctrl.positionnePoisson( i, j, poissonSelected );
                                             break;
                                         }
@@ -221,19 +237,15 @@ public class PanelTable extends JPanel
         @Override
         public void mouseDragged( MouseEvent evt )
         {
-            Component composantClique = (Component) evt.getSource();
-
-            if ( PanelTable.this.ctrl.isZoneSelect() )
+            if ( PanelTable.this.ctrl.isZoneSelect() && evt.getSource() instanceof JLabel lblDepart )
             {
-                int    zoneActive = PanelTable.this.ctrl.getZoneActive();
+                int zoneActive = PanelTable.this.ctrl.getZoneActive();
 
-                JLabel lblDepart  = (JLabel) evt.getSource();
+                int sourisX    = lblDepart.getX() + evt.getX();
+                int sourisY    = lblDepart.getY() + evt.getY();
 
-                int    sourisX    = lblDepart.getX() + evt.getX();
-                int    sourisY    = lblDepart.getY() + evt.getY();
-
-                int    j          = sourisX / tailleCase;
-                int    i          = sourisY / tailleCase;
+                int j          = sourisX / tailleCase;
+                int i          = sourisY / tailleCase;
 
                 if ( i >= 0 && i < PanelTable.this.longueur && j >= 0 && j < PanelTable.this.largeur )
                 {
@@ -242,11 +254,10 @@ public class PanelTable extends JPanel
                         PanelTable.this.cases[i][j].setBackground( PanelTable.this.ctrl.getCouleur( zoneActive ) );
                     }
                 }
-            }
 
-            PanelTable.this.ctrl.genererLiaisons();
-            PanelTable.this.repaint();
+                PanelTable.this.ctrl.genererLiaisons();
+                PanelTable.this.repaint();
+            }
         }
     }
 }
-
