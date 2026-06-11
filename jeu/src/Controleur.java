@@ -5,7 +5,7 @@ import java.util.List;
 
 import src.ihm.FrameTable;
 import src.ihm.FrameTirage;
-import src.metier.Carte;
+import src.metier.Pioche;
 import src.metier.Couleur;
 import src.metier.Liaison;
 import src.metier.LireDonnees;
@@ -20,7 +20,7 @@ public class Controleur
     private FrameTirage frameTirage;
     private FrameTable  frameTable;
     private Plateau     metier;
-    private Carte       carte;
+    private Pioche       pioche;
 
 
     public Controleur()
@@ -51,19 +51,12 @@ public class Controleur
         // this.frameMenu.changerPanel( nbSymbole );
     }
 
-    public void getNbSymbole()
-    {
-        this.nbSymbole = this.metier.getNbSymbole();
-    }
-
-    public int getNbLabo()
-    {
-        return this.metier.getNbLabo();
-    }
-
 
     /*
-     * public void setPanelChoix( PanelChoix panelChoix ) { this.panelChoix = panelChoix; }
+     * public void getNbSymbole() { this.nbSymbole = this.metier.getNbSymbole(); }
+     */
+    /*
+     * public int getNbLabo() { return this.metier.getNbLabo(); }
      */
 
 
@@ -76,33 +69,15 @@ public class Controleur
      */
 
 
-    public void gommer( int x, int y )
-    {
-        this.metier.gommer( x, y );
-    }
-
-
     public Zone[][] getGrilleZone()
     {
         return this.metier.getGrilleZone();
     }
 
 
-    public boolean positionneZone( int indiceX, int indiceY, int numZone )
-    {
-        return this.metier.positionneZone( indiceX, indiceY, numZone );
-    }
-
-
     public boolean zoneExiste( int numZone )
     {
         return this.metier.zoneExiste( numZone );
-    }
-
-
-    public int[] positionneLabo( int indiceX, int indiceY, int numLabo )
-    {
-        return this.metier.positionneLabo( indiceX, indiceY, numLabo );
     }
 
 
@@ -121,12 +96,6 @@ public class Controleur
     public Poisson[][] getGrillePoisson()
     {
         return this.metier.getGrillePoisson();
-    }
-
-
-    public void positionnePoisson( int indiceX, int indiceY, String espece )
-    {
-        this.metier.positionnePoisson( indiceX, indiceY, espece );
     }
 
 
@@ -179,25 +148,25 @@ public class Controleur
 
     public String piocherCarte()
     {
-        return this.carte.piocherCarte();
+        return this.pioche.piocher();
     }
 
 
     public void melangerPioche()
     {
-        this.carte.melangerPioche();
+        this.pioche.melangerPioche();
     }
 
 
     public void resetPioche()
     {
-        this.carte.resetPioche();
+        this.pioche.resetPioche();
     }
 
 
     public int getNbCartesRestantes()
     {
-        return this.carte.getNbCartesRestantes();
+        return this.pioche.getNbCartesRestantes();
     }
 
 

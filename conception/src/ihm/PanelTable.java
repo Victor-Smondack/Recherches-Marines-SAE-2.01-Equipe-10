@@ -54,6 +54,7 @@ public class PanelTable extends JPanel
 
                 this.add( this.cases[i][j] );
                 this.cases[i][j].addMouseListener( souris );
+                this.cases[i][j].addMouseMotionListener( souris );
             }
         }
     }
@@ -61,7 +62,7 @@ public class PanelTable extends JPanel
 
     @Override
     // Méthode pour dessiner les liaisons
-    protected void paintChildren( Graphics g )
+    protected void paintComponent( Graphics g )
     {
         super.paintChildren( g );
 
@@ -80,8 +81,7 @@ public class PanelTable extends JPanel
                 int x2 = l[2];
                 int y2 = l[3];
 
-                if ( x1 >= 0 && x1 < longueur && y1 >= 0 && y1 < largeur &&
-                    x2 >= 0 && x2 < longueur && y2 >= 0 && y2 < largeur )
+                if ( x1 >= 0 && x1 < longueur && y1 >= 0 && y1 < largeur && x2 >= 0 && x2 < longueur && y2 >= 0 && y2 < largeur )
                 {
                     JLabel lbl1   = this.cases[x1][y1];
                     JLabel lbl2   = this.cases[x2][y2];
@@ -152,8 +152,7 @@ public class PanelTable extends JPanel
                                         {
                                             int oldX = anciennesCoords[0];
                                             int oldY = anciennesCoords[1];
-                                            PanelTable.this.cases[oldX][oldY]
-                                                .setBorder( BorderFactory.createLineBorder( Color.LIGHT_GRAY ) );
+                                            PanelTable.this.cases[oldX][oldY].setBorder( BorderFactory.createLineBorder( Color.LIGHT_GRAY ) );
                                         }
 
                                         Color colLabo = PanelTable.this.ctrl.getCouleur( 9 + laboActive );
@@ -200,16 +199,8 @@ public class PanelTable extends JPanel
                                     {
                                         if ( lblClique == PanelTable.this.cases[i][j] )
                                         {
-                                            lblClique.setIcon(
-                                                               new ImageIcon(
-                                                                   new ImageIcon( "./src/ihm/images/poissons/"
-                                                                       + poissonSelected
-                                                                       + ".png" )
-                                                                           .getImage()
-                                                                           .getScaledInstance(
-                                                                                               tailleCase / 2,
-                                                                                               tailleCase / 2,
-                                                                                               Image.SCALE_SMOOTH ) ) );
+                                            lblClique.setIcon( new ImageIcon( new ImageIcon( "../images/poissons/" + poissonSelected + ".png" ).getImage()
+                                                .getScaledInstance( tailleCase / 2, tailleCase / 2, Image.SCALE_SMOOTH ) ) );
                                             lblClique.setHorizontalAlignment( SwingConstants.CENTER );
                                             PanelTable.this.ctrl.positionnePoisson( i, j, poissonSelected );
                                             break;
@@ -225,5 +216,37 @@ public class PanelTable extends JPanel
                 PanelTable.this.repaint();
             }
         }
+
+
+        @Override
+        public void mouseDragged( MouseEvent evt )
+        {
+            Component composantClique = (Component) evt.getSource();
+
+            if ( PanelTable.this.ctrl.isZoneSelect() )
+            {
+                int    zoneActive = PanelTable.this.ctrl.getZoneActive();
+
+                JLabel lblDepart  = (JLabel) evt.getSource();
+
+                int    sourisX    = lblDepart.getX() + evt.getX();
+                int    sourisY    = lblDepart.getY() + evt.getY();
+
+                int    j          = sourisX / tailleCase;
+                int    i          = sourisY / tailleCase;
+
+                if ( i >= 0 && i < PanelTable.this.longueur && j >= 0 && j < PanelTable.this.largeur )
+                {
+                    if ( PanelTable.this.ctrl.positionneZone( i, j, zoneActive ) )
+                    {
+                        PanelTable.this.cases[i][j].setBackground( PanelTable.this.ctrl.getCouleur( zoneActive ) );
+                    }
+                }
+            }
+
+            PanelTable.this.ctrl.genererLiaisons();
+            PanelTable.this.repaint();
+        }
     }
 }
+

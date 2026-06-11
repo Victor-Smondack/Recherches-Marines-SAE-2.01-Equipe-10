@@ -32,31 +32,30 @@ public class PanelTirage extends JPanel implements ActionListener
         this.add( new JLabel( "Panel Tirage" ) );
 
         // Création des composants
-        panelBtn = new JPanel ();
+        panelBtn                = new JPanel();
 
         this.carteTiree         = new JLabel(
-            new ImageIcon( new ImageIcon( "./src/ihm/images/cartes/JokerNoir.png" ).getImage()
-                .getScaledInstance( 75, 200, Image.SCALE_SMOOTH ) ) );
+            new ImageIcon( new ImageIcon( "../images/cartes/JokerNoir.png" ).getImage().getScaledInstance( 75, 200, Image.SCALE_SMOOTH ) ) );
 
         this.lblPoints          = new JLabel( "Un nombre de points à déterminer" );
-        this.lblCartesRestantes = new JLabel( "Il reste "+ this.ctrl.getNbCartesRestantes() + " cartes dans la pioche" );
+        this.lblCartesRestantes = new JLabel( "Il reste " + this.ctrl.getNbCartesRestantes() + " cartes dans la pioche" );
 
         this.btnTirer           = new JButton( "Pioche" );
-        this.btnLancerManche    = new JButton( "Début Manche");
+        this.btnLancerManche    = new JButton( "Début Manche" );
 
         // Positionnement des composants
-        this    .add( this.carteTiree );
+        this.add( this.carteTiree );
 
-        this    .add( this.lblPoints );
+        this.add( this.lblPoints );
 
-        this    .add( this.lblCartesRestantes );
+        this.add( this.lblCartesRestantes );
 
         panelBtn.add( this.btnTirer );
         panelBtn.add( this.btnLancerManche );
-        this    .add( panelBtn );
+        this.add( panelBtn );
 
         // Ajout de l'action du bouton
-        this.btnTirer       .addActionListener( this );
+        this.btnTirer.addActionListener( this );
         this.btnLancerManche.addActionListener( this );
 
     }
@@ -70,17 +69,15 @@ public class PanelTirage extends JPanel implements ActionListener
         {
             System.out.println( "Une carte est tirée" );
             this.ctrl.piocherCarte();
-            this.lblCartesRestantes.setText( "Il reste "+ this.ctrl.getNbCartesRestantes() + " cartes dans la pioche" );
+            this.lblCartesRestantes.setText( "Il reste " + this.ctrl.getNbCartesRestantes() + " cartes dans la pioche" );
         }
         if ( e.getSource() == this.btnLancerManche )
         {
-            System.out.println( "Début de la Manche");
+            System.out.println( "Début de la Manche" );
             this.ctrl.resetPioche();
             this.ctrl.melangerPioche();
-            this.lblCartesRestantes.setText( "Il reste "+ this.ctrl.getNbCartesRestantes() + " cartes dans la pioche" );
+            this.lblCartesRestantes.setText( "Il reste " + this.ctrl.getNbCartesRestantes() + " cartes dans la pioche" );
         }
-    
-        
 
 
     }

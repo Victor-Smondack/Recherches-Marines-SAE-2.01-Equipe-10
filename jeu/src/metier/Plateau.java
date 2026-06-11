@@ -315,5 +315,65 @@ public class Plateau
             }
         }
     }
+<<<<<<< HEAD
+=======
+
+    // Initialise la grille, des poissons, des zones et des liaisons
+
+
+    public void initTableau( int longueur, int largeur, int nbSymbole, int nbLabo, int tailleCases )
+    {
+        this.grillePoisson  = new Poisson[longueur][largeur];
+        this.grilleLiaisons = new char[longueur][largeur];
+        this.grilleZone     = new Zone[longueur][largeur];
+        this.grilleLabo     = new int[longueur][largeur];
+    }
+
+
+    public void initPoisson( int id, String espece, int x, int y )
+    {
+        Poisson p = new Poisson( espece, x, y );
+        this.grillePoisson[x][y] = p;
+        this.lstPoisson.add( p );
+    }
+
+
+    public void initZone( int numZone, int x, int y )
+    {
+        Zone z = new Zone( numZone, x, y );
+        this.grilleZone[x][y] = z;
+    }
+
+
+    public void initLabo( int numLabo, int x, int y )
+    {
+        this.grilleLabo[x][y] = numLabo;
+    }
+
+
+    public void initLiaison( int id1, int id2 )
+    {
+        Poisson p1 = null;
+        Poisson p2 = null;
+
+        for ( Poisson p : this.lstPoisson )
+        {
+            if ( p.getId() == id1 )
+            {
+                p1 = p;
+            }
+            if ( p.getId() == id2 )
+            {
+                p2 = p;
+            }
+        }
+
+        if ( p1 != null && p2 != null )
+        {
+            Liaison l = new Liaison( p1, p2 );
+            this.lstLiaisons.add( l );
+        }
+    }
+>>>>>>> main
 }
 
