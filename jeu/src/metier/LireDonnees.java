@@ -39,8 +39,9 @@ public class LireDonnees
                     int longueur  = Integer.parseInt( dec[0] );
                     int largeur   = Integer.parseInt( dec[1] );
                     int nbSymbole = Integer.parseInt( dec[2] );
-                    int taille    = Integer.parseInt( dec[3] );
-                    this.plateau.initTableau( longueur, largeur, nbSymbole, taille );
+                    int nbLabo    = Integer.parseInt( dec[3] );
+                    int taille    = Integer.parseInt( dec[4] );
+                    this.plateau.initTableau( longueur, largeur, nbSymbole, nbLabo, taille );
                 }
             }
         } catch (IOException e)

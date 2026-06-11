@@ -323,7 +323,7 @@ public class Plateau
     // Initialise la grille, des poissons, des zones et des liaisons
 
 
-    public void initTableau( int longueur, int largeur, int nbSymbole, int tailleCases )
+    public void initTableau( int longueur, int largeur, int nbSymbole, int nbLabo, int tailleCases )
     {
         this.grillePoisson  = new Poisson[longueur][largeur];
         this.grilleLiaisons = new char[longueur][largeur];

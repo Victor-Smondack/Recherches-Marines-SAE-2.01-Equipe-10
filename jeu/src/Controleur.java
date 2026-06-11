@@ -5,7 +5,7 @@ import java.util.List;
 
 import src.ihm.FrameTable;
 import src.ihm.FrameTirage;
-import src.metier.Carte;
+import src.metier.Pioche;
 import src.metier.Couleur;
 import src.metier.Liaison;
 import src.metier.LireDonnees;
@@ -20,7 +20,7 @@ public class Controleur
     private FrameTirage frameTirage;
     private FrameTable  frameTable;
     private Plateau     metier;
-    private Carte       carte;
+    private Pioche       pioche;
 
 
     public Controleur()
@@ -148,25 +148,25 @@ public class Controleur
 
     public String piocherCarte()
     {
-        return this.carte.piocherCarte();
+        return this.pioche.piocher();
     }
 
 
     public void melangerPioche()
     {
-        this.carte.melangerPioche();
+        this.pioche.melangerPioche();
     }
 
 
     public void resetPioche()
     {
-        this.carte.resetPioche();
+        this.pioche.resetPioche();
     }
 
 
     public int getNbCartesRestantes()
     {
-        return this.carte.getNbCartesRestantes();
+        return this.pioche.getNbCartesRestantes();
     }
 
 
