@@ -142,7 +142,6 @@ public class Plateau
 
     // Récupère les liaisons à une position donnée
 
-
     public Liaison getLiaisons( int x, int y )
     {
         for ( Liaison l : this.lstLiaisons )
@@ -164,7 +163,6 @@ public class Plateau
     }
 
     // Vérifie si deux poissons sont liés
-
 
     public boolean estLie( Poisson p1, Poisson p2 )
     {
@@ -192,8 +190,7 @@ public class Plateau
         return this.grilleZone;
     }
 
-    // Place une zone à une position donnée
-
+    // Vérifie si une zone existe à une position donnée
 
     public boolean zoneExiste( int numZone )
     {
@@ -215,13 +212,12 @@ public class Plateau
 
     // Échange la position de deux poissons
 
-
     public String[] getEspeces()
     {
         return this.espece;
     }
 
-    // Récupère la zone à une position donnée
+    // Récupère le poisson sélectionné à une position donnée
 
 
     public String getPoissonIndice( int indiceX, int indiceY )
@@ -295,8 +291,7 @@ public class Plateau
         return false;
     }
 
-
-    public String etudePoisson( Poisson p )
+    public String etudePoisson( Poisson p)
     {
         if ( p.getEstLab() == true && this.progressionLabo == null )
         {
@@ -304,18 +299,19 @@ public class Plateau
             return "Début de l'étude du laboratoire sur un(e) " + p.getEspece() + " avec le laboratoire " + p.getCouleurLab();
         } else
         {
-            if ( this.progressionLabo.getExtremite2() == null && estLie( this.progressionLabo.getExtremite1(), p ) )
+            if (this.progressionLabo.getExtremite2() == null && estLie(this.progressionLabo.getExtremite1(), p))
             {
                 this.progressionLabo.setExtremite2( p );
                 return "Première étude du laboratoire sur un(e) " + p.getEspece();
 
             } else
             {
-                if ( estLie( this.progressionLabo.getExtremite1(), p ) )
+                if (estLie(this.progressionLabo.getExtremite1(),p))
                 {
                     this.progressionLabo.setExtremite1( p );
                     return "Nouvelle étude du laboratoire sur un(e) " + p.getEspece();
-                } else if ( estLie( this.progressionLabo.getExtremite2(), p ) )
+                }
+                else if (estLie(this.progressionLabo.getExtremite2(), p))
                 {
                     this.progressionLabo.setExtremite2( p );
                     return "Nouvelle étude du laboratoire sur un(e) " + p.getEspece();

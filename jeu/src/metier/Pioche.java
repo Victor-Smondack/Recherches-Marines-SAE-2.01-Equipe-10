@@ -1,88 +1,62 @@
 package src.metier;
 
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Pioche
 {
+    private ArrayList<Carte> lstCartes = new ArrayList<>();
+    private ArrayList<Carte> pioche = new ArrayList<>();
 
-    private String nomPoisson;
-    private String couleur;
-    private String nomImage;
-
-    private final static ArrayList<String> lstCartes = new ArrayList<>() {{
-        add("Saumon clair");
-        add("Saumon foncé");
-        add("Thon clair");
-        add("Thon foncé");
-        add("Truite claire");
-        add("Truite foncée");
-        add("Sardine claire");
-        add("Sardine foncée");
-        add("Bar clair");
-        add("Bar foncé");
-        add("Colin clair");
-        add("Colin foncé");
-        add("Maquereau clair");
-        add("Maquereau foncé");
-        add("Joker Clair");
-        add("Joker Foncé");
-    }};;
-
-    private static ArrayList<String> pioche = new ArrayList<>(lstCartes);
-
-
-    public Pioche( String nomPoisson, String couleur, String nomImage )
+    public Pioche(int nbSymboles)
     {
-        this.nomPoisson = nomPoisson;
-        this.couleur = couleur;
-        this.nomImage = nomImage;
+        int id = 1;
+
+        String[] poissons = { "Bar", "Colin", "Maquereau", "Sardine", "Saumon", "Thon", "Truite" };
+        String[] couleurs = { "Blanc", "Noir" };
+
+        int max = Math.min(nbSymboles, poissons.length);
+
+        for (int i = 0; i < max; i++)
+        {
+            for (String couleur : couleurs)
+            {
+                lstCartes.add(new Carte(id++, poissons[i], couleur, poissons[i] + "_" + couleur + ".png"));
+            }
+        }
+
+        reset();
     }
 
-
-    public String getNomPoisson()
-    {
-        return this.nomPoisson;
-    }
-
-    public String getCouleur()
-    {
-        return this.couleur;
-    }
-
-    public String getNomImage()
-    {
-        return this.nomImage;
-    }
-
-    public static ArrayList<String> getLstCartes()
-    {
-        return lstCartes;
-    }
-
-    public static void resetPioche()
+    public void reset()
     {
         pioche = new ArrayList<>(lstCartes);
     }
 
-    public static String piocherCarte()
+    public void melanger()
     {
-        if (pioche.isEmpty()) 
-        {
-            System.out.println("La pioche est vide !");
-            return null;
-        }
-        String cartePiochée = pioche.remove(0);
-        System.out.println("Carte piochée : " + cartePiochée);
-        return cartePiochée;
+        Collections.shuffle(pioche);
     }
 
-    public static void melangerPioche()
+    public Carte piocher()
     {
-        java.util.Collections.shuffle(pioche);
+        if (pioche.isEmpty()) return null;
+        return pioche.remove(0);
     }
 
-    public static int getNbCartesRestantes()
+    public boolean estVide()
+    {
+        return pioche.isEmpty();
+    }
+
+    public int getNbCartesRestantes()
     {
         return pioche.size();
-    } 
+    }
 
+    public Carte carteActuelle()
+    {
+        if (pioche.isEmpty()) return null;
+        return pioche.get(0);
+    }
 }
