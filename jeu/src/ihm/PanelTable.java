@@ -83,9 +83,6 @@ public class PanelTable extends JPanel
             g2.drawImage( imgFond, 0, 0, this.getWidth(), this.getHeight(), this );
         }
 
-        g2.setColor( Color.BLACK );
-        g2.setStroke( new BasicStroke( 3 ) );
-
         int[][] liaisons = this.ctrl.getCoordonneesLiaisons();
 
         if ( liaisons != null )
@@ -99,13 +96,28 @@ public class PanelTable extends JPanel
 
                 if ( x1 >= 0 && x1 < largeur && y1 >= 0 && y1 < longueur && x2 >= 0 && x2 < largeur && y2 >= 0 && y2 < longueur )
                 {
-                    JLabel lbl1   = this.cases[y1][x1];
-                    JLabel lbl2   = this.cases[y2][x2];
+                    JLabel lbl1    = this.cases[y1][x1];
+                    JLabel lbl2    = this.cases[y2][x2];
 
-                    int    startX = lbl1.getX() + lbl1.getWidth() / 2;
-                    int    startY = lbl1.getY() + lbl1.getHeight() / 2;
-                    int    endX   = lbl2.getX() + lbl2.getWidth() / 2;
-                    int    endY   = lbl2.getY() + lbl2.getHeight() / 2;
+                    int    startX  = lbl1.getX() + lbl1.getWidth() / 2;
+                    int    startY  = lbl1.getY() + lbl1.getHeight() / 2;
+                    int    endX    = lbl2.getX() + lbl2.getWidth() / 2;
+                    int    endY    = lbl2.getY() + lbl2.getHeight() / 2;
+
+                    int    numLabo = this.ctrl.getLaboDeLiaison( x1, y1, x2, y2 );
+                    if ( numLabo != -1 )
+                    {
+                        Color cTransparente = this.ctrl.getCouleur( 9 + numLabo );
+
+                        Color cOpaque       = new Color( cTransparente.getRed(), cTransparente.getGreen(), cTransparente.getBlue() );
+
+                        g2.setColor( cOpaque );
+                        g2.setStroke( new BasicStroke( 6 ) );
+                    } else
+                    {
+                        g2.setColor( Color.BLACK );
+                        g2.setStroke( new BasicStroke( 3 ) );
+                    }
 
                     g2.drawLine( startX, startY, endX, endY );
                 }
@@ -145,6 +157,7 @@ public class PanelTable extends JPanel
                                 if ( correspondCarte && estBonneExtremite )
                                 {
                                     PanelTable.this.ctrl.validerEtAvancerEtude( j, i );
+                                    PanelTable.this.repaint();
                                 }
                             }
                         }
