@@ -17,15 +17,14 @@ import src.metier.Carte;
 
 public class PanelTirage extends JPanel implements ActionListener
 {
-    // Attributs
     private Controleur ctrl;
     private JLabel     carteTiree;
     private JButton    btnTirer;
     private JButton    btnLancerManche;
     private JLabel     lblPoints;
     private JLabel     lblCartesRestantes;
+    private int        numManche = 1;
 
-    // Constructeurs du panel
     public PanelTirage(Controleur ctrl)
     {
         JPanel panelBtn;
@@ -33,7 +32,6 @@ public class PanelTirage extends JPanel implements ActionListener
         this.setLayout( new GridLayout( 0, 1 ) );
         this.add( new JLabel( "Panel Tirage" ) );
 
-        // Création des composants
         panelBtn        = new JPanel();
 
         this.carteTiree = new JLabel();
@@ -44,9 +42,9 @@ public class PanelTirage extends JPanel implements ActionListener
 
 
         this.btnTirer           = new JButton( "Pioche" );
-        this.btnLancerManche    = new JButton( "Début Manche" );
+        this.btnTirer.setEnabled( false );
+        this.btnLancerManche = new JButton( "Début Manche" );
 
-        // Positionnement des composants
         this.add( this.carteTiree );
 
         this.add( this.lblPoints );
@@ -57,14 +55,12 @@ public class PanelTirage extends JPanel implements ActionListener
         panelBtn.add( this.btnLancerManche );
         this.add( panelBtn );
 
-        // Ajout de l'action du bouton
         this.btnTirer.addActionListener( this );
         this.btnLancerManche.addActionListener( this );
 
     }
 
 
-    // Méthode pour gérer l'action du bouton
     @Override
     public void actionPerformed( ActionEvent e )
     {
@@ -78,6 +74,43 @@ public class PanelTirage extends JPanel implements ActionListener
                 this.carteTiree.setIcon( new ImageIcon(
                     new ImageIcon( "../images/cartes/" + cartePiochee.getImagePath() ).getImage().getScaledInstance( 150, 120, Image.SCALE_SMOOTH ) ) );
 
+                // La manche se termine si 5 cartes noires sont sorties OU si la pioche est vide
+                if ( this.ctrl.getNbCartesNoires() >= 5 || this.ctrl.getNbCartesRestantes() == 0 )
+                {
+                    this.numManche++;
+
+                    boolean laboExiste = false;
+                    int     maxX       = this.ctrl.getGrillePoisson().length;
+                    int     maxY       = this.ctrl.getGrillePoisson()[0].length;
+                    for ( int x = 0; x < maxX; x++ )
+                    {
+                        for ( int y = 0; y < maxY; y++ )
+                        {
+                            if ( this.ctrl.getLaboIndice( x, y ) == this.numManche )
+                            {
+                                laboExiste = true;
+                            }
+                        }
+                    }
+
+                    this.btnTirer.setEnabled( false );
+
+                    if ( laboExiste )
+                    {
+                        this.btnLancerManche.setEnabled( true );
+                        if ( this.ctrl.getNbCartesNoires() >= 5 )
+                        {
+                            this.lblCartesRestantes.setText( "5 cartes noires ! Manche terminée. Lancez la suivante." );
+                        } else
+                        {
+                            this.lblCartesRestantes.setText( "Manche terminée ! Lancez la suivante." );
+                        }
+                    } else
+                    {
+                        this.btnLancerManche.setEnabled( false );
+                        this.lblCartesRestantes.setText( "FIN DU JEU ! Tous les labos ont été étudiés." );
+                    }
+                }
             }
         }
         if ( e.getSource() == this.btnLancerManche )
@@ -86,11 +119,24 @@ public class PanelTirage extends JPanel implements ActionListener
             this.ctrl.resetPioche();
             this.ctrl.melangerPioche();
 
-            this.ctrl.setCarteVisible( this.ctrl.carteActuelle() );
+            int maxX = this.ctrl.getGrillePoisson().length;
+            int maxY = this.ctrl.getGrillePoisson()[0].length;
+            for ( int x = 0; x < maxX; x++ )
+            {
+                for ( int y = 0; y < maxY; y++ )
+                {
+                    if ( this.ctrl.getLaboIndice( x, y ) == this.numManche )
+                    {
+                        this.ctrl.validerEtAvancerEtude( x, y );
+                    }
+                }
+            }
 
-            this.lblCartesRestantes.setText( "Il reste " + this.ctrl.getNbCartesRestantes() + " cartes dans la pioche" );
-            this.carteTiree.setIcon( new ImageIcon( new ImageIcon( "../images/cartes/" + this.ctrl.getCarteVisible().getImagePath() ).getImage()
-                .getScaledInstance( 150, 120, Image.SCALE_SMOOTH ) ) );
+            this.lblCartesRestantes.setText( "Il reste " + this.ctrl.getNbCartesRestantes() + " cartes dans la pioche. Piochez pour jouer !" );
+            this.carteTiree.setIcon( null );
+
+            this.btnTirer.setEnabled( true );
+            this.btnLancerManche.setEnabled( false );
         }
 
     }

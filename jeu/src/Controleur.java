@@ -16,13 +16,15 @@ import src.metier.Zone;
 
 public class Controleur
 {
-    private int         xGrille = 1;
-    private int         yGrille = 1;
+    private int         xGrille        = 1;
+    private int         yGrille        = 1;
     private FrameTirage frameTirage;
     private FrameTable  frameTable;
     private Plateau     metier;
     private Pioche      pioche;
     private Carte       carteVisible;
+    private boolean     aJoueCeTour    = false;
+    private int         nbCartesNoires = 0;
 
 
     public Controleur()
@@ -40,7 +42,7 @@ public class Controleur
         this.metier.genererLiaisons();
 
         this.pioche       = new Pioche( this.metier.getNbSymbole() );
-        this.carteVisible = this.pioche.carteActuelle();
+        this.carteVisible = null;
 
         this.frameTirage  = new FrameTirage( this );
         this.frameTable   = new FrameTable( this, this.metier.getLongueur(), this.metier.getLargeur(), this.metier.getTailleCase() );
@@ -147,7 +149,28 @@ public class Controleur
 
     public Carte piocherCarte()
     {
+        if ( this.pioche.estVide() )
+        {
+            this.metier.finirManche();
+            this.pioche.reset();
+            this.carteVisible = null;
+            this.aJoueCeTour  = false;
+            return null;
+        }
         this.carteVisible = this.pioche.piocher();
+        this.aJoueCeTour  = false;
+
+        if ( this.carteVisible != null )
+        {
+            String desc = this.carteVisible.getDescription().toLowerCase();
+            String img  = this.carteVisible.getImagePath().toLowerCase();
+
+            if ( desc.contains( "noir" ) || img.contains( "noir" ) )
+            {
+                this.nbCartesNoires++;
+            }
+        }
+
         return this.carteVisible;
     }
 
@@ -178,8 +201,11 @@ public class Controleur
 
     public void resetPioche()
     {
+        this.metier.finirManche();
         this.pioche.reset();
-        this.carteVisible = this.pioche.carteActuelle();
+        this.carteVisible   = null;
+        this.aJoueCeTour    = false;
+        this.nbCartesNoires = 0;
     }
 
 
@@ -203,6 +229,10 @@ public class Controleur
 
     public boolean verifierClicValide( int x, int y )
     {
+        if ( this.carteVisible == null || (this.metier.estUnLaboActif() && this.aJoueCeTour) )
+        {
+            return false;
+        }
         Poisson p = this.getPoissonObjet( x, y );
         return this.metier.estPoissonValidePourLabo( p );
     }
@@ -210,11 +240,16 @@ public class Controleur
 
     public void validerEtAvancerEtude( int x, int y )
     {
-        Poisson p = this.getPoissonObjet( x, y );
+        boolean laboDejaActif = this.metier.estUnLaboActif();
+        Poisson p             = this.getPoissonObjet( x, y );
         if ( p != null )
         {
             String message = this.metier.etudePoisson( p );
             System.out.println( message );
+            if ( laboDejaActif )
+            {
+                this.aJoueCeTour = true;
+            }
         }
     }
 
@@ -222,6 +257,18 @@ public class Controleur
     public boolean estUnLaboActif()
     {
         return this.metier.estUnLaboActif();
+    }
+
+
+    public int getLaboDeLiaison( int x1, int y1, int x2, int y2 )
+    {
+        return this.metier.getLaboDeLiaison( x1, y1, x2, y2 );
+    }
+
+
+    public int getNbCartesNoires()
+    {
+        return this.nbCartesNoires;
     }
 
 

@@ -11,16 +11,21 @@ public class Plateau
 
     private Poisson[][]     grillePoisson;
     private ProgressionLabo progressionLabo;
+
+    private int             idLaboActif      = -1;
     private List<Liaison>   lstLiaisons;
+    private List<Liaison>   liaisonsVisitees = new ArrayList<>();
+    private List<Integer>   labosDesLiaisons = new ArrayList<>();
     private Zone[][]        grilleZone;
     private List<Poisson>   lstPoisson;
     private char[][]        grilleLiaisons;
     private int[][]         grilleLabo;
+
     private int             longueur;
     private int             largeur;
     private int             nbSymbole;
     private int             tailleCases;
-    private String[]        espece = {
+    private String[]        espece           = {
         "Saumon",
         "Thon",
         "Truite",
@@ -320,35 +325,114 @@ public class Plateau
 
     public String etudePoisson( Poisson p )
     {
-        // Correction ici aussi pour l'initialisation
         if ( this.getLaboIndice( p.getX(), p.getY() ) != -1 && this.progressionLabo == null )
         {
+            this.idLaboActif     = this.getLaboIndice( p.getX(), p.getY() );
             this.progressionLabo = new ProgressionLabo( p );
             return "Début de l'étude du laboratoire sur un(e) " + p.getEspece();
-        } else
+        } else if ( this.progressionLabo != null )
         {
-            // ... (le reste de ton code ne change pas)
-            if ( this.progressionLabo.getExtremite2() == null && estLie( this.progressionLabo.getExtremite1(), p ) )
+            Liaison l1 = getLiaisonEntre( this.progressionLabo.getExtremite1(), p );
+            Liaison l2 = getLiaisonEntre( this.progressionLabo.getExtremite2(), p );
+
+            if ( this.progressionLabo.getExtremite2() == null && l1 != null && !this.croiseUneLiaisonVisitee( l1 ) )
             {
+                this.liaisonsVisitees.add( l1 );
+                this.labosDesLiaisons.add( this.idLaboActif );
                 this.progressionLabo.setExtremite2( p );
                 return "Première étude du laboratoire sur un(e) " + p.getEspece();
-
             } else
             {
-                if ( estLie( this.progressionLabo.getExtremite1(), p ) )
+                if ( l1 != null && !this.croiseUneLiaisonVisitee( l1 ) )
                 {
+                    this.liaisonsVisitees.add( l1 );
+                    this.labosDesLiaisons.add( this.idLaboActif );
                     this.progressionLabo.setExtremite1( p );
                     return "Nouvelle étude du laboratoire sur un(e) " + p.getEspece();
-                } else if ( estLie( this.progressionLabo.getExtremite2(), p ) )
+                } else if ( l2 != null && !this.croiseUneLiaisonVisitee( l2 ) )
                 {
+                    this.liaisonsVisitees.add( l2 );
+                    this.labosDesLiaisons.add( this.idLaboActif );
                     this.progressionLabo.setExtremite2( p );
                     return "Nouvelle étude du laboratoire sur un(e) " + p.getEspece();
                 } else
                 {
-                    return "Ce/Cette " + p.getEspece() + " n'est pas lié à l'étude en cours.";
+                    return "Ce/Cette " + p.getEspece() + " n'est pas lié à l'étude en cours ou croise un chemin.";
                 }
             }
         }
+        return "";
+    }
+
+
+    private Liaison getLiaisonEntre( Poisson p1, Poisson p2 )
+    {
+        for ( Liaison l : this.lstLiaisons )
+        {
+            if ( (l.getP1().equals( p1 ) && l.getP2().equals( p2 )) || (l.getP1().equals( p2 ) && l.getP2().equals( p1 )) )
+                return l;
+        }
+        return null;
+    }
+
+
+    public int getLaboDeLiaison( int x1, int y1, int x2, int y2 )
+    {
+        for ( int i = 0; i < this.liaisonsVisitees.size(); i++ )
+        {
+            Liaison l = this.liaisonsVisitees.get( i );
+            if ( ((l.getP1().getX() == x1 && l.getP1().getY() == y1 && l.getP2().getX() == x2 && l.getP2().getY() == y2)
+                || (l.getP1().getX() == x2 && l.getP1().getY() == y2 && l.getP2().getX() == x1 && l.getP2().getY() == y1)) )
+            {
+                return this.labosDesLiaisons.get( i );
+            }
+        }
+        return -1;
+    }
+
+
+    private boolean segmentsCroisent( int xA, int yA, int xB, int yB, int xC, int yC, int xD, int yD )
+    {
+        if ( (xA == xC && yA == yC) || (xA == xD && yA == yD) || (xB == xC && yB == yC) || (xB == xD && yB == yD) )
+        {
+            return false;
+        }
+        long cp1 = (long) (xB - xA) * (yC - yA) - (long) (yB - yA) * (xC - xA);
+        long cp2 = (long) (xB - xA) * (yD - yA) - (long) (yB - yA) * (xD - xA);
+        long cp3 = (long) (xD - xC) * (yA - yC) - (long) (yD - yC) * (xA - xC);
+        long cp4 = (long) (xD - xC) * (yB - yC) - (long) (yD - yC) * (xB - xC);
+        return ((cp1 > 0 && cp2 < 0) || (cp1 < 0 && cp2 > 0)) && ((cp3 > 0 && cp4 < 0) || (cp3 < 0 && cp4 > 0));
+    }
+
+
+    private boolean croiseUneLiaisonVisitee( Liaison nouvelle )
+    {
+        if ( nouvelle == null )
+            return false;
+
+        int xA = nouvelle.getP1().getX();
+        int yA = nouvelle.getP1().getY();
+        int xB = nouvelle.getP2().getX();
+        int yB = nouvelle.getP2().getY();
+
+        for ( Liaison l : this.liaisonsVisitees )
+        {
+            int xC = l.getP1().getX();
+            int yC = l.getP1().getY();
+            int xD = l.getP2().getX();
+            int yD = l.getP2().getY();
+
+            if ( ((xA == xC && yA == yC) && (xB == xD && yB == yD)) || ((xA == xD && yA == yD) && (xB == xC && yB == yC)) )
+            {
+                return true;
+            }
+
+            if ( segmentsCroisent( xA, yA, xB, yB, xC, yC, xD, yD ) )
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -356,7 +440,6 @@ public class Plateau
     {
         if ( p == null )
             return false;
-
         if ( this.progressionLabo == null )
         {
             return this.getLaboIndice( p.getX(), p.getY() ) != -1;
@@ -364,16 +447,30 @@ public class Plateau
 
         if ( this.progressionLabo.getExtremite2() == null )
         {
-            return this.estLie( this.progressionLabo.getExtremite1(), p );
+            Liaison l = getLiaisonEntre( this.progressionLabo.getExtremite1(), p );
+            return l != null && !this.croiseUneLiaisonVisitee( l );
         }
 
-        return this.estLie( this.progressionLabo.getExtremite1(), p ) || this.estLie( this.progressionLabo.getExtremite2(), p );
+        Liaison l1               = getLiaisonEntre( this.progressionLabo.getExtremite1(), p );
+        Liaison l2               = getLiaisonEntre( this.progressionLabo.getExtremite2(), p );
+
+        boolean valideExtremite1 = (l1 != null && !this.croiseUneLiaisonVisitee( l1 ));
+        boolean valideExtremite2 = (l2 != null && !this.croiseUneLiaisonVisitee( l2 ));
+
+        return valideExtremite1 || valideExtremite2;
     }
 
 
     public boolean estUnLaboActif()
     {
         return this.progressionLabo != null;
+    }
+
+
+    public void finirManche()
+    {
+        this.progressionLabo = null;
+        this.idLaboActif     = -1;
     }
 
     // Initialise la grille, des poissons, des zones et des liaisons
