@@ -7,6 +7,8 @@ public class Pioche
 {
     private ArrayList<Carte> lstCartes = new ArrayList<>();
     private ArrayList<Carte> pioche    = new ArrayList<>();
+    private ArrayList<Carte> defausse;
+    private Carte carteCourante;
 
     public Pioche(int nbSymboles)
     {
@@ -37,6 +39,9 @@ public class Pioche
             lstCartes.add( new Carte( id++, "Joker", couleur, "Joker" + couleur + ".png" ) );
         }
 
+        this.defausse = new ArrayList<>();
+        this.carteCourante = null;
+
         this.reset();
     }
 
@@ -53,11 +58,17 @@ public class Pioche
     }
 
 
-    public Carte piocher()
+    public Carte piocherCarte()
     {
-        if ( this.pioche.isEmpty() )
+        if (this.pioche.isEmpty())
             return null;
-        return this.pioche.remove( 0 );
+
+        if (this.carteCourante != null)
+            this.defausse.add(0, this.carteCourante);
+
+        this.carteCourante = this.pioche.remove(0);
+
+        return this.carteCourante;
     }
 
 
@@ -72,6 +83,15 @@ public class Pioche
         return this.pioche.size();
     }
 
+    public Carte getCarteCourante()
+    {
+        return this.carteCourante;
+    }
+
+    public ArrayList<Carte> getDefausse()
+    {
+        return this.defausse;
+    }
 
     public Carte carteActuelle()
     {
@@ -79,4 +99,18 @@ public class Pioche
             return null;
         return this.pioche.get( 0 );
     }
+
+    public Carte piocher()
+{
+    if (this.pioche.isEmpty()) return null;
+
+    Carte carte = this.pioche.remove(0);
+
+    if (this.carteCourante != null)
+        this.defausse.add(0, this.carteCourante);
+
+    this.carteCourante = carte;
+
+    return carte;
+}
 }
