@@ -3,9 +3,9 @@ package src;
 import java.awt.Color;
 import java.util.List;
 
+import src.ihm.FrameDebut;
 import src.ihm.FrameTable;
 import src.ihm.FrameTirage;
-import src.ihm.FrameDebut;
 import src.metier.Carte;
 import src.metier.Couleur;
 import src.metier.Liaison;
@@ -32,22 +32,17 @@ public class Controleur
     public Controleur()
     {
         this.frameDebut = new FrameDebut( this );
-        this.metier = new Plateau( this.xGrille, this.yGrille );
+        this.metier     = new Plateau( this.xGrille, this.yGrille );
         LireDonnees lecteur = new LireDonnees( this.metier );
 
         lecteur.lireGrille();
-
         lecteur.lirePoissons();
-
         lecteur.lireLiaisons();
-
         lecteur.lireZones();
-
         lecteur.lireLabo();
 
         this.metier.restaurerLabos();
-
-        this.pioche = new Pioche(this.metier.getNbSymbole());
+        this.metier.genererLiaisons(); // <-- LA LIGNE CORRIGÉE EST ICI
 
         this.pioche       = new Pioche( this.metier.getNbSymbole() );
         this.carteVisible = null;
@@ -267,7 +262,8 @@ public class Controleur
         return this.metier.estUnLaboActif();
     }
 
-    public String getDossier( String nomDossier)
+
+    public String getDossier( String nomDossier )
     {
         return "pas grand chose pour l'instant";
     }

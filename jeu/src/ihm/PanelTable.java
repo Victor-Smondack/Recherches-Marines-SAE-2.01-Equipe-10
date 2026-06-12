@@ -94,8 +94,10 @@ public class PanelTable extends JPanel
                 int x2 = l[2];
                 int y2 = l[3];
 
+                // Remise en place correcte des axes : x avec largeur, y avec longueur
                 if ( x1 >= 0 && x1 < largeur && y1 >= 0 && y1 < longueur && x2 >= 0 && x2 < largeur && y2 >= 0 && y2 < longueur )
                 {
+                    // Ligne = y, Colonne = x
                     JLabel lbl1    = this.cases[y1][x1];
                     JLabel lbl2    = this.cases[y2][x2];
 
