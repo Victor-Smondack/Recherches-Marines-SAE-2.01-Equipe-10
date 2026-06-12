@@ -258,6 +258,25 @@ public class Plateau
         return anciennesCoords; //
     }
 
+    //met a jour les labo
+    public static void majPoissonsLabo(List<Poisson> lstPoisson, int[][] grilleLabo)
+    {
+        for (Poisson p : lstPoisson)
+        {
+            int x = p.getX();
+            int y = p.getY();
+
+            if (grilleLabo[x][y] != 0)
+            {
+                p.setEstLab(true);
+            }
+            else
+            {
+                p.setEstLab(false);
+            }
+        }
+    }
+
 
     // Récupère la zone à une position donnée
 
@@ -415,11 +434,12 @@ public class Plateau
 
     public void Sauvegarder(int nbSymbole, int nbLabo)
     {
-        Sauvegarde.sauvegarderGrille( this.grillePoisson.length, this.grillePoisson[0].length, nbSymbole, 50, nbLabo );
-        Sauvegarde.sauvegarderPoissons( this.lstPoisson );
-        Sauvegarde.sauvegarderZones( this.grilleZone );
-        Sauvegarde.sauvegarderLiaisons( this.lstLiaisons );
-        Sauvegarde.sauvegarderLabo( this.grilleLabo );
+        Sauvegarde.sauvegarderGrille( this.grillePoisson.length, this.grillePoisson[0].length, nbSymbole, 50, nbLabo, "sauvegardeTemp/" );
+        majPoissonsLabo(this.lstPoisson, this.grilleLabo);
+        Sauvegarde.sauvegarderPoissons( this.lstPoisson,"sauvegardeTemp/" );
+        Sauvegarde.sauvegarderZones( this.grilleZone, "sauvegardeTemp/" );
+        Sauvegarde.sauvegarderLiaisons( this.lstLiaisons, "sauvegardeTemp/" );
+        Sauvegarde.sauvegarderLabo( this.grilleLabo, "sauvegardeTemp/" );
     }
 
     // Affiche la grille de poissons

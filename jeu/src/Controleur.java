@@ -5,11 +5,11 @@ import java.util.List;
 
 import src.ihm.FrameTable;
 import src.ihm.FrameTirage;
-import src.metier.Pioche;
 import src.metier.Carte;
 import src.metier.Couleur;
 import src.metier.Liaison;
 import src.metier.LireDonnees;
+import src.metier.Pioche;
 import src.metier.Plateau;
 import src.metier.Poisson;
 import src.metier.Zone;
@@ -22,6 +22,7 @@ public class Controleur
     private FrameTable  frameTable;
     private Plateau     metier;
     private Pioche      pioche;
+    private Carte       carteVisible;
 
 
     public Controleur()
@@ -38,8 +39,11 @@ public class Controleur
 
         this.metier.genererLiaisons();
 
-        this.frameTirage = new FrameTirage( this );
-        this.frameTable  = new FrameTable( this, 7, 7, 100 );
+        this.pioche       = new Pioche( this.metier.getNbSymbole() );
+        this.carteVisible = this.pioche.carteActuelle();
+
+        this.frameTirage  = new FrameTirage( this );
+        this.frameTable   = new FrameTable( this, this.metier.getLongueur(), this.metier.getLargeur(), this.metier.getTailleCase() );
     }
 
 
@@ -49,25 +53,7 @@ public class Controleur
         this.xGrille = largeur;
 
         this.metier  = new Plateau( this.xGrille, this.yGrille );
-        // this.frameMenu.changerPanel( nbSymbole );
     }
-
-
-    /*
-     * public void getNbSymbole() { this.nbSymbole = this.metier.getNbSymbole(); }
-     */
-    /*
-     * public int getNbLabo() { return this.metier.getNbLabo(); }
-     */
-
-
-    /*
-     * public void getImagePoisson( int i ) { this.frameMenu.getImagePoisson( i ); }
-     */
-
-    /*
-     * public boolean getGommeSelect() { if ( this.panelChoix != null ) { return this.panelChoix.isGommeActive(); } return this.gommeActive; }
-     */
 
 
     public Zone[][] getGrilleZone()
@@ -153,9 +139,34 @@ public class Controleur
     }
 
 
+    public int getLaboIndice( int indiceX, int indiceY )
+    {
+        return this.metier.getLaboIndice( indiceX, indiceY );
+    }
+
+
     public Carte piocherCarte()
     {
-        return this.pioche.piocher();
+        this.carteVisible = this.pioche.piocher();
+        return this.carteVisible;
+    }
+
+
+    public Carte getCarteVisible()
+    {
+        return this.carteVisible;
+    }
+
+
+    public void setCarteVisible( Carte carte )
+    {
+        this.carteVisible = carte;
+    }
+
+
+    public boolean estVide()
+    {
+        return this.pioche.estVide();
     }
 
 
@@ -168,6 +179,7 @@ public class Controleur
     public void resetPioche()
     {
         this.pioche.reset();
+        this.carteVisible = this.pioche.carteActuelle();
     }
 
 
@@ -177,9 +189,44 @@ public class Controleur
     }
 
 
+    public Carte carteActuelle()
+    {
+        return this.pioche.carteActuelle();
+    }
+
+
+    public Poisson getPoissonObjet( int x, int y )
+    {
+        return this.metier.getPoisson( x, y );
+    }
+
+
+    public boolean verifierClicValide( int x, int y )
+    {
+        Poisson p = this.getPoissonObjet( x, y );
+        return this.metier.estPoissonValidePourLabo( p );
+    }
+
+
+    public void validerEtAvancerEtude( int x, int y )
+    {
+        Poisson p = this.getPoissonObjet( x, y );
+        if ( p != null )
+        {
+            String message = this.metier.etudePoisson( p );
+            System.out.println( message );
+        }
+    }
+
+
+    public boolean estUnLaboActif()
+    {
+        return this.metier.estUnLaboActif();
+    }
+
+
     public static void main( String[] args )
     {
         new Controleur();
     }
-
 }

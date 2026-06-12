@@ -10,12 +10,15 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import src.Controleur;
+import src.metier.Carte;
+import src.metier.Poisson;
 
 public class PanelTable extends JPanel
 {
@@ -47,22 +50,23 @@ public class PanelTable extends JPanel
                 this.cases[i][j] = new JLabel();
                 this.cases[i][j].setSize( tailleCase, tailleCase );
                 this.cases[i][j].setOpaque( true );
-                this.cases[i][j].setBackground( this.ctrl.getCouleur( this.ctrl.getZoneIndice( i, j ) ) );
-                this.cases[i][j].setIcon( new ImageIcon( new ImageIcon( "../images/poissons/" + this.ctrl.getPoissonIndice( i, j ) + ".png" ).getImage()
+                this.cases[i][j].setBackground( this.ctrl.getCouleur( this.ctrl.getZoneIndice( j, i ) ) );
+                this.cases[i][j].setIcon( new ImageIcon( new ImageIcon( "../images/poissons/" + this.ctrl.getPoissonIndice( j, i ) + ".png" ).getImage()
                     .getScaledInstance( (int) (tailleCase * 0.7), (int) (tailleCase * 0.7), Image.SCALE_SMOOTH ) ) );
                 this.cases[i][j].setHorizontalAlignment( SwingConstants.CENTER );
-                // this.cases[i][j].setBorder( BorderFactory.createLineBorder(
-                // this.getColor() ) );
 
+                int numLabo = this.ctrl.getLaboIndice( j, i );
+                if ( numLabo != -1 )
+                {
+                    this.cases[i][j].setBorder( BorderFactory.createLineBorder( this.ctrl.getCouleur( 9 + numLabo ), 4 ) );
+                }
 
                 this.add( this.cases[i][j] );
                 this.cases[i][j].addMouseListener( souris );
-
             }
         }
 
         PanelTable.this.repaint();
-
         this.setVisible( true );
     }
 
@@ -93,10 +97,10 @@ public class PanelTable extends JPanel
                 int x2 = l[2];
                 int y2 = l[3];
 
-                if ( x1 >= 0 && x1 < longueur && y1 >= 0 && y1 < largeur && x2 >= 0 && x2 < longueur && y2 >= 0 && y2 < largeur )
+                if ( x1 >= 0 && x1 < largeur && y1 >= 0 && y1 < longueur && x2 >= 0 && x2 < largeur && y2 >= 0 && y2 < longueur )
                 {
-                    JLabel lbl1   = this.cases[x1][y1];
-                    JLabel lbl2   = this.cases[x2][y2];
+                    JLabel lbl1   = this.cases[y1][x1];
+                    JLabel lbl2   = this.cases[y2][x2];
 
                     int    startX = lbl1.getX() + lbl1.getWidth() / 2;
                     int    startY = lbl1.getY() + lbl1.getHeight() / 2;
@@ -109,11 +113,6 @@ public class PanelTable extends JPanel
         }
     }
 
-    // Méthode privée qui détecte le clique de la souris sur la panel et fait //
-    // l'action en
-    // fonction de
-    // ce qui
-    // est selectionné
 
     private class GereSouris extends MouseAdapter
     {
@@ -123,19 +122,35 @@ public class PanelTable extends JPanel
             Component composantClique = (Component) evt.getSource();
             if ( composantClique instanceof JLabel lblClique )
             {
+                Carte carteAffichee = PanelTable.this.ctrl.getCarteVisible();
+
+                if ( carteAffichee == null )
+                    return;
 
                 for ( int i = 0; i < PanelTable.this.cases.length; i++ )
                 {
                     for ( int j = 0; j < PanelTable.this.cases[i].length; j++ )
+                    {
                         if ( PanelTable.this.cases[i][j] == lblClique )
                         {
-                            //Rien
+                            Poisson poissonClique = PanelTable.this.ctrl.getPoissonObjet( j, i );
+                            String  nomCarte      = carteAffichee.getNom();
+
+                            if ( poissonClique != null )
+                            {
+                                boolean correspondCarte   = !PanelTable.this.ctrl.estUnLaboActif() || poissonClique.getEspece().equals( nomCarte )
+                                    || nomCarte.equals( "Joker" );
+                                boolean estBonneExtremite = PanelTable.this.ctrl.verifierClicValide( j, i );
+
+                                if ( correspondCarte && estBonneExtremite )
+                                {
+                                    PanelTable.this.ctrl.validerEtAvancerEtude( j, i );
+                                }
+                            }
                         }
+                    }
                 }
-
-
             }
         }
     }
 }
-

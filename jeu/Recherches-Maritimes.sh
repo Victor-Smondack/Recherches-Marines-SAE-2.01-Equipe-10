@@ -8,7 +8,9 @@ cd ..
 if [ $? -eq 0 ]; then
     echo "Compilation réussie ! Lancement du programme..."
     echo "--------------------------------"
-    java -cp ./class src.Controleur
+    cd class
+    java -cp . src.Controleur
+    cd ..
 else
     echo "Erreur lors de la compilation."
 fi

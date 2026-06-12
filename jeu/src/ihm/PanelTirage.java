@@ -9,8 +9,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import src.Controleur;
+import src.metier.Carte;
 
 
 public class PanelTirage extends JPanel implements ActionListener
@@ -32,13 +34,14 @@ public class PanelTirage extends JPanel implements ActionListener
         this.add( new JLabel( "Panel Tirage" ) );
 
         // Création des composants
-        panelBtn                = new JPanel();
+        panelBtn        = new JPanel();
 
-        this.carteTiree         = new JLabel(
-            new ImageIcon( new ImageIcon( "../images/cartes/JokerNoir.png" ).getImage().getScaledInstance( 75, 200, Image.SCALE_SMOOTH ) ) );
+        this.carteTiree = new JLabel();
+        this.carteTiree.setHorizontalAlignment( SwingConstants.CENTER );
 
         this.lblPoints          = new JLabel( "Un nombre de points à déterminer" );
-        this.lblCartesRestantes = new JLabel( "Il reste " + this.ctrl.getNbCartesRestantes() + " cartes dans la pioche" );
+        this.lblCartesRestantes = new JLabel( "Commencez à piocher" );
+
 
         this.btnTirer           = new JButton( "Pioche" );
         this.btnLancerManche    = new JButton( "Début Manche" );
@@ -68,17 +71,27 @@ public class PanelTirage extends JPanel implements ActionListener
         if ( e.getSource() == this.btnTirer )
         {
             System.out.println( "Une carte est tirée" );
-            this.ctrl.piocherCarte();
-            this.lblCartesRestantes.setText( "Il reste " + this.ctrl.getNbCartesRestantes() + " cartes dans la pioche" );
+            if ( this.ctrl.getNbCartesRestantes() > 0 )
+            {
+                Carte cartePiochee = this.ctrl.piocherCarte();
+                this.lblCartesRestantes.setText( "Il reste " + this.ctrl.getNbCartesRestantes() + " cartes dans la pioche : " );
+                this.carteTiree.setIcon( new ImageIcon(
+                    new ImageIcon( "../images/cartes/" + cartePiochee.getImagePath() ).getImage().getScaledInstance( 150, 120, Image.SCALE_SMOOTH ) ) );
+
+            }
         }
         if ( e.getSource() == this.btnLancerManche )
         {
             System.out.println( "Début de la Manche" );
             this.ctrl.resetPioche();
             this.ctrl.melangerPioche();
-            this.lblCartesRestantes.setText( "Il reste " + this.ctrl.getNbCartesRestantes() + " cartes dans la pioche" );
-        }
 
+            this.ctrl.setCarteVisible( this.ctrl.carteActuelle() );
+
+            this.lblCartesRestantes.setText( "Il reste " + this.ctrl.getNbCartesRestantes() + " cartes dans la pioche" );
+            this.carteTiree.setIcon( new ImageIcon( new ImageIcon( "../images/cartes/" + this.ctrl.getCarteVisible().getImagePath() ).getImage()
+                .getScaledInstance( 150, 120, Image.SCALE_SMOOTH ) ) );
+        }
 
     }
 }

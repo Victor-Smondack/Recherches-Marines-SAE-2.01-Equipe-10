@@ -24,9 +24,7 @@ public class Pioche
             "Blanc",
             "Noir" };
 
-        int      max      = Math.min( nbSymboles, poissons.length );
-
-        for ( int i = 0; i < max; i++ )
+        for ( int i = 0; i < nbSymboles; i++ )
         {
             for ( String couleur : couleurs )
             {
@@ -34,13 +32,18 @@ public class Pioche
             }
         }
 
-        reset();
+        for ( String couleur : couleurs )
+        {
+            lstCartes.add( new Carte( id++, "Joker", couleur, "Joker" + couleur + ".png" ) );
+        }
+
+        this.reset();
     }
 
 
     public void reset()
     {
-        pioche = new ArrayList<>( lstCartes );
+        this.pioche = new ArrayList<>( lstCartes );
     }
 
 
@@ -52,28 +55,28 @@ public class Pioche
 
     public Carte piocher()
     {
-        if ( pioche.isEmpty() )
+        if ( this.pioche.isEmpty() )
             return null;
-        return pioche.remove( 0 );
+        return this.pioche.remove( 0 );
     }
 
 
     public boolean estVide()
     {
-        return pioche.isEmpty();
+        return this.pioche.isEmpty();
     }
 
 
     public int getNbCartesRestantes()
     {
-        return pioche.size();
+        return this.pioche.size();
     }
 
 
     public Carte carteActuelle()
     {
-        if ( pioche.isEmpty() )
+        if ( this.pioche.isEmpty() )
             return null;
-        return pioche.get( 0 );
+        return this.pioche.get( 0 );
     }
 }
