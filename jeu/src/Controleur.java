@@ -5,6 +5,7 @@ import java.util.List;
 
 import src.ihm.FrameTable;
 import src.ihm.FrameTirage;
+import src.ihm.FrameDebut;
 import src.metier.Carte;
 import src.metier.Couleur;
 import src.metier.Liaison;
@@ -20,6 +21,7 @@ public class Controleur
     private int         yGrille = 1;
     private FrameTirage frameTirage;
     private FrameTable  frameTable;
+    private FrameDebut  frameDebut;
     private Plateau     metier;
     private Pioche      pioche;
     private Carte       carteVisible;
@@ -27,6 +29,7 @@ public class Controleur
 
     public Controleur()
     {
+        this.frameDebut = new FrameDebut( this );
         this.metier = new Plateau( this.xGrille, this.yGrille );
         LireDonnees lecteur = new LireDonnees( this.metier );
 
