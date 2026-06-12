@@ -12,7 +12,7 @@ public class PanelDebut extends JPanel implements ActionListener
 {
     private Controleur ctrl;
 
-    private JButton    btnValider;
+    private JButton    btnChoisirSauvegarde;
 
     public PanelDebut ( Controleur ctrl )
     {
@@ -22,7 +22,7 @@ public class PanelDebut extends JPanel implements ActionListener
 
         //Création des composants
 
-        this.btnValider = new JButton( "Valider" );
+        this.btnValider = new JButton( "ChoisirSauvegarde" );
 
         //Position des Composants
 
@@ -31,5 +31,7 @@ public class PanelDebut extends JPanel implements ActionListener
 
     public void actionPerformed(ActionEvent e)
     {
+        JFileChooser choixDossier = new FileChooser ( )
+        //if(returnVal == JFileChooser.APPROVE_OPTION)
     }
 }
