@@ -1,7 +1,9 @@
 package src.metier;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class LireDonnees
@@ -75,25 +77,43 @@ public class LireDonnees
     }
 
 
-    public void lireLiaisons(/*String dossier*/)
+    public static ArrayList<Liaison> lireLiaisons(String nomFichier, Poisson[][] grillePoisson)
     {
-        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER /*+ dossier + "/" */+ FICHIER_LIAISONS ), "UTF8" ))
-        {
-            while ( scFic.hasNextLine() )
-            {
-                String[] dec = scFic.nextLine().split( "\t" );
-                if ( dec.length >= 2 )
-                {
-                    int id1 = Integer.parseInt( dec[0] );
-                    int id2 = Integer.parseInt( dec[1] );
+        ArrayList<Liaison> lstLiaisons = new ArrayList<>();
 
-                    this.plateau.initLiaison( id1, id2 );
-                }
-            }
-        } catch (IOException e)
+        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + FICHIER_LIAISONS ), "UTF8" ))
         {
-            System.err.println( "Erreur lecture grille : " + e.getMessage() );
+
+            while (scFic.hasNextLine())
+            {
+                String ligne = scFic.nextLine();
+
+                if (ligne.trim().isEmpty())
+                    continue;
+
+                String[] tab = ligne.split("\t");
+
+                int x1 = Integer.parseInt(tab[0]);
+                int y1 = Integer.parseInt(tab[1]);
+
+                int x2 = Integer.parseInt(tab[2]);
+                int y2 = Integer.parseInt(tab[3]);
+
+                Poisson p1 = grillePoisson[x1][y1];
+                Poisson p2 = grillePoisson[x2][y2];
+
+                if (p1 != null && p2 != null)
+                    lstLiaisons.add(new Liaison(p1, p2));
+            }
+
+            scFic.close();
         }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return lstLiaisons;
     }
 
 
@@ -125,7 +145,7 @@ public class LireDonnees
     }
 
 
-    public void lireLabo(/*String dossier*/)
+    public void lireLabo(String dossier)
     {
         try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER /*+ dossier + "/" */+ FICHIER_LABOS ), "UTF8" ))
         {

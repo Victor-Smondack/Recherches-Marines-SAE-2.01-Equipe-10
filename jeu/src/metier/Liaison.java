@@ -28,6 +28,18 @@ public class Liaison
         return p2;
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if (!(o instanceof Liaison))
+            return false;
+
+        Liaison l = (Liaison) o;
+
+        return (p1.equals(l.p1) && p2.equals(l.p2))
+            || (p1.equals(l.p2) && p2.equals(l.p1));
+    }
+
     // toString
     
     @Override

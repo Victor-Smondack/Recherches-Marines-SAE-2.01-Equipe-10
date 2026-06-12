@@ -38,11 +38,16 @@ public class Controleur
         lecteur.lireGrille();
 
         lecteur.lirePoissons();
+
         lecteur.lireLiaisons();
+
         lecteur.lireZones();
+
         lecteur.lireLabo();
 
-        this.metier.genererLiaisons();
+        this.metier.restaurerLabos();
+
+        this.pioche = new Pioche(this.metier.getNbSymbole());
 
         this.pioche       = new Pioche( this.metier.getNbSymbole() );
         this.carteVisible = null;

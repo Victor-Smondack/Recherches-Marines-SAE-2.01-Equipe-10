@@ -534,6 +534,26 @@ public class Plateau
         }
     }
 
+    public void restaurerLabos()
+    {
+        for (int x = 0; x < this.grillePoisson.length; x++)
+        {
+            for (int y = 0; y < this.grillePoisson[x].length; y++)
+            {
+                Poisson p = this.grillePoisson[x][y];
+
+                if (p != null && this.grilleLabo[x][y] != 0)
+                {
+                    p.setEstLab(true);
+                }
+            }
+        }
+    }
+
+    public void setLstLiaisons(ArrayList<Liaison> lst)
+    {
+        this.lstLiaisons = lst;
+    }
 
     public int getLongueur()
     {
