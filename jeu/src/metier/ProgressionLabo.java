@@ -1,10 +1,13 @@
 package src.metier;
 
+import java.util.ArrayList;
+
 public class ProgressionLabo 
 {
     Poisson extremite1, extremite2;
     int x1, y1, x2, y2;
     String couleurLabo;
+    private ArrayList<Liaison> lstLiaisonsParcourues;
 
     public ProgressionLabo(Poisson p)
     {
@@ -13,6 +16,7 @@ public class ProgressionLabo
         this.y1 = p.getY();
         this.couleurLabo = p.getCouleurLab();
         this.extremite2 = null;
+        this.lstLiaisonsParcourues = new ArrayList<>();
     }
 
     public Poisson getExtremite1()
@@ -37,5 +41,15 @@ public class ProgressionLabo
         this.extremite2 = p;
         this.x2 = p.getX();
         this.y2 = p.getY();
+    }
+
+    public void ajouterLiaison(Liaison l)
+    {
+        this.lstLiaisonsParcourues.add(l);
+    }
+
+    public boolean contientLiaison(Liaison l)
+    {
+        return this.lstLiaisonsParcourues.contains(l);
     }
 }

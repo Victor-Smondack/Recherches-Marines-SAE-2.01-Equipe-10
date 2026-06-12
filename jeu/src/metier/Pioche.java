@@ -101,16 +101,29 @@ public class Pioche
     }
 
     public Carte piocher()
-{
-    if (this.pioche.isEmpty()) return null;
+    {
+        if (this.pioche.isEmpty()) return null;
 
-    Carte carte = this.pioche.remove(0);
+        Carte carte = this.pioche.remove(0);
 
-    if (this.carteCourante != null)
-        this.defausse.add(0, this.carteCourante);
+        if (this.carteCourante != null)
+            this.defausse.add(0, this.carteCourante);
 
-    this.carteCourante = carte;
+        this.carteCourante = carte;
 
-    return carte;
-}
+        return carte;
+    }
+
+    public boolean derniereCarteNoirePiochee()
+    {
+        int nbNoires = 0;
+
+        for (Carte c : this.pioche)
+        {
+            if (c.getDescription().equals("Noir"))
+                nbNoires++;
+        }
+
+        return nbNoires == 0;
+    }
 }
