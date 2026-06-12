@@ -2,6 +2,8 @@ package src.ihm;
 
 import src.Controleur;
 
+import java.io.File;
+
 import javax.swing.*;
 
 import java.awt.BorderLayout;
@@ -22,16 +24,33 @@ public class PanelDebut extends JPanel implements ActionListener
 
         //Création des composants
 
-        this.btnValider = new JButton( "ChoisirSauvegarde" );
+        this.btnChoisirSauvegarde = new JButton( "ChoisirSauvegarde" );
 
         //Position des Composants
 
-        this.add( btnValider, BorderLayout.NORTH );
+        this.add( btnChoisirSauvegarde, BorderLayout.NORTH );
+
+        //Actionnment des composants
+        this.btnChoisirSauvegarde.addActionListener ( this );
     }
 
-    public void actionPerformed(ActionEvent e)
+    public void actionPerformed(ActionEvent e) 
     {
-        JFileChooser choixDossier = new FileChooser ( )
-        //if(returnVal == JFileChooser.APPROVE_OPTION)
+        if (e.getSource() == this.btnChoisirSauvegarde) 
+        {
+
+            JFileChooser choixDossier = new JFileChooser();
+            choixDossier.setCurrentDirectory(new File("../class/src/data/"));
+            choixDossier.setDialogTitle("Choisir un dossier de sauvegarde");
+            choixDossier.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            choixDossier.setAcceptAllFileFilterUsed(false);
+
+            int retour = choixDossier.showOpenDialog(null);
+
+            if (retour == JFileChooser.APPROVE_OPTION) {
+                File dossier = choixDossier.getSelectedFile();
+                System.out.println("Dossier choisi : " + dossier.getAbsolutePath());
+            }
+        }
     }
 }
