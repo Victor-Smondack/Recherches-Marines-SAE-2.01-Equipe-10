@@ -49,7 +49,9 @@ public class PanelDebut extends JPanel implements ActionListener
 
             if (retour == JFileChooser.APPROVE_OPTION) {
                 File dossier = choixDossier.getSelectedFile();
-                System.out.println("Dossier choisi : " + dossier.getAbsolutePath());
+                String nomDossier = dossier.getName();
+                System.out.println("Dossier choisi : " + dossier.getAbsolutePath() + "Nom du dossier : " + nomDossier );
+                this.ctrl.getDossier( nomDossier );
             }
         }
     }

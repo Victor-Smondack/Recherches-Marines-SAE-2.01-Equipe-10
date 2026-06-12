@@ -227,6 +227,11 @@ public class Controleur
         return this.metier.estUnLaboActif();
     }
 
+    public String getDossier( String nomDossier)
+    {
+        return "pas grand chose pour l'instant";
+    }
+
 
     public static void main( String[] args )
     {
