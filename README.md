@@ -100,7 +100,14 @@ CAS PARTICULIERS
                    la victoire. Si il y a toujours égalité, les joueurs partagent
                    la victoire.
 
-Pour exécuter le jeu, dans un terminal:
-        - Se mettre dans le dossier [conception] ou [jeu] selon ce que vous voulez lancer
-            - Pour Windows lancer la commande dans un terminal bash: ./Recherches-Maritimes.bash
-            - Pour Linux/Mac lancer la commande dans un terminal classique: ./Recherches-Maritimes.sh
+Pour exécuter le jeu, dans un terminal :
+
+* **Se déplacer :** Se mettre dans le dossier `[conception]` ou `[jeu]` selon ce que vous voulez lancer.
+* **Pour Windows :** Lancer la commande dans un terminal bash :
+```bash
+  ./Recherches-Maritimes.bash
+  ```
+* **Pour Linux/Mac :** Lancer la commande dans un terminal classique :
+```bash
+  ./Recherches-Maritimes.sh
+  ```
