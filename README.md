@@ -1,20 +1,20 @@
 # SAE-2.01-2.02-2.05 : Les Chercheurs des Mers
 
-Règles du jeu
+## Règles du jeu
 
-MATÉRIEL
+### MATÉRIEL
 
 Une grille configurable découpée en régions.
 Un nombre de poissons répartis dans des cases
  Un ensemble de laboratoires de recherche de couleurs différentes. 
  Un paquet de cartes composé de (Nombre de laboratoire + 1) x 2 cartes au total. 
 
-OBJECTIF
+### OBJECTIF
 
 Obtenir le score total le plus élevé à la fin de toutes les manches.
 Les points se gagnent en explorant les régions et en étudiant les poissons.
 
-COMPOSITION DU PAQUET DE CARTES
+### COMPOSITION DU PAQUET DE CARTES
 
 Le paquet est divisé équitablement en deux catégories :
 50% de cartes claires et 50% de cartes foncées.
@@ -26,7 +26,7 @@ Exemple pour un jeu à 4 laboratoire:
 
 Donc un total de 10 cartes
 
-DÉROULEMENT DU JEU
+### DÉROULEMENT DU JEU
 
 Avant de commencer (Configuration)
 
@@ -36,7 +36,7 @@ Avant de commencer (Configuration)
 4. Assigner un point de départ sur le plateau pour chaque laboratoire.
 5. Mélanger le paquet de cartes et le placer face cachée ou face visible.
 
-Déroulement d'une manche
+### Déroulement d'une manche
 
 Une manche correspond à un laboratoire de recherche. Si plusieurs joueurs s'affrontent,
 ils jouent sur la même grille mais démarrent chacun leur manche depuis un laboratoire
@@ -57,11 +57,11 @@ ils jouent sur la même grille mais démarrent chacun leur manche depuis un labo
    la manche s'arrête immédiatement. Le paquet est remélangé pour la manche suivante.
    On change de laboratoire et le jeu reprend depuis le nouveau point de départ.
 
-MOUVEMENTS AUTORISÉS
+### MOUVEMENTS AUTORISÉS
 
 Les déplacements se font dans les 8 directions adjacentes (haut, bas, gauche, droite et les 4 diagonales).
 
-CALCUL DES POINTS
+### CALCUL DES POINTS
 
 À la fin de chaque manche, on calcule le score du laboratoire actif de la manière suivante :
 
@@ -86,7 +86,7 @@ Fin de partie :
 Une fois toutes les manches terminées, on additionne les scores de chaque manche
 pour obtenir le score total. Le joueur ayant le score total le plus élevé est le vainqueur.
 
-CAS PARTICULIERS
+### CAS PARTICULIERS
 
 - Aucun poisson correspondant : Si la carte Poisson piochée ne correspond à aucun
                                 poisson sur les cases adjacentes, le joueur reste
@@ -100,14 +100,16 @@ CAS PARTICULIERS
                    la victoire. Si il y a toujours égalité, les joueurs partagent
                    la victoire.
 
-Pour exécuter le jeu, dans un terminal :
+## Pour exécuter le jeu
+
+Dans un terminal bash :
 
 * **Se déplacer :** Se mettre dans le dossier `[conception]` ou `[jeu]` selon ce que vous voulez lancer.
-* **Pour Windows :** Lancer la commande dans un terminal bash :
+* **Pour Windows :** Lancer la commande:
 ```bash
   ./Recherches-Maritimes.bash
   ```
-* **Pour Linux/Mac :** Lancer la commande dans un terminal classique :
+* **Pour Linux/Mac :** Lancer la commande:
 ```bash
   ./Recherches-Maritimes.sh
   ```
