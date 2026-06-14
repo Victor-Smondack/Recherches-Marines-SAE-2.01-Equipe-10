@@ -28,7 +28,7 @@ public class Controleur
     private boolean     aJoueCeTour    = false;
     private int         nbCartesNoires = 0;
 
-
+    // Constructeur du contrôleur qui initialise le jeu et l'IHM
     public Controleur()
     {
         this.frameDebut = new FrameDebut( this );
@@ -42,7 +42,7 @@ public class Controleur
         lecteur.lireLabo();
 
         this.metier.restaurerLabos();
-        this.metier.genererLiaisons(); // <-- LA LIGNE CORRIGÉE EST ICI
+        this.metier.genererLiaisons();
 
         this.pioche       = new Pioche( this.metier.getNbSymbole() );
         this.carteVisible = null;
@@ -51,7 +51,7 @@ public class Controleur
         this.frameTable   = new FrameTable( this, this.metier.getLongueur(), this.metier.getLargeur(), this.metier.getTailleCase() );
     }
 
-
+    // Initialise les dimensions de la grille du plateau
     public void initialiserGrille( int longueur, int largeur, int nbSymbole, int tailleCase )
     {
         this.yGrille = longueur;
@@ -60,43 +60,43 @@ public class Controleur
         this.metier  = new Plateau( this.xGrille, this.yGrille );
     }
 
-
+    // Récupère la grille des zones du plateau
     public Zone[][] getGrilleZone()
     {
         return this.metier.getGrilleZone();
     }
 
-
+    // Vérifie si une zone avec ce numéro existe
     public boolean zoneExiste( int numZone )
     {
         return this.metier.zoneExiste( numZone );
     }
 
-
+    // Récupère la liste des espèces de poissons disponibles
     public String[] getPoissons()
     {
         return this.metier.getEspeces();
     }
 
-
+    // Récupère le tableau des espèces de poissons
     public String[] getEspeces()
     {
         return this.metier.getEspeces();
     }
 
-
+    // Récupère la grille contenant les poissons
     public Poisson[][] getGrillePoisson()
     {
         return this.metier.getGrillePoisson();
     }
 
-
+    // Demande la génération des liaisons entre les poissons
     public void genererLiaisons()
     {
         this.metier.genererLiaisons();
     }
 
-
+    // Récupère un tableau des coordonnées de toutes les liaisons
     public int[][] getCoordonneesLiaisons()
     {
         if ( this.metier == null || this.metier.getLstLiaisons() == null )
@@ -119,7 +119,7 @@ public class Controleur
         return coords;
     }
 
-
+    // Convertit un code couleur en un objet Color avec transparence
     public Color getCouleur( int codeCouleur )
     {
         Couleur c = Couleur.valueOf( codeCouleur );
@@ -131,25 +131,45 @@ public class Controleur
         return new Color( 180, 230, 255, 128 );
     }
 
+   // Récupère proprement le nom de la couleur du laboratoire pour la manche actuelle
+    public String getCouleurLabo( int numManche )
+    {
+        int indexLabo = 0;
 
+        for ( Couleur c : Couleur.values() )
+        {
+            if ( c.name().startsWith( "LABO_" ) )
+            {
+                indexLabo++;
+                if ( indexLabo == numManche )
+                {
+                    return c.getLibelle().replace( "Laboratoire ", "" );
+                }
+            }
+        }
+
+        return "";
+    }
+
+    // Récupère l'espèce du poisson aux coordonnées demandées
     public String getPoissonIndice( int indiceX, int indiceY )
     {
         return this.metier.getPoissonIndice( indiceX, indiceY );
     }
 
-
+    // Récupère le numéro de zone aux coordonnées demandées
     public int getZoneIndice( int indiceX, int indiceY )
     {
         return this.metier.getZoneIndice( indiceX, indiceY );
     }
 
-
+    // Récupère le numéro de laboratoire aux coordonnées demandées
     public int getLaboIndice( int indiceX, int indiceY )
     {
         return this.metier.getLaboIndice( indiceX, indiceY );
     }
 
-
+    // Pioche une carte et incrémente le compteur si elle est noire
     public Carte piocherCarte()
     {
         if ( this.pioche.estVide() )
@@ -177,31 +197,31 @@ public class Controleur
         return this.carteVisible;
     }
 
-
+    // Récupère la carte actuellement visible
     public Carte getCarteVisible()
     {
         return this.carteVisible;
     }
 
-
+    // Modifie la carte actuellement visible
     public void setCarteVisible( Carte carte )
     {
         this.carteVisible = carte;
     }
 
-
+    // Vérifie si la pioche est vide
     public boolean estVide()
     {
         return this.pioche.estVide();
     }
 
-
+    // Mélange le paquet de cartes de la pioche
     public void melangerPioche()
     {
         this.pioche.melanger();
     }
 
-
+    // Réinitialise la pioche et les compteurs pour une nouvelle manche
     public void resetPioche()
     {
         this.metier.finirManche();
@@ -211,25 +231,25 @@ public class Controleur
         this.nbCartesNoires = 0;
     }
 
-
+    // Récupère le nombre de cartes restantes dans la pioche
     public int getNbCartesRestantes()
     {
         return this.pioche.getNbCartesRestantes();
     }
 
-
+    // Récupère la carte située sur le dessus de la pioche
     public Carte carteActuelle()
     {
         return this.pioche.carteActuelle();
     }
 
-
+    // Récupère l'objet Poisson aux coordonnées spécifiées
     public Poisson getPoissonObjet( int x, int y )
     {
         return this.metier.getPoisson( x, y );
     }
 
-
+    // Vérifie si le clic sur la case est valide selon les règles de jeu
     public boolean verifierClicValide( int x, int y )
     {
         if ( this.carteVisible == null || (this.metier.estUnLaboActif() && this.aJoueCeTour) )
@@ -240,7 +260,7 @@ public class Controleur
         return this.metier.estPoissonValidePourLabo( p );
     }
 
-
+    // Valide le déplacement et fait avancer l'étude sur le poisson choisi
     public void validerEtAvancerEtude( int x, int y )
     {
         boolean laboDejaActif = this.metier.estUnLaboActif();
@@ -256,31 +276,43 @@ public class Controleur
         }
     }
 
-
+    // Indique si une étude en laboratoire est actuellement en cours
     public boolean estUnLaboActif()
     {
         return this.metier.estUnLaboActif();
     }
 
-
+    // Récupère le nom du dossier choisi
     public String getDossier( String nomDossier )
     {
         return "pas grand chose pour l'instant";
     }
 
-
+    // Récupère l'identifiant du laboratoire associé à une liaison précise
     public int getLaboDeLiaison( int x1, int y1, int x2, int y2 )
     {
         return this.metier.getLaboDeLiaison( x1, y1, x2, y2 );
     }
 
-
+    // Récupère le nombre de cartes noires piochées dans la manche
     public int getNbCartesNoires()
     {
         return this.nbCartesNoires;
     }
 
+    // Récupère le score global actuel du joueur depuis le métier
+    public int getPointsTotal()
+    {
+        return this.metier.getPointsTotal();
+    }
 
+// Force la fin de la manche actuelle (essentiel pour valider les points du dernier labo)
+    public void finirManche()
+    {
+        this.metier.finirManche();
+    }
+
+    // Méthode principale qui lance l'application
     public static void main( String[] args )
     {
         new Controleur();

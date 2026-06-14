@@ -19,14 +19,15 @@ public class LireDonnees
     private static final String FICHIER_LIAISONS = "liaisons.data";
     private static final String FICHIER_ZONES    = "zones.data";
 
-    private static final String DOSSIER          = "../../conception/class/src/data/";
+    private static final String DOSSIER          = "../../conception/data/";
 
+    // Constructeur associant le lecteur de fichiers au plateau de jeu actuel
     public LireDonnees(Plateau plateau)
     {
         this.plateau = plateau;
     }
 
-
+    // Charge la configuration des dimensions et paramètres de la grille de jeu
     public void lireGrille()
     {
         try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + FICHIER_GRILLE ), "UTF8" ))
@@ -50,7 +51,7 @@ public class LireDonnees
         }
     }
 
-
+    // Charge l'emplacement des poissons pour remplir la grille
     public void lirePoissons()
     {
         try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + FICHIER_POISSONS ), "UTF8" ))
@@ -74,7 +75,7 @@ public class LireDonnees
         }
     }
 
-
+    // Charge les liaisons prédéfinies reliant les poissons entre eux
     public void lireLiaisons()
     {
         try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + FICHIER_LIAISONS ), "UTF8" ))
@@ -107,7 +108,7 @@ public class LireDonnees
         }
     }
 
-
+    // Charge l'emplacement des zones pour remplir la grille
     public void lireZones()
     {
         try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + FICHIER_ZONES ), "UTF8" ))
@@ -135,7 +136,7 @@ public class LireDonnees
         }
     }
 
-
+    // Charge l'emplacement des laboratoires sur la grille de jeu
     public void lireLabo()
     {
         try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + FICHIER_LABOS ), "UTF8" ))

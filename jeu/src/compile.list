@@ -12,6 +12,7 @@
 ./metier/LireDonnees.java
 ./metier/Poisson.java
 ./metier/Pioche.java
+./metier/Points.java
 ./metier/Zone.java
 ./metier/Liaison.java
 ./metier/Carte.java

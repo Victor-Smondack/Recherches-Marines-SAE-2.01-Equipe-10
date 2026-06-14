@@ -15,7 +15,7 @@ public class Sauvegarde
     private static final String FICHIER_LIAISONS = "liaisons.data";
     private static final String FICHIER_ZONES    = "zones.data";
 
-    private static final String DOSSIER          = "src/data/";
+    private static final String DOSSIER          = "../";
 
     private Sauvegarde()
     {

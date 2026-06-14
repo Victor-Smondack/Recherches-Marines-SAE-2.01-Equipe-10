@@ -10,6 +10,7 @@ public class FrameDebut extends JFrame
     private Controleur ctrl;
     private PanelDebut panelDebut;
 
+    // Constructeur créant la fenêtre graphique du menu principal
     public FrameDebut ( Controleur ctrl)
     {
         this.ctrl = ctrl;

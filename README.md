@@ -101,6 +101,6 @@ CAS PARTICULIERS
                    la victoire.
 
 Pour exécuter le jeu, dans un terminal:
- Se mettre dans le dossier [conception] ou [jeu] selon ce que vous voulez lancer
-  Pour Windows lancer la commande: ./Recherches-Maritimes.ps1
-  Pour Linux/Mac lancer la commande: ./Recherches-Maritimes.sh
+        - Se mettre dans le dossier [conception] ou [jeu] selon ce que vous voulez lancer
+            - Pour Windows lancer la commande dans un terminal bash: ./Recherches-Maritimes.bash
+            - Pour Linux/Mac lancer la commande dans un terminal classique: ./Recherches-Maritimes.sh

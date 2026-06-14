@@ -16,6 +16,7 @@ public class PanelDebut extends JPanel implements ActionListener
 
     private JButton    btnChoisirSauvegarde;
 
+    // Constructeur initialisant l'agencement et le bouton de chargement de sauvegarde
     public PanelDebut ( Controleur ctrl )
     {
         this.ctrl = ctrl;
@@ -34,13 +35,14 @@ public class PanelDebut extends JPanel implements ActionListener
         this.btnChoisirSauvegarde.addActionListener ( this );
     }
 
+    // Intercepte les clics sur le bouton pour ouvrir l'explorateur de sélection de dossier
     public void actionPerformed(ActionEvent e) 
     {
         if (e.getSource() == this.btnChoisirSauvegarde) 
         {
 
             JFileChooser choixDossier = new JFileChooser();
-            choixDossier.setCurrentDirectory(new File("../class/src/data/"));
+            choixDossier.setCurrentDirectory(new File("../data/"));
             choixDossier.setDialogTitle("Choisir un dossier de sauvegarde");
             choixDossier.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             choixDossier.setAcceptAllFileFilterUsed(false);

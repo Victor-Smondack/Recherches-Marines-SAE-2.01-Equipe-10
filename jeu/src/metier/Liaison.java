@@ -7,27 +7,28 @@ public class Liaison
     private Poisson p1;
     private Poisson p2;
 
-    // constructeur
 
+    // Constructeur pour lier deux poissons ensemble
     public Liaison(Poisson p1, Poisson p2)
     {
         this.p1 = p1;
         this.p2 = p2;
     }
 
-    // getters
 
+    // Récupère le premier poisson de la liaison
     public Poisson getP1()
     {
         return p1;
     }
 
-
+    // Récupère le deuxième poisson de la liaison
     public Poisson getP2()
     {
         return p2;
     }
 
+    // Vérifie si deux liaisons connectent les mêmes poissons dans n'importe quel ordre
     @Override
     public boolean equals(Object o)
     {
@@ -42,6 +43,7 @@ public class Liaison
 
     // toString
     
+    // Représentation textuelle des deux poissons liés
     @Override
     public String toString()
     {
