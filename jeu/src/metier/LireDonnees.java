@@ -94,7 +94,7 @@ public class LireDonnees
                 int x2 = Integer.parseInt(dec[2]);
                 int y2 = Integer.parseInt(dec[3]);
 
-                this.plateau.initLiaison(x1, y1, x2, y2);
+                this.plateau.initLiaisonCoord(x1, y1, x2, y2);
             }
         }
     }

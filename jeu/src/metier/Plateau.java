@@ -570,6 +570,26 @@ public class Plateau
         }
     }
 
+    // Crée une liaison entre deux poissons à partir de leurs coordonnées
+    public void initLiaisonCoord(int x1, int y1, int x2, int y2)
+    {
+        if (x1 < 0 || x1 >= this.grillePoisson.length ||
+            y1 < 0 || y1 >= this.grillePoisson[0].length ||
+            x2 < 0 || x2 >= this.grillePoisson.length ||
+            y2 < 0 || y2 >= this.grillePoisson[0].length)
+        {
+            return;
+        }
+
+        Poisson p1 = this.grillePoisson[x1][y1];
+        Poisson p2 = this.grillePoisson[x2][y2];
+
+        if (p1 != null && p2 != null)
+        {
+            this.lstLiaisons.add(new Liaison(p1, p2));
+        }
+    }
+
     // Parcourt les poissons pour savoir s'ils sont placés sur une case laboratoire
     public void restaurerLabos()
     {
