@@ -117,13 +117,52 @@ public class PanelTable extends JPanel
                         g2.setStroke( new BasicStroke( 6 ) );
                     } else
                     {
-                        g2.setColor( Color.BLACK );
-                        g2.setStroke( new BasicStroke( 3 ) );
+                        boolean possible = false;
+                        Poisson selected = this.ctrl.getSelectedExtremity();
+                        if ( selected != null && !this.ctrl.aJoueCeTour() && this.ctrl.getCarteVisible() != null )
+                        {
+                            Poisson p1 = this.ctrl.getPoissonObjet( x1, y1 );
+                            Poisson p2 = this.ctrl.getPoissonObjet( x2, y2 );
+                            if ( p1 == selected || p2 == selected )
+                            {
+                                Poisson dest = (p1 == selected) ? p2 : p1;
+                                String nomCarte = this.ctrl.getCarteVisible().getNom();
+                                boolean correspondCarte = dest.getEspece().equals( nomCarte ) || nomCarte.equals( "Joker" );
+                                boolean estBonneExtremite = this.ctrl.verifierDeplacement( selected.getX(), selected.getY(), dest.getX(), dest.getY() );
+                                if ( correspondCarte && estBonneExtremite )
+                                {
+                                    possible = true;
+                                }
+                            }
+                        }
+
+                        if ( possible )
+                        {
+                            g2.setColor( Color.WHITE );
+                            g2.setStroke( new BasicStroke( 6 ) );
+                        } else
+                        {
+                            g2.setColor( new Color( 0, 0, 0, 100 ) );
+                            g2.setStroke( new BasicStroke( 2 ) );
+                        }
                     }
 
                     g2.drawLine( startX, startY, endX, endY );
                 }
             }
+        }
+
+        Poisson selected = this.ctrl.getSelectedExtremity();
+        if ( selected != null )
+        {
+            JLabel lblSelected = this.cases[selected.getY()][selected.getX()];
+            int cx = lblSelected.getX();
+            int cy = lblSelected.getY();
+            int w = lblSelected.getWidth();
+            int h = lblSelected.getHeight();
+            g2.setColor( Color.WHITE );
+            g2.setStroke( new BasicStroke( 4 ) );
+            g2.drawRect( cx + 2, cy + 2, w - 4, h - 4 );
         }
     }
 
@@ -152,14 +191,27 @@ public class PanelTable extends JPanel
 
                             if ( poissonClique != null )
                             {
-                                boolean correspondCarte   = !PanelTable.this.ctrl.estUnLaboActif() || poissonClique.getEspece().equals( nomCarte )
-                                    || nomCarte.equals( "Joker" );
-                                boolean estBonneExtremite = PanelTable.this.ctrl.verifierClicValide( j, i );
+                                if ( PanelTable.this.ctrl.aJoueCeTour() ) return;
 
-                                if ( correspondCarte && estBonneExtremite )
+                                Poisson ext1 = PanelTable.this.ctrl.getExtremite1();
+                                Poisson ext2 = PanelTable.this.ctrl.getExtremite2();
+                                
+                                if ( poissonClique == ext1 || (ext2 != null && poissonClique == ext2) )
                                 {
-                                    PanelTable.this.ctrl.validerEtAvancerEtude( j, i );
+                                    PanelTable.this.ctrl.setSelectedExtremity( poissonClique );
                                     PanelTable.this.repaint();
+                                } else if ( PanelTable.this.ctrl.getSelectedExtremity() != null )
+                                {
+                                    Poisson selected = PanelTable.this.ctrl.getSelectedExtremity();
+                                    boolean correspondCarte = poissonClique.getEspece().equals( nomCarte ) || nomCarte.equals( "Joker" );
+                                    boolean estBonneExtremite = PanelTable.this.ctrl.verifierDeplacement( selected.getX(), selected.getY(), j, i );
+                                    
+                                    if ( correspondCarte && estBonneExtremite )
+                                    {
+                                        PanelTable.this.ctrl.validerEtAvancerEtudeAvecExtremite( selected.getX(), selected.getY(), j, i );
+                                        PanelTable.this.ctrl.setSelectedExtremity( poissonClique );
+                                        PanelTable.this.repaint();
+                                    }
                                 }
                             }
                         }

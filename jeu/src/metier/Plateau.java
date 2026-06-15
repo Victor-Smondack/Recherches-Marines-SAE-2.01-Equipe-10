@@ -456,6 +456,62 @@ public class Plateau
         return this.progressionLabo != null;
     }
 
+    // Renvoie la première extrémité de l'étude en cours
+    public Poisson getExtremite1()
+    {
+        return this.progressionLabo != null ? this.progressionLabo.getExtremite1() : null;
+    }
+
+    // Renvoie la deuxième extrémité de l'étude en cours
+    public Poisson getExtremite2()
+    {
+        return this.progressionLabo != null ? this.progressionLabo.getExtremite2() : null;
+    }
+
+    // Vérifie s'il est possible de se déplacer depuis une extrémité choisie vers un autre poisson
+    public boolean verifierDeplacement( Poisson ext, Poisson dest )
+    {
+        if ( this.progressionLabo == null || ext == null || dest == null )
+            return false;
+        
+        if ( ext != this.progressionLabo.getExtremite1() && ext != this.progressionLabo.getExtremite2() )
+            return false;
+
+        Liaison l = getLiaisonEntre( ext, dest );
+        return l != null && !this.croiseUneLiaisonVisitee( l );
+    }
+
+    // Valide et enregistre un déplacement depuis une extrémité spécifique vers un poisson de destination
+    public String validerEtAvancerEtudeAvecExtremite( Poisson ext, Poisson dest )
+    {
+        if ( this.progressionLabo == null )
+            return "";
+
+        Liaison l = getLiaisonEntre( ext, dest );
+        if ( l != null && !this.croiseUneLiaisonVisitee( l ) )
+        {
+            this.liaisonsVisitees.add( l );
+            this.labosDesLiaisons.add( this.idLaboActif );
+            
+            if ( this.progressionLabo.getExtremite2() == null )
+            {
+                this.progressionLabo.setExtremite2( dest );
+            } else
+            {
+                if ( ext == this.progressionLabo.getExtremite1() )
+                {
+                    this.progressionLabo.setExtremite1( dest );
+                } else if ( ext == this.progressionLabo.getExtremite2() )
+                {
+                    this.progressionLabo.setExtremite2( dest );
+                }
+            }
+            if ( !this.poisonsManche.contains( dest ) ) { this.poisonsManche.add( dest ); }
+            return "Nouvelle étude du laboratoire sur un(e) " + dest.getEspece();
+        }
+        return "Mouvement invalide";
+    }
+
     // Finit la manche en appliquant le vrai calcul de barème de la SAÉ
     public void finirManche()
     {

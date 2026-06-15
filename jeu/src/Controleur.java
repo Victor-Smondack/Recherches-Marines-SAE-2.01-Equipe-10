@@ -24,6 +24,7 @@ public class Controleur
     private Plateau     metier;
     private Pioche      pioche;
     private Carte       carteVisible;
+    private Poisson     selectedExtremity = null;
     private boolean     aJoueCeTour    = false;
     private int         nbCartesNoires = 0;
 
@@ -180,6 +181,7 @@ public class Controleur
         }
         this.carteVisible = this.pioche.piocher();
         this.aJoueCeTour  = false;
+        this.selectedExtremity = null;
 
         if ( this.carteVisible != null )
         {
@@ -192,6 +194,7 @@ public class Controleur
             }
         }
 
+        this.majIHM();
         return this.carteVisible;
     }
 
@@ -232,6 +235,8 @@ public class Controleur
         this.carteVisible   = null;
         this.aJoueCeTour    = false;
         this.nbCartesNoires = 0;
+        this.selectedExtremity = null;
+        this.majIHM();
     }
 
 
@@ -319,13 +324,71 @@ public class Controleur
         return this.metier.getPointsTotal();
     }
 
+<<<<<<< HEAD
 
     // Force la fin de la manche actuelle (essentiel pour valider les points du dernier labo)
+=======
+    public Poisson getSelectedExtremity()
+    {
+        return this.selectedExtremity;
+    }
+
+    public void setSelectedExtremity( Poisson p )
+    {
+        this.selectedExtremity = p;
+    }
+
+    public boolean aJoueCeTour()
+    {
+        return this.aJoueCeTour;
+    }
+
+    public Poisson getExtremite1()
+    {
+        return this.metier.getExtremite1();
+    }
+
+    public Poisson getExtremite2()
+    {
+        return this.metier.getExtremite2();
+    }
+
+    public boolean verifierDeplacement( int xExt, int yExt, int xDest, int yDest )
+    {
+        Poisson ext = this.getPoissonObjet( xExt, yExt );
+        Poisson dest = this.getPoissonObjet( xDest, yDest );
+        return this.metier.verifierDeplacement( ext, dest );
+    }
+
+    public void validerEtAvancerEtudeAvecExtremite( int xExt, int yExt, int xDest, int yDest )
+    {
+        Poisson ext = this.getPoissonObjet( xExt, yExt );
+        Poisson dest = this.getPoissonObjet( xDest, yDest );
+        if ( ext != null && dest != null )
+        {
+            String message = this.metier.validerEtAvancerEtudeAvecExtremite( ext, dest );
+            System.out.println( message );
+            this.aJoueCeTour = true;
+        }
+    }
+
+// Force la fin de la manche actuelle (essentiel pour valider les points du dernier labo)
+>>>>>>> f671d78 (Changement selection poisson)
     public void finirManche()
     {
         this.metier.finirManche();
     }
 
+<<<<<<< HEAD
+=======
+    public void majIHM()
+    {
+        if ( this.frameTable != null )
+        {
+            this.frameTable.repaint();
+        }
+    }
+>>>>>>> f671d78 (Changement selection poisson)
 
     public void lancerJeu()
     {
