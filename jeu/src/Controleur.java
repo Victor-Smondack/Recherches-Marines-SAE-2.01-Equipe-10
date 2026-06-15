@@ -285,7 +285,7 @@ public class Controleur
     // Récupère le nom du dossier choisi
     public String getDossier( String nomDossier )
     {
-        return "pas grand chose pour l'instant";
+        return nomDossier;
     }
 
     // Récupère l'identifiant du laboratoire associé à une liaison précise
