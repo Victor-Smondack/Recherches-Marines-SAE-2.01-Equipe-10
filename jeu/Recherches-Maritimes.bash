@@ -3,7 +3,7 @@
 echo -e "\e[36mCompilation des fichiers...\e[0m"
 cd src || exit 1
 
-javac @compile.list -d ../class
+javac '@compile.list' -d ../class
 
 EXIT_CODE=$?
 cd ..

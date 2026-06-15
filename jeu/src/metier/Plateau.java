@@ -6,7 +6,7 @@ import java.util.List;
 public class Plateau
 {
     /**********************/
-    /* Attributs */
+    /* Attributs          */
     /**********************/
 
     private Poisson[][]     grillePoisson;
@@ -20,6 +20,10 @@ public class Plateau
     private List<Poisson>   lstPoisson;
     private char[][]        grilleLiaisons;
     private int[][]         grilleLabo;
+    private Points          points; 
+    
+    // Liste pour suivre les poissons étudiés uniquement pendant la manche actuelle
+    private List<Poisson>   poisonsManche    = new ArrayList<>(); 
 
     private int             longueur;
     private int             largeur;
@@ -35,9 +39,10 @@ public class Plateau
         "Maquereau" };
 
     /**********************/
-    /* Constructeur */
+    /* Constructeur       */
     /**********************/
 
+    // Constructeur créant un plateau vide avec ses différentes grilles aux tailles voulues
     public Plateau(int longueur, int largeur)
     {
         this.grillePoisson  = new Poisson[longueur][largeur];
@@ -46,11 +51,12 @@ public class Plateau
         this.lstLiaisons    = new ArrayList<>();
         this.grilleZone     = new Zone[longueur][largeur];
         this.grilleLabo     = new int[longueur][largeur];
+        this.points         = new Points( 1, 1 ); 
     }
 
 
     /**********************/
-    /* Méthodes */
+    /* Méthodes           */
     /**********************/
 
 
@@ -133,7 +139,7 @@ public class Plateau
         return this.grillePoisson[x][y];
     }
 
-    // Récupère les liaisons à une position donnée
+    // Récupère la grille complète des poissons
 
 
     public Poisson[][] getGrillePoisson()
@@ -195,13 +201,13 @@ public class Plateau
         return this.grilleZone[x][y];
     }
 
-
+    // Récupère la grille des zones complète
     public Zone[][] getGrilleZone()
     {
         return this.grilleZone;
     }
 
-    // Vérifie si une zone existe à une position donnée
+    // Vérifie si une zone existe avec ce numéro
 
 
     public boolean zoneExiste( int numZone )
@@ -222,7 +228,7 @@ public class Plateau
         return false;
     }
 
-    // Échange la position de deux poissons
+    // Récupère la liste des espèces disponibles
 
 
     public String[] getEspeces()
@@ -247,7 +253,7 @@ public class Plateau
         return "";
     }
 
-
+    // Récupère le numéro de la zone aux indices donnés
     public int getZoneIndice( int indiceX, int indiceY )
     {
         for ( int i = 0; i < this.grilleZone.length; i++ )
@@ -262,7 +268,7 @@ public class Plateau
         return -1;
     }
 
-
+    // Récupère le numéro de laboratoire aux coordonnées données
     public int getLaboIndice( int indiceX, int indiceY )
     {
         for ( int i = 0; i < this.grilleLabo.length; i++ )
@@ -289,46 +295,18 @@ public class Plateau
         return this.grilleLabo;
     }
 
-    // Vérifie si une zone peut être placée à une position donnée
 
-
-    public boolean isZonePossible( int x, int y, int zone )
-    {
-        if ( !zoneExiste( zone ) )
-        {
-            return true;
-        }
-
-        if ( x > 0 && this.grilleZone[x - 1][y] != null && this.grilleZone[x - 1][y].getNumZone() == zone )
-        {
-            return true;
-        }
-
-        if ( x < this.grilleZone.length - 1 && this.grilleZone[x + 1][y] != null && this.grilleZone[x + 1][y].getNumZone() == zone )
-        {
-            return true;
-        }
-
-        if ( y > 0 && this.grilleZone[x][y - 1] != null && this.grilleZone[x][y - 1].getNumZone() == zone )
-        {
-            return true;
-        }
-
-        if ( y < this.grilleZone[0].length - 1 && this.grilleZone[x][y + 1] != null && this.grilleZone[x][y + 1].getNumZone() == zone )
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-
+    // Gère l'avancement ou le début d'une étude de poisson dans un laboratoire
     public String etudePoisson( Poisson p )
     {
         if ( this.getLaboIndice( p.getX(), p.getY() ) != -1 && this.progressionLabo == null )
         {
             this.idLaboActif     = this.getLaboIndice( p.getX(), p.getY() );
             this.progressionLabo = new ProgressionLabo( p );
+
+            // On mémorise le poisson de départ de la recherche
+            if ( !this.poisonsManche.contains( p ) ) { this.poisonsManche.add( p ); }
+
             return "Début de l'étude du laboratoire sur un(e) " + p.getEspece();
         } else if ( this.progressionLabo != null )
         {
@@ -340,6 +318,10 @@ public class Plateau
                 this.liaisonsVisitees.add( l1 );
                 this.labosDesLiaisons.add( this.idLaboActif );
                 this.progressionLabo.setExtremite2( p );
+
+                // On mémorise le poisson étudié
+                if ( !this.poisonsManche.contains( p ) ) { this.poisonsManche.add( p ); }
+
                 return "Première étude du laboratoire sur un(e) " + p.getEspece();
             } else
             {
@@ -348,12 +330,20 @@ public class Plateau
                     this.liaisonsVisitees.add( l1 );
                     this.labosDesLiaisons.add( this.idLaboActif );
                     this.progressionLabo.setExtremite1( p );
+
+                    // On mémorise le poisson étudié
+                    if ( !this.poisonsManche.contains( p ) ) { this.poisonsManche.add( p ); }
+
                     return "Nouvelle étude du laboratoire sur un(e) " + p.getEspece();
                 } else if ( l2 != null && !this.croiseUneLiaisonVisitee( l2 ) )
                 {
                     this.liaisonsVisitees.add( l2 );
                     this.labosDesLiaisons.add( this.idLaboActif );
                     this.progressionLabo.setExtremite2( p );
+
+                    // On mémorise le poisson étudié
+                    if ( !this.poisonsManche.contains( p ) ) { this.poisonsManche.add( p ); }
+
                     return "Nouvelle étude du laboratoire sur un(e) " + p.getEspece();
                 } else
                 {
@@ -364,7 +354,7 @@ public class Plateau
         return "";
     }
 
-
+    // Recherche la liaison directe existante entre deux poissons donnés
     private Liaison getLiaisonEntre( Poisson p1, Poisson p2 )
     {
         for ( Liaison l : this.lstLiaisons )
@@ -375,7 +365,7 @@ public class Plateau
         return null;
     }
 
-
+    // Récupère l'identifiant du laboratoire qui utilise une liaison spécifique
     public int getLaboDeLiaison( int x1, int y1, int x2, int y2 )
     {
         for ( int i = 0; i < this.liaisonsVisitees.size(); i++ )
@@ -390,7 +380,7 @@ public class Plateau
         return -1;
     }
 
-
+    // Algorithme qui détermine mathématiquement si deux segments de droite se croisent
     private boolean segmentsCroisent( int xA, int yA, int xB, int yB, int xC, int yC, int xD, int yD )
     {
         if ( (xA == xC && yA == yC) || (xA == xD && yA == yD) || (xB == xC && yB == yC) || (xB == xD && yB == yD) )
@@ -404,7 +394,7 @@ public class Plateau
         return ((cp1 > 0 && cp2 < 0) || (cp1 < 0 && cp2 > 0)) && ((cp3 > 0 && cp4 < 0) || (cp3 < 0 && cp4 > 0));
     }
 
-
+    // Vérifie si la nouvelle liaison coupe une liaison qui a déjà été validée
     private boolean croiseUneLiaisonVisitee( Liaison nouvelle )
     {
         if ( nouvelle == null )
@@ -435,7 +425,7 @@ public class Plateau
         return false;
     }
 
-
+    // Vérifie si le poisson peut être sélectionné par rapport aux extrémités du chemin actuel
     public boolean estPoissonValidePourLabo( Poisson p )
     {
         if ( p == null )
@@ -460,15 +450,61 @@ public class Plateau
         return valideExtremite1 || valideExtremite2;
     }
 
-
+    // Indique si un laboratoire est en cours d'étude
     public boolean estUnLaboActif()
     {
         return this.progressionLabo != null;
     }
 
-
+    // Finit la manche en appliquant le vrai calcul de barème de la SAÉ
     public void finirManche()
     {
+        if ( this.points != null && !this.poisonsManche.isEmpty() )
+        {
+            // 1. Déterminer les régions distinctes visitées au cours de la manche
+            List<Integer> regionsDistinctes = new ArrayList<>();
+            for ( Poisson p : this.poisonsManche )
+            {
+                int idRegion = this.getZoneIndice( p.getX(), p.getY() );
+                if ( idRegion != -1 && !regionsDistinctes.contains( idRegion ) )
+                {
+                    regionsDistinctes.add( idRegion );
+                }
+            }
+            int ptRegions = regionsDistinctes.size(); // 1 point par région distincte
+
+            // 2. Déterminer la région dominante (le maximum de poissons étudiés dans une seule région)
+            int ptRecherche = 0;
+            for ( int idRegion : regionsDistinctes )
+            {
+                int countFishesInRegion = 0;
+                for ( Poisson p : this.poisonsManche )
+                {
+                    if ( this.getZoneIndice( p.getX(), p.getY() ) == idRegion )
+                    {
+                        countFishesInRegion++;
+                    }
+                }
+                
+                // On garde uniquement le score de la région la plus peuplée
+                if ( countFishesInRegion > ptRecherche )
+                {
+                    ptRecherche = countFishesInRegion;
+                }
+            }
+
+            // 3. Envoyer les points officiels calculés à l'objet Fiche de score
+            this.points.pointsZonesVisitees( ptRegions );
+            this.points.pointsPoissonsCapturesZones( ptRecherche );
+            
+            // Fait la multiplication (Total += Régions * Recherche) et nettoie la manche
+            this.points.calculerPointsTotal();
+            this.points.resetPointsManche();
+        }
+
+        // On vide la liste pour être prêt pour la manche suivante
+        this.poisonsManche.clear();
+
         this.progressionLabo = null;
         this.idLaboActif     = -1;
     }
@@ -488,7 +524,7 @@ public class Plateau
         this.grilleLabo     = new int[longueur][largeur];
     }
 
-
+    // Instancie et place un nouveau poisson sur la grille
     public void initPoisson( int id, String espece, int x, int y )
     {
         Poisson p = new Poisson( espece, x, y );
@@ -496,20 +532,20 @@ public class Plateau
         this.lstPoisson.add( p );
     }
 
-
+    // Instancie et place une zone sur la grille du plateau
     public void initZone( int numZone, int x, int y )
     {
         Zone z = new Zone( numZone, x, y );
         this.grilleZone[x][y] = z;
     }
 
-
+    // Associe un numéro de laboratoire aux coordonnées indiquées
     public void initLabo( int numLabo, int x, int y )
     {
         this.grilleLabo[x][y] = numLabo;
     }
 
-
+    // Crée une liaison entre deux poissons identifiés par leurs numéros uniques
     public void initLiaison( int id1, int id2 )
     {
         Poisson p1 = null;
@@ -534,6 +570,7 @@ public class Plateau
         }
     }
 
+    // Parcourt les poissons pour savoir s'ils sont placés sur une case laboratoire
     public void restaurerLabos()
     {
         for (int x = 0; x < this.grillePoisson.length; x++)
@@ -550,29 +587,31 @@ public class Plateau
         }
     }
 
+    // Remplace la liste complète des liaisons par une nouvelle liste
     public void setLstLiaisons(ArrayList<Liaison> lst)
     {
         this.lstLiaisons = lst;
     }
 
+    // Récupère la longueur maximale de la grille
     public int getLongueur()
     {
         return this.longueur;
     }
 
-
+    // Récupère la largeur maximale de la grille
     public int getLargeur()
     {
         return this.largeur;
     }
 
-
+    // Récupère la quantité de symboles différents configurés
     public int getNbSymbole()
     {
         return this.nbSymbole;
     }
 
-
+    // Récupère la taille d'affichage d'une case de la grille
     public int getTailleCase()
     {
         return this.tailleCases;
@@ -580,11 +619,19 @@ public class Plateau
 
     public void lireDonnees(String dossier)
     {
-        LireDonnees.lireGrille( dossier );
-        LireDonnees.lirePoissons( dossier );
-        LireDonnees.lireZones( dossier );
-        LireDonnees.lireLiaisons( dossier );
-        LireDonnees.lireLabo( dossier );
+        LireDonnees lecteur = new LireDonnees(this);
+
+        lecteur.lireGrille( dossier );
+        lecteur.lirePoissons( dossier );
+        lecteur.lireZones( dossier );
+        lecteur.lireLiaisons( dossier );
+        lecteur.lireLabo( dossier );
     }
     
+
+    // Récupère le score total actuel calculé par l'objet Points
+    public int getPointsTotal()
+    {
+        return this.points.getPointsTotal();
+    }
 }

@@ -1,9 +1,7 @@
 package src.metier;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class LireDonnees
@@ -21,15 +19,16 @@ public class LireDonnees
     private static final String FICHIER_LIAISONS = "liaisons.data";
     private static final String FICHIER_ZONES    = "zones.data";
 
-    private static final String DOSSIER          = "../../conception/class/src/data/";
+    private static final String DOSSIER          = "../../conception/data/";
 
+    // Constructeur associant le lecteur de fichiers au plateau de jeu actuel
     public LireDonnees(Plateau plateau)
     {
         this.plateau = plateau;
     }
 
 
-    public static void lireGrille(String dossier)
+    public  void lireGrille(String dossier)
     {
         try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + dossier + "/" + FICHIER_GRILLE ), "UTF8" ))
         {
@@ -53,7 +52,7 @@ public class LireDonnees
     }
 
 
-    public static void lirePoissons(String dossier)
+    public void lirePoissons(String dossier)
     {
         try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + dossier + "/" + FICHIER_POISSONS ), "UTF8" ))
         {
@@ -77,7 +76,7 @@ public class LireDonnees
     }
 
 
-    public static void lireLiaisons(String dossier)
+    public void lireLiaisons(String dossier)
 {
     try (Scanner scFic = new Scanner(
             new FileInputStream(DOSSIER + dossier + "/" + FICHIER_LIAISONS),
@@ -106,7 +105,7 @@ public class LireDonnees
 }
 
 
-    public static void lireZones(String dossier)
+    public void lireZones(String dossier)
     {
         try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + dossier + "/" + FICHIER_ZONES ), "UTF8" ))
         {
@@ -134,7 +133,7 @@ public class LireDonnees
     }
 
 
-    public static void lireLabo(String dossier)
+    public void lireLabo(String dossier)
     {
         try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + dossier + "/" + FICHIER_LABOS ), "UTF8" ))
         {

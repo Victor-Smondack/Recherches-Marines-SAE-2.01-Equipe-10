@@ -12,7 +12,7 @@ public class FrameTirage extends JFrame
     private Controleur ctrl;
     private PanelTirage panelTirage;
 
-    // Constructeurs de la frame
+    // Constructeur créant la fenêtre d'affichage pour le tirage des cartes
     public FrameTirage(Controleur ctrl)
     {
         this.ctrl = ctrl;

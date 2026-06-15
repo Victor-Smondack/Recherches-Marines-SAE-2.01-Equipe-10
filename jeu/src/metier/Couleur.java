@@ -28,6 +28,7 @@ public enum Couleur
 	private int		v;
 	private int		b;
 
+	// Constructeur initialiser les valeurs RGB le libellé d'une couleur
 	private Couleur(String libelle, int r, int v, int b)
 	{
 		this.libelle	= libelle;
@@ -38,31 +39,33 @@ public enum Couleur
 
 
 	// Getters
+    
+	// Récupère le nom de la zone ou du laboratoire
 	public String getLibelle()
 	{
 		return libelle;
 	}
 
-
+	// Récupère la valeur de la composante Rouge
 	public int getR()
 	{
 		return this.r;
 	}
 
-
+	// Récupère la valeur de la composante Verte
 	public int getV()
 	{
 		return this.v;
 	}
 
-
+	// Récupère la valeur de la composante Bleue
 	public int getB()
 	{
 		return this.b;
 	}
 
 
-	// Méthode pour obtenir une couleur à partir de son code ordinal
+	// Méthode pour obtenir une couleur à partir de son code
 	public static Couleur valueOf( int code )
 	{
 		for ( Couleur c : Couleur.values() )
