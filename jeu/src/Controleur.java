@@ -324,10 +324,6 @@ public class Controleur
         return this.metier.getPointsTotal();
     }
 
-<<<<<<< HEAD
-
-    // Force la fin de la manche actuelle (essentiel pour valider les points du dernier labo)
-=======
     public Poisson getSelectedExtremity()
     {
         return this.selectedExtremity;
@@ -373,14 +369,11 @@ public class Controleur
     }
 
 // Force la fin de la manche actuelle (essentiel pour valider les points du dernier labo)
->>>>>>> f671d78 (Changement selection poisson)
     public void finirManche()
     {
         this.metier.finirManche();
     }
 
-<<<<<<< HEAD
-=======
     public void majIHM()
     {
         if ( this.frameTable != null )
@@ -388,7 +381,6 @@ public class Controleur
             this.frameTable.repaint();
         }
     }
->>>>>>> f671d78 (Changement selection poisson)
 
     public void lancerJeu()
     {
