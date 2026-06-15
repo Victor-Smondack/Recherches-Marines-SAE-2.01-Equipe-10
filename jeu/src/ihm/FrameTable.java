@@ -8,7 +8,6 @@ public class FrameTable extends JFrame
 {
 	private Controleur ctrl;
 
-	// Constructeur créant la fenêtre de jeu principale qui contient la grille graphique
 	public FrameTable(Controleur ctrl, int longueur, int largeur, int tailleCase)
 	{
 		this.ctrl = ctrl;

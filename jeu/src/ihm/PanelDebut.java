@@ -16,12 +16,11 @@ public class PanelDebut extends JPanel implements ActionListener
 
     private JButton    btnChoisirSauvegarde;
 
-    // Constructeur initialisant l'agencement et le bouton de chargement de sauvegarde
-    public PanelDebut ( Controleur ctrl )
+    public PanelDebut(Controleur ctrl)
     {
         this.ctrl = ctrl;
 
-        this.setLayout( new BorderLayout( ) );
+        this.setLayout( new BorderLayout() );
 
         //Création des composants
 
@@ -32,27 +31,29 @@ public class PanelDebut extends JPanel implements ActionListener
         this.add( btnChoisirSauvegarde, BorderLayout.NORTH );
 
         //Actionnment des composants
-        this.btnChoisirSauvegarde.addActionListener ( this );
+        this.btnChoisirSauvegarde.addActionListener( this );
     }
 
+
     // Intercepte les clics sur le bouton pour ouvrir l'explorateur de sélection de dossier
-    public void actionPerformed(ActionEvent e) 
+    public void actionPerformed( ActionEvent e )
     {
-        if (e.getSource() == this.btnChoisirSauvegarde) 
+        if ( e.getSource() == this.btnChoisirSauvegarde )
         {
 
             JFileChooser choixDossier = new JFileChooser();
-            choixDossier.setCurrentDirectory(new File("../data/"));
-            choixDossier.setDialogTitle("Choisir un dossier de sauvegarde");
-            choixDossier.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            choixDossier.setAcceptAllFileFilterUsed(false);
+            choixDossier.setCurrentDirectory( new File( "../data/" ) );
+            choixDossier.setDialogTitle( "Choisir un dossier de sauvegarde" );
+            choixDossier.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
+            choixDossier.setAcceptAllFileFilterUsed( false );
 
-            int retour = choixDossier.showOpenDialog(null);
+            int retour = choixDossier.showOpenDialog( null );
 
-            if (retour == JFileChooser.APPROVE_OPTION) {
-                File dossier = choixDossier.getSelectedFile();
+            if ( retour == JFileChooser.APPROVE_OPTION )
+            {
+                File   dossier    = choixDossier.getSelectedFile();
                 String nomDossier = dossier.getName();
-                System.out.println("Dossier choisi : " + dossier.getAbsolutePath() + "Nom du dossier : " + nomDossier );
+                System.out.println( "Dossier choisi : " + dossier.getAbsolutePath() + "Nom du dossier : " + nomDossier );
                 this.ctrl.getDossier( nomDossier );
             }
         }

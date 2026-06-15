@@ -10,14 +10,13 @@ public class FrameDebut extends JFrame
     private Controleur ctrl;
     private PanelDebut panelDebut;
 
-    // Constructeur créant la fenêtre graphique du menu principal
-    public FrameDebut ( Controleur ctrl)
+    public FrameDebut(Controleur ctrl)
     {
         this.ctrl = ctrl;
 
-        this.setTitle   ( "Menu du jeu" );
-		this.setSize    ( 250,500 );
-		this.setLocation( 20, 50 );
+        this.setTitle( "Menu du jeu" );
+        this.setSize( 250, 500 );
+        this.setLocation( 20, 50 );
 
         this.panelDebut = new PanelDebut( ctrl );
 

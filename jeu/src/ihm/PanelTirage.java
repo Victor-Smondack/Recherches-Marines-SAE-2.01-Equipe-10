@@ -37,11 +37,11 @@ public class PanelTirage extends JPanel implements ActionListener
 
         this.carteTiree = new JLabel();
         this.carteTiree.setHorizontalAlignment( SwingConstants.CENTER );
-        
+
         this.lblPoints          = new JLabel( "Score actuel : " + this.ctrl.getPointsTotal() + " points" );
         this.lblCartesRestantes = new JLabel( "Commencez à piocher" );
-        
-        this.lblCouleurLabo     = new JLabel( "Couleur du labo actuel : " + this.ctrl.getCouleurLabo( this.numManche ) ); 
+
+        this.lblCouleurLabo     = new JLabel( "Couleur du labo actuel : " + this.ctrl.getCouleurLabo( this.numManche ) );
 
         this.btnTirer           = new JButton( "Pioche" );
         this.btnTirer.setEnabled( false );
@@ -59,6 +59,7 @@ public class PanelTirage extends JPanel implements ActionListener
         this.btnTirer.addActionListener( this );
         this.btnLancerManche.addActionListener( this );
     }
+
 
     // Clics sur le bouton Pioche ou bouton nouvelle manche
     @Override
@@ -100,8 +101,8 @@ public class PanelTirage extends JPanel implements ActionListener
                 {
                     this.btnLancerManche.setEnabled( false );
                     this.lblCartesRestantes.setText( "FIN DU JEU !" );
-                    this.lblCouleurLabo.setText( "Couleur du labo actuel : Aucun (Fin du jeu)" );
-                    
+                    this.lblCouleurLabo.setText( "Couleur du labo actuel : Aucun" );
+
                     this.ctrl.finirManche();
                 }
 
@@ -121,7 +122,7 @@ public class PanelTirage extends JPanel implements ActionListener
                 this.lblPoints.setText( "Score actuel : " + this.ctrl.getPointsTotal() + " points" );
             }
         }
-        
+
         if ( e.getSource() == this.btnLancerManche )
         {
             System.out.println( "Début de la Manche" );
