@@ -31,24 +31,9 @@ public class Controleur
     // Constructeur du contrôleur qui initialise le jeu et l'IHM
     public Controleur()
     {
+         this.metier     = new Plateau( this.xGrille, this.yGrille );
         this.frameDebut = new FrameDebut( this );
-        this.metier     = new Plateau( this.xGrille, this.yGrille );
-        LireDonnees lecteur = new LireDonnees( this.metier );
-
-        lecteur.lireGrille();
-        lecteur.lirePoissons();
-        lecteur.lireLiaisons();
-        lecteur.lireZones();
-        lecteur.lireLabo();
-
-        this.metier.restaurerLabos();
-        this.metier.genererLiaisons();
-
-        this.pioche       = new Pioche( this.metier.getNbSymbole() );
-        this.carteVisible = null;
-
-        this.frameTirage  = new FrameTirage( this );
-        this.frameTable   = new FrameTable( this, this.metier.getLongueur(), this.metier.getLargeur(), this.metier.getTailleCase() );
+        
     }
 
     // Initialise les dimensions de la grille du plateau
@@ -310,6 +295,27 @@ public class Controleur
     public void finirManche()
     {
         this.metier.finirManche();
+    }
+
+    public void lancerJeu()
+    {
+        this.metier     = new Plateau( this.xGrille, this.yGrille );
+        LireDonnees lecteur = new LireDonnees( this.metier );
+
+        /*lecteur.lireGrille();
+        lecteur.lirePoissons();
+        lecteur.lireLiaisons();
+        lecteur.lireZones();
+        lecteur.lireLabo();*/
+
+        this.metier.restaurerLabos();
+        this.metier.genererLiaisons();
+
+        this.pioche       = new Pioche( this.metier.getNbSymbole() );
+        this.carteVisible = null;
+
+        this.frameTirage  = new FrameTirage( this );
+        this.frameTable   = new FrameTable( this, this.metier.getLongueur(), this.metier.getLargeur(), this.metier.getTailleCase() );
     }
 
     // Méthode principale qui lance l'application

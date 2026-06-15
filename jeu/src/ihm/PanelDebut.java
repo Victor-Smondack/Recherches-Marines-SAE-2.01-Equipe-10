@@ -54,7 +54,8 @@ public class PanelDebut extends JPanel implements ActionListener
                 File   dossier    = choixDossier.getSelectedFile();
                 String nomDossier = dossier.getName();
                 System.out.println( "Dossier choisi : " + dossier.getAbsolutePath() + "Nom du dossier : " + nomDossier );
-                this.ctrl.getDossier( nomDossier );
+                this.ctrl.lireDonnees( dossier.getAbsolutePath() );
+                this.ctrl.lancerJeu();
             }
         }
     }
