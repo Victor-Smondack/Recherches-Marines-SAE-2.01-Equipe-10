@@ -167,6 +167,7 @@ public class PanelTable extends JPanel
     }
 
 
+    //Change la couleur de la bordure en fonction du labo actuel
     public void changerCouleurBordureLabo( int numManche )
     {
         Color couleurLabo = this.ctrl.getCouleurLaboActuel( numManche );
