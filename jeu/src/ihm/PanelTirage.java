@@ -97,11 +97,21 @@ public class PanelTirage extends JPanel implements ActionListener
                     {
                         this.lblCartesRestantes.setText( "Manche terminée ! Lancez la suivante." );
                     }
+
+                    if ( this.ctrl.getFrameTable() != null && this.ctrl.getFrameTable().getPanelTable() != null )
+                    {
+                        this.ctrl.getFrameTable().getPanelTable().changerCouleurBordureLabo( -1 );
+                    }
                 } else
                 {
                     this.btnLancerManche.setEnabled( false );
                     this.lblCartesRestantes.setText( "FIN DU JEU !" );
                     this.lblCouleurLabo.setText( "Couleur du labo actuel : Aucun" );
+
+                    if ( this.ctrl.getFrameTable() != null && this.ctrl.getFrameTable().getPanelTable() != null )
+                    {
+                        this.ctrl.getFrameTable().getPanelTable().changerCouleurBordureLabo( -1 );
+                    }
 
                     this.ctrl.finirManche();
                 }
@@ -130,6 +140,8 @@ public class PanelTirage extends JPanel implements ActionListener
             this.ctrl.melangerPioche();
 
             this.lblCouleurLabo.setText( "Couleur du labo actuel : " + this.ctrl.getCouleurLabo( this.numManche ) );
+
+            this.ctrl.getFrameTable().getPanelTable().changerCouleurBordureLabo( this.numManche );
 
             int maxX = this.ctrl.getGrillePoisson().length;
             int maxY = this.ctrl.getGrillePoisson()[0].length;

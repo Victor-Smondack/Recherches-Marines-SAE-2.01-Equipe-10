@@ -6,7 +6,8 @@ import src.Controleur;
 
 public class FrameTable extends JFrame
 {
-	private Controleur ctrl;
+	private Controleur	ctrl;
+	private PanelTable	pnlTable;
 
 	public FrameTable(Controleur ctrl, int longueur, int largeur, int tailleCase)
 	{
@@ -20,7 +21,8 @@ public class FrameTable extends JFrame
 		this.setLocation( 450, 50 );
 
 		// Création et ajout du Panel
-		this.add( new PanelTable( this.ctrl, longueur, largeur, tailleCase ) );
+		this.pnlTable = new PanelTable( this.ctrl, longueur, largeur, tailleCase );
+		this.add( this.pnlTable );
 
 
 		// Gestion de la fermeture de la fenêtre
@@ -28,5 +30,11 @@ public class FrameTable extends JFrame
 
 		this.setVisible( true );
 
+	}
+
+
+	public PanelTable getPanelTable()
+	{
+		return this.pnlTable;
 	}
 }
