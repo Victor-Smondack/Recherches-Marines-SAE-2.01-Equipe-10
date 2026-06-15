@@ -1,269 +1,170 @@
 ```mermaid
 classDiagram
-    direction TB
+    direction LR
 
-    %% ===================== CONTROLEUR =====================
+    %% ---------- CONTROLEUR ----------
     class Controleur {
-        -int xGrille
-        -int yGrille
-        -FrameTirage frameTirage
-        -FrameTable frameTable
-        -FrameDebut frameDebut
-        -Plateau metier
-        -Pioche pioche
-        -Carte carteVisible
-        -Poisson selectedExtremity
-        -boolean aJoueCeTour
-        -int nbCartesNoires
-        +Controleur()
-        +initialiserGrille(longueur, largeur, nbSymbole, tailleCase) void
-        +lireDonnees(nomDossier) void
-        +lancerJeu() void
-        +piocherCarte() Carte
-        +melangerPioche() void
-        +resetPioche() void
-        +verifierClicValide(x, y) boolean
-        +validerEtAvancerEtude(x, y) void
-        +validerEtAvancerEtudeAvecExtremite(xExt, yExt, xDest, yDest) void
-        +verifierDeplacement(xExt, yExt, xDest, yDest) boolean
-        +estUnLaboActif() boolean
-        +finirManche() void
-        +majIHM() void
-        +getPointsTotal() int
-        +main(args)$ void
+        - Plateau metier
+        - Pioche pioche
+        - Carte carteVisible
+        - Poisson selectedExtremity
+        - int nbCartesNoires
+        + Controleur()
+        + lancerJeu() void
+        + piocherCarte() Carte
+        + verifierClicValide(x, y) boolean
+        + validerEtAvancerEtude(x, y) void
+        + finirManche() void
+        + getPointsTotal() int
+        + main(args) void
     }
 
-    %% ===================== IHM (VUE) =====================
+    %% ---------- VUE (package ihm) ----------
     class FrameDebut {
-        -Controleur ctrl
-        -PanelDebut panelDebut
-        +FrameDebut(ctrl)
+        - Controleur ctrl
+        - PanelDebut panelDebut
     }
     class PanelDebut {
-        -Controleur ctrl
-        -JButton btnChoisirSauvegarde
-        +actionPerformed(e) void
+        - Controleur ctrl
+        - JButton btnChoisirSauvegarde
+        + actionPerformed(e) void
     }
     class FrameTable {
-        -Controleur ctrl
-        +FrameTable(ctrl, longueur, largeur, tailleCase)
+        - Controleur ctrl
     }
     class PanelTable {
-        -int longueur
-        -int largeur
-        -int tailleCase
-        -Image imgFond
-        -JLabel[][] cases
-        -Controleur ctrl
-        +paintComponent(g) void
-    }
-    class GereSouris {
-        +mousePressed(evt) void
+        - Controleur ctrl
+        - JLabel[][] cases
+        + paintComponent(g) void
     }
     class FrameTirage {
-        -Controleur ctrl
-        -PanelTirage panelTirage
-        +FrameTirage(ctrl)
+        - Controleur ctrl
+        - PanelTirage panelTirage
     }
     class PanelTirage {
-        -Controleur ctrl
-        -JLabel carteTiree
-        -JButton btnTirer
-        -JButton btnLancerManche
-        -JLabel lblPoints
-        -JLabel lblCartesRestantes
-        -JLabel lblCouleurLabo
-        -int numManche
-        +actionPerformed(e) void
+        - Controleur ctrl
+        - int numManche
+        + actionPerformed(e) void
     }
 
-    %% ===================== METIER (MODELE) =====================
+    %% ---------- MODELE (package metier) ----------
     class Plateau {
-        -Poisson[][] grillePoisson
-        -ProgressionLabo progressionLabo
-        -int idLaboActif
-        -List~Liaison~ lstLiaisons
-        -List~Liaison~ liaisonsVisitees
-        -List~Integer~ labosDesLiaisons
-        -Zone[][] grilleZone
-        -List~Poisson~ lstPoisson
-        -int[][] grilleLabo
-        -Points points
-        -List~Poisson~ poisonsManche
-        -int longueur
-        -int largeur
-        -int nbSymbole
-        -String[] espece
-        +Plateau(longueur, largeur)
-        +genererLiaisons() void
-        +etudePoisson(p) String
-        +estPoissonValidePourLabo(p) boolean
-        +verifierDeplacement(ext, dest) boolean
-        +validerEtAvancerEtudeAvecExtremite(ext, dest) String
-        +finirManche() void
-        +initTableau(longueur, largeur, nbSymbole, nbLabo, tailleCases) void
-        +initPoisson(id, espece, x, y) void
-        +initZone(numZone, x, y) void
-        +initLabo(numLabo, x, y) void
-        +initLiaisonCoord(x1, y1, x2, y2) void
-        +lireDonnees(dossier) void
-        +getPointsTotal() int
+        - Poisson[][] grillePoisson
+        - Zone[][] grilleZone
+        - int[][] grilleLabo
+        - Points points
+        - ProgressionLabo progressionLabo
+        - int longueur
+        - int largeur
+        + Plateau(longueur, largeur)
+        + genererLiaisons() void
+        + etudePoisson(p) String
+        + finirManche() void
+        + lireDonnees(dossier) void
+        + getPointsTotal() int
     }
     class Poisson {
-        -int nbId$
-        -int id
-        -String espece
-        -boolean estLab
-        -String couleurLab
-        -int x
-        -int y
-        +Poisson(espece, x, y)
-        +getEspece() String
-        +getX() int
-        +getY() int
-        +setEstLab(estLab) void
-        +toString() String
-    }
-    class Liaison {
-        -Poisson p1
-        -Poisson p2
-        +Liaison(p1, p2)
-        +getP1() Poisson
-        +getP2() Poisson
-        +equals(o) boolean
-        +toString() String
+        - int id
+        - String espece
+        - int x
+        - int y
+        - boolean estLab
+        + Poisson(espece, x, y)
+        + getEspece() String
+        + getX() int
+        + getY() int
     }
     class Zone {
-        -int numZone
-        -int x
-        -int y
-        +Zone(numZone, x, y)
-        +getNumZone() int
-        +getZoneX() int
-        +getZoneY() int
+        - int numZone
+        - int x
+        - int y
+        + Zone(numZone, x, y)
+        + getNumZone() int
+    }
+    class Liaison {
+        - Poisson p1
+        - Poisson p2
+        + Liaison(p1, p2)
+        + getP1() Poisson
+        + getP2() Poisson
     }
     class Carte {
-        -int id
-        -String nom
-        -String description
-        -String imagePath
-        +Carte(id, nom, description, imagePath)
-        +getNom() String
-        +getDescription() String
-        +getImagePath() String
+        - int id
+        - String nom
+        - String description
+        - String imagePath
+        + Carte(id, nom, description, imagePath)
+        + getNom() String
     }
     class Pioche {
-        -ArrayList~Carte~ lstCartes
-        -ArrayList~Carte~ pioche
-        -ArrayList~Carte~ defausse
-        -Carte carteCourante
-        +Pioche(nbSymboles)
-        +reset() void
-        +melanger() void
-        +piocher() Carte
-        +estVide() boolean
-        +getNbCartesRestantes() int
+        - ArrayList~Carte~ pioche
+        - Carte carteCourante
+        + Pioche(nbSymboles)
+        + melanger() void
+        + piocher() Carte
+        + estVide() boolean
     }
     class Points {
-        -int idJoueur
-        -int idManche
-        -int pointsZonesVisitees
-        -int pointsPoissons
-        -int pointsManche
-        -int pointsTotal
-        +Points(idJoueur, idManche)
-        +calculerPointsTotal() void
-        +pointsZonesVisitees(nb) int
-        +pointsPoissonsCapturesZones(nb) int
-        +resetPointsManche() void
-        +getPointsTotal() int
+        - int pointsManche
+        - int pointsTotal
+        + Points(idJoueur, idManche)
+        + calculerPointsTotal() void
+        + getPointsTotal() int
     }
     class ProgressionLabo {
-        -Poisson extremite1
-        -Poisson extremite2
-        -int x1
-        -int y1
-        -int x2
-        -int y2
-        -String couleurLabo
-        -ArrayList~Liaison~ lstLiaisonsParcourues
-        +ProgressionLabo(p)
-        +getExtremite1() Poisson
-        +getExtremite2() Poisson
-        +setExtremite1(p) void
-        +setExtremite2(p) void
-        +ajouterLiaison(l) void
-        +contientLiaison(l) boolean
+        - Poisson extremite1
+        - Poisson extremite2
+        + ProgressionLabo(p)
+        + ajouterLiaison(l) void
     }
     class LireDonnees {
-        -Plateau plateau
-        +LireDonnees(plateau)
-        +lireGrille(dossier) void
-        +lirePoissons(dossier) void
-        +lireLiaisons(dossier) void
-        +lireZones(dossier) void
-        +lireLabo(dossier) void
+        - Plateau plateau
+        + LireDonnees(plateau)
+        + lireGrille(dossier) void
+        + lirePoissons(dossier) void
     }
     class Couleur {
         <<enumeration>>
-        BLEU_GLACIAIRE
-        BLEU_LAGON
-        LABO_ROUGE
-        LABO_BLANC
-        -String libelle
-        -int r
-        -int v
-        -int b
-        +getLibelle() String
-        +getR() int
-        +getV() int
-        +getB() int
-        +valueOf(code)$ Couleur
+        - String libelle
+        - int r
+        - int v
+        - int b
+        + getLibelle() String
     }
 
-    %% Héritage Swing
+    %% ---------- HERITAGE (Swing) ----------
     JFrame <|-- FrameDebut
     JFrame <|-- FrameTable
     JFrame <|-- FrameTirage
     JPanel <|-- PanelDebut
     JPanel <|-- PanelTable
     JPanel <|-- PanelTirage
-    ActionListener <|.. PanelDebut
-    ActionListener <|.. PanelTirage
-    MouseAdapter <|-- GereSouris
 
-    %% Contrôleur <-> IHM
+    %% ---------- RELATIONS Controleur / Vue ----------
     Controleur "1" --> "1" FrameDebut
     Controleur "1" --> "1" FrameTable
     Controleur "1" --> "1" FrameTirage
-    FrameDebut --> Controleur
-    FrameTable --> Controleur
-    FrameTirage --> Controleur
     FrameDebut *-- PanelDebut
     FrameTirage *-- PanelTirage
-    FrameTable ..> PanelTable : crée
+    FrameTable --> PanelTable
     PanelDebut --> Controleur
     PanelTable --> Controleur
     PanelTirage --> Controleur
-    PanelTable *-- GereSouris : classe interne
 
-    %% Contrôleur <-> Métier
-    Controleur "1" --> "1" Plateau : metier
+    %% ---------- RELATIONS Controleur / Modele ----------
+    Controleur "1" --> "1" Plateau
     Controleur "1" --> "1" Pioche
-    Controleur ..> Carte
-    Controleur ..> Poisson
 
-    %% Relations internes au métier
-    Plateau "1" --> "*" Poisson : grillePoisson
-    Plateau "1" --> "*" Zone : grilleZone
-    Plateau "1" --> "*" Liaison : lstLiaisons
+    %% ---------- RELATIONS dans le Modele ----------
+    Plateau "1" --> "*" Poisson
+    Plateau "1" --> "*" Zone
+    Plateau "1" --> "*" Liaison
     Plateau "1" --> "1" Points
     Plateau "1" --> "0..1" ProgressionLabo
-    Plateau ..> LireDonnees : utilise
+    Plateau ..> LireDonnees
     Plateau ..> Couleur
     LireDonnees --> Plateau
-    Liaison "1" --> "2" Poisson : p1, p2
-    ProgressionLabo --> Poisson : extremite1/2
-    ProgressionLabo "1" --> "*" Liaison
+    Liaison "1" --> "2" Poisson
+    ProgressionLabo --> Poisson
     Pioche "1" --> "*" Carte
 ```
