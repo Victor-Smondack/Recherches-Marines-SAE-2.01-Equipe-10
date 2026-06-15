@@ -2,7 +2,6 @@ package src.ihm;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -76,11 +75,11 @@ public class PanelTable extends JPanel
     {
         super.paintComponent( g );
 
-        g2 = (Graphics2D) g;
+        this.g2 = (Graphics2D) g;
 
-        if ( imgFond != null )
+        if ( this.imgFond != null )
         {
-            g2.drawImage( imgFond, 0, 0, this.getWidth(), this.getHeight(), this );
+            this.g2.drawImage( this.imgFond, 0, 0, this.getWidth(), this.getHeight(), this );
         }
 
         int[][] liaisons = this.ctrl.getCoordonneesLiaisons();
@@ -113,8 +112,8 @@ public class PanelTable extends JPanel
 
                         Color cOpaque       = new Color( cTransparente.getRed(), cTransparente.getGreen(), cTransparente.getBlue() );
 
-                        g2.setColor( cOpaque );
-                        g2.setStroke( new BasicStroke( 6 ) );
+                        this.g2.setColor( cOpaque );
+                        this.g2.setStroke( new BasicStroke( 6 ) );
                     } else
                     {
                         boolean possible = false;
@@ -125,9 +124,9 @@ public class PanelTable extends JPanel
                             Poisson p2 = this.ctrl.getPoissonObjet( x2, y2 );
                             if ( p1 == selected || p2 == selected )
                             {
-                                Poisson dest = (p1 == selected) ? p2 : p1;
-                                String nomCarte = this.ctrl.getCarteVisible().getNom();
-                                boolean correspondCarte = dest.getEspece().equals( nomCarte ) || nomCarte.equals( "Joker" );
+                                Poisson dest              = (p1 == selected) ? p2 : p1;
+                                String  nomCarte          = this.ctrl.getCarteVisible().getNom();
+                                boolean correspondCarte   = dest.getEspece().equals( nomCarte ) || nomCarte.equals( "Joker" );
                                 boolean estBonneExtremite = this.ctrl.verifierDeplacement( selected.getX(), selected.getY(), dest.getX(), dest.getY() );
                                 if ( correspondCarte && estBonneExtremite )
                                 {
@@ -138,16 +137,16 @@ public class PanelTable extends JPanel
 
                         if ( possible )
                         {
-                            g2.setColor( Color.WHITE );
-                            g2.setStroke( new BasicStroke( 6 ) );
+                            this.g2.setColor( Color.WHITE );
+                            this.g2.setStroke( new BasicStroke( 6 ) );
                         } else
                         {
-                            g2.setColor( new Color( 0, 0, 0, 100 ) );
-                            g2.setStroke( new BasicStroke( 2 ) );
+                            this.g2.setColor( new Color( 0, 0, 0, 100 ) );
+                            this.g2.setStroke( new BasicStroke( 2 ) );
                         }
                     }
 
-                    g2.drawLine( startX, startY, endX, endY );
+                    this.g2.drawLine( startX, startY, endX, endY );
                 }
             }
         }
@@ -156,13 +155,13 @@ public class PanelTable extends JPanel
         if ( selected != null )
         {
             JLabel lblSelected = this.cases[selected.getY()][selected.getX()];
-            int cx = lblSelected.getX();
-            int cy = lblSelected.getY();
-            int w = lblSelected.getWidth();
-            int h = lblSelected.getHeight();
-            g2.setColor( Color.WHITE );
-            g2.setStroke( new BasicStroke( 4 ) );
-            g2.drawRect( cx + 2, cy + 2, w - 4, h - 4 );
+            int    cx          = lblSelected.getX();
+            int    cy          = lblSelected.getY();
+            int    w           = lblSelected.getWidth();
+            int    h           = lblSelected.getHeight();
+            this.g2.setColor( Color.WHITE );
+            this.g2.setStroke( new BasicStroke( 4 ) );
+            this.g2.drawRect( cx + 2, cy + 2, w - 4, h - 4 );
         }
     }
 
@@ -191,21 +190,22 @@ public class PanelTable extends JPanel
 
                             if ( poissonClique != null )
                             {
-                                if ( PanelTable.this.ctrl.aJoueCeTour() ) return;
+                                if ( PanelTable.this.ctrl.aJoueCeTour() )
+                                    return;
 
                                 Poisson ext1 = PanelTable.this.ctrl.getExtremite1();
                                 Poisson ext2 = PanelTable.this.ctrl.getExtremite2();
-                                
+
                                 if ( poissonClique == ext1 || (ext2 != null && poissonClique == ext2) )
                                 {
                                     PanelTable.this.ctrl.setSelectedExtremity( poissonClique );
                                     PanelTable.this.repaint();
                                 } else if ( PanelTable.this.ctrl.getSelectedExtremity() != null )
                                 {
-                                    Poisson selected = PanelTable.this.ctrl.getSelectedExtremity();
-                                    boolean correspondCarte = poissonClique.getEspece().equals( nomCarte ) || nomCarte.equals( "Joker" );
+                                    Poisson selected          = PanelTable.this.ctrl.getSelectedExtremity();
+                                    boolean correspondCarte   = poissonClique.getEspece().equals( nomCarte ) || nomCarte.equals( "Joker" );
                                     boolean estBonneExtremite = PanelTable.this.ctrl.verifierDeplacement( selected.getX(), selected.getY(), j, i );
-                                    
+
                                     if ( correspondCarte && estBonneExtremite )
                                     {
                                         PanelTable.this.ctrl.validerEtAvancerEtudeAvecExtremite( selected.getX(), selected.getY(), j, i );
