@@ -338,6 +338,7 @@ public class Controleur
 
         this.frameTirage  = new FrameTirage( this );
         this.frameTable   = new FrameTable( this, this.metier.getLongueur(), this.metier.getLargeur(), this.metier.getTailleCase() );
+        this.frameDebut.setVisible(false);
     }
 
 
