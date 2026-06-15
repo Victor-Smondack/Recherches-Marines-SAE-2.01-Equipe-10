@@ -101,7 +101,7 @@ classDiagram
         +verifierDeplacement(ext, dest) boolean
         +validerEtAvancerEtudeAvecExtremite(ext, dest) String
         +finirManche() void
-        +initTableau(...) void
+        +initTableau(longueur, largeur, nbSymbole, nbLabo, tailleCases) void
         +initPoisson(id, espece, x, y) void
         +initZone(numZone, x, y) void
         +initLabo(numLabo, x, y) void
@@ -181,7 +181,10 @@ classDiagram
     class ProgressionLabo {
         -Poisson extremite1
         -Poisson extremite2
-        -int x1, y1, x2, y2
+        -int x1
+        -int y1
+        -int x2
+        -int y2
         -String couleurLabo
         -ArrayList~Liaison~ lstLiaisonsParcourues
         +ProgressionLabo(p)
@@ -205,11 +208,12 @@ classDiagram
         <<enumeration>>
         BLEU_GLACIAIRE
         BLEU_LAGON
-        ...
         LABO_ROUGE
         LABO_BLANC
         -String libelle
-        -int r, v, b
+        -int r
+        -int v
+        -int b
         +getLibelle() String
         +getR() int
         +getV() int
@@ -241,7 +245,7 @@ classDiagram
     PanelDebut --> Controleur
     PanelTable --> Controleur
     PanelTirage --> Controleur
-    PanelTable +-- GereSouris
+    PanelTable *-- GereSouris : classe interne
 
     %% Contrôleur <-> Métier
     Controleur "1" --> "1" Plateau : metier
