@@ -577,4 +577,14 @@ public class Plateau
     {
         return this.tailleCases;
     }
+
+    public void lireDonnees(String dossier)
+    {
+        LireDonnees.lireGrille( dossier );
+        LireDonnees.lirePoissons( dossier );
+        LireDonnees.lireZones( dossier );
+        LireDonnees.lireLiaisons( dossier );
+        LireDonnees.lireLabo( dossier );
+    }
+    
 }

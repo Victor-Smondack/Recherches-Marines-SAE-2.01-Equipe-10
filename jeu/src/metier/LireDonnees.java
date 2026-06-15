@@ -29,9 +29,9 @@ public class LireDonnees
     }
 
 
-    public void lireGrille(/*String dossier*/)
+    public static void lireGrille(String dossier)
     {
-        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER /*+ dossier + "/" */+ FICHIER_GRILLE ), "UTF8" ))
+        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + dossier + "/" + FICHIER_GRILLE ), "UTF8" ))
         {
             while ( scFic.hasNextLine() )
             {
@@ -53,9 +53,9 @@ public class LireDonnees
     }
 
 
-    public void lirePoissons(/*String dossier*/)
+    public static void lirePoissons(String dossier)
     {
-        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER /*+ dossier + "/" */+ FICHIER_POISSONS ), "UTF8" ))
+        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + dossier + "/" + FICHIER_POISSONS ), "UTF8" ))
         {
             while ( scFic.hasNextLine() )
             {
@@ -77,49 +77,38 @@ public class LireDonnees
     }
 
 
-    public static ArrayList<Liaison> lireLiaisons(String nomFichier, Poisson[][] grillePoisson)
+    public static void lireLiaisons(String dossier)
+{
+    try (Scanner scFic = new Scanner(
+            new FileInputStream(DOSSIER + dossier + "/" + FICHIER_LIAISONS),
+            "UTF8"))
     {
-        ArrayList<Liaison> lstLiaisons = new ArrayList<>();
-
-        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + FICHIER_LIAISONS ), "UTF8" ))
+        while (scFic.hasNextLine())
         {
+            String[] dec = scFic.nextLine().split("\t");
 
-            while (scFic.hasNextLine())
+            if (dec.length >= 4)
             {
-                String ligne = scFic.nextLine();
+                int x1 = Integer.parseInt(dec[0]);
+                int y1 = Integer.parseInt(dec[1]);
 
-                if (ligne.trim().isEmpty())
-                    continue;
+                int x2 = Integer.parseInt(dec[2]);
+                int y2 = Integer.parseInt(dec[3]);
 
-                String[] tab = ligne.split("\t");
-
-                int x1 = Integer.parseInt(tab[0]);
-                int y1 = Integer.parseInt(tab[1]);
-
-                int x2 = Integer.parseInt(tab[2]);
-                int y2 = Integer.parseInt(tab[3]);
-
-                Poisson p1 = grillePoisson[x1][y1];
-                Poisson p2 = grillePoisson[x2][y2];
-
-                if (p1 != null && p2 != null)
-                    lstLiaisons.add(new Liaison(p1, p2));
+                this.plateau.initLiaison(x1, y1, x2, y2);
             }
-
-            scFic.close();
         }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        return lstLiaisons;
     }
-
-
-    public void lireZones(/*String dossier*/)
+    catch (IOException e)
     {
-        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER /*+ dossier + "/" */+ FICHIER_ZONES ), "UTF8" ))
+        System.err.println("Erreur lecture liaisons : " + e.getMessage());
+    }
+}
+
+
+    public static void lireZones(String dossier)
+    {
+        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + dossier + "/" + FICHIER_ZONES ), "UTF8" ))
         {
             System.out.println( "--- Lecture des Zones ---" );
             int y = 0;
@@ -145,9 +134,9 @@ public class LireDonnees
     }
 
 
-    public void lireLabo(String dossier)
+    public static void lireLabo(String dossier)
     {
-        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER /*+ dossier + "/" */+ FICHIER_LABOS ), "UTF8" ))
+        try (Scanner scFic = new Scanner( new FileInputStream( DOSSIER + dossier + "/" + FICHIER_LABOS ), "UTF8" ))
         {
             System.out.println( "--- Lecture du Labo ---" );
             int y = 0;
