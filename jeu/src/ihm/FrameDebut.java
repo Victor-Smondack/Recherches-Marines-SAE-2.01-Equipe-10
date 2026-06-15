@@ -1,8 +1,8 @@
 package src.ihm;
 
-import src.Controleur;
+import javax.swing.JFrame;
 
-import javax.swing.*;
+import src.Controleur;
 
 
 public class FrameDebut extends JFrame
@@ -15,7 +15,7 @@ public class FrameDebut extends JFrame
         this.ctrl = ctrl;
 
         this.setTitle( "Menu du jeu" );
-        this.setSize( 250, 500 );
+        this.setSize( 600, 1000 );
         this.setLocation( 20, 50 );
 
         this.panelDebut = new PanelDebut( ctrl );

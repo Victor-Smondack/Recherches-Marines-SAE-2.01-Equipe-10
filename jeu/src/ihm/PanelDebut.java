@@ -30,13 +30,13 @@ public class PanelDebut extends JPanel implements ActionListener
     {
         this.ctrl    = ctrl;
 
-        this.imgFond = new ImageIcon( "../images/Couverture.png" ).getImage().getScaledInstance( 250, 500, Image.SCALE_SMOOTH );
+        this.imgFond = new ImageIcon( "../images/Couverture.png" ).getImage().getScaledInstance( 600, 1000, Image.SCALE_SMOOTH );
         this.setLayout( new BorderLayout() );
 
         //Création des composants
 
         this.btnChoisirSauvegarde = new JButton( "" );
-        this.btnChoisirSauvegarde.setPreferredSize( new Dimension( 250, 50 ) );
+        this.btnChoisirSauvegarde.setPreferredSize( new Dimension( 600, 110 ) );
         this.btnChoisirSauvegarde.setContentAreaFilled( false );
 
         //Position des Composants
