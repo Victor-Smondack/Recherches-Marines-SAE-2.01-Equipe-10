@@ -58,7 +58,7 @@ public class PanelTable extends JPanel
                 int numLabo = this.ctrl.getLaboIndice( j, i );
                 if ( numLabo != -1 )
                 {
-                    this.cases[i][j].setBorder( BorderFactory.createLineBorder( this.ctrl.getCouleur( 9 + numLabo ), 4 ) );
+                    this.cases[i][j].setBorder( BorderFactory.createLineBorder( this.ctrl.getCouleur( 9 + numLabo ), 6 ) );
                 }
 
                 this.add( this.cases[i][j] );
@@ -166,6 +166,22 @@ public class PanelTable extends JPanel
         }
     }
 
+
+    //Change la couleur de la bordure en fonction du labo actuel
+    public void changerCouleurBordureLabo( int numManche )
+    {
+        Color couleurLabo = this.ctrl.getCouleurLaboActuel( numManche );
+
+        if ( couleurLabo != null )
+        {
+            this.setBorder( BorderFactory.createLineBorder( couleurLabo, 4 ) );
+        } else
+        {
+            this.setBorder( BorderFactory.createEmptyBorder( 4, 4, 4, 4 ) );
+        }
+        this.revalidate();
+        this.repaint();
+    }
 
     private class GereSouris extends MouseAdapter
     {

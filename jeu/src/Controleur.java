@@ -16,8 +16,8 @@ import src.metier.Zone;
 
 public class Controleur
 {
-    private int         xGrille        = 1;
-    private int         yGrille        = 1;
+    private int         xGrille           = 1;
+    private int         yGrille           = 1;
     private FrameTirage frameTirage;
     private FrameTable  frameTable;
     private FrameDebut  frameDebut;
@@ -25,8 +25,8 @@ public class Controleur
     private Pioche      pioche;
     private Carte       carteVisible;
     private Poisson     selectedExtremity = null;
-    private boolean     aJoueCeTour    = false;
-    private int         nbCartesNoires = 0;
+    private boolean     aJoueCeTour       = false;
+    private int         nbCartesNoires    = 0;
 
     // Constructeur du contrôleur qui initialise le jeu et l'IHM
     public Controleur()
@@ -147,6 +147,25 @@ public class Controleur
     }
 
 
+    // Récupère l'objet Color de la manche actuelle pour l'IHM
+    public Color getCouleurLaboActuel( int numManche )
+    {
+        int indexLabo = 0;
+        for ( Couleur c : Couleur.values() )
+        {
+            if ( c.name().startsWith( "LABO_" ) )
+            {
+                indexLabo++;
+                if ( indexLabo == numManche )
+                {
+                    return new Color( c.getR(), c.getV(), c.getB(), 128 );
+                }
+            }
+        }
+        return null;
+    }
+
+
     // Récupère l'espèce du poisson aux coordonnées demandées
     public String getPoissonIndice( int indiceX, int indiceY )
     {
@@ -179,8 +198,8 @@ public class Controleur
             this.aJoueCeTour  = false;
             return null;
         }
-        this.carteVisible = this.pioche.piocher();
-        this.aJoueCeTour  = false;
+        this.carteVisible      = this.pioche.piocher();
+        this.aJoueCeTour       = false;
         this.selectedExtremity = null;
 
         if ( this.carteVisible != null )
@@ -232,9 +251,9 @@ public class Controleur
     {
         this.metier.finirManche();
         this.pioche.reset();
-        this.carteVisible   = null;
-        this.aJoueCeTour    = false;
-        this.nbCartesNoires = 0;
+        this.carteVisible      = null;
+        this.aJoueCeTour       = false;
+        this.nbCartesNoires    = 0;
         this.selectedExtremity = null;
         this.majIHM();
     }
@@ -324,41 +343,54 @@ public class Controleur
         return this.metier.getPointsTotal();
     }
 
+
+    public FrameTable getFrameTable()
+    {
+        return this.frameTable;
+    }
+
+
     public Poisson getSelectedExtremity()
     {
         return this.selectedExtremity;
     }
+
 
     public void setSelectedExtremity( Poisson p )
     {
         this.selectedExtremity = p;
     }
 
+
     public boolean aJoueCeTour()
     {
         return this.aJoueCeTour;
     }
+
 
     public Poisson getExtremite1()
     {
         return this.metier.getExtremite1();
     }
 
+
     public Poisson getExtremite2()
     {
         return this.metier.getExtremite2();
     }
 
+
     public boolean verifierDeplacement( int xExt, int yExt, int xDest, int yDest )
     {
-        Poisson ext = this.getPoissonObjet( xExt, yExt );
+        Poisson ext  = this.getPoissonObjet( xExt, yExt );
         Poisson dest = this.getPoissonObjet( xDest, yDest );
         return this.metier.verifierDeplacement( ext, dest );
     }
 
+
     public void validerEtAvancerEtudeAvecExtremite( int xExt, int yExt, int xDest, int yDest )
     {
-        Poisson ext = this.getPoissonObjet( xExt, yExt );
+        Poisson ext  = this.getPoissonObjet( xExt, yExt );
         Poisson dest = this.getPoissonObjet( xDest, yDest );
         if ( ext != null && dest != null )
         {
@@ -368,11 +400,13 @@ public class Controleur
         }
     }
 
-// Force la fin de la manche actuelle (essentiel pour valider les points du dernier labo)
+
+    // Force la fin de la manche actuelle (essentiel pour valider les points du dernier labo)
     public void finirManche()
     {
         this.metier.finirManche();
     }
+
 
     public void majIHM()
     {
@@ -381,6 +415,7 @@ public class Controleur
             this.frameTable.repaint();
         }
     }
+
 
     public void lancerJeu()
     {
@@ -393,7 +428,7 @@ public class Controleur
 
         this.frameTirage  = new FrameTirage( this );
         this.frameTable   = new FrameTable( this, this.metier.getLongueur(), this.metier.getLargeur(), this.metier.getTailleCase() );
-        this.frameDebut.setVisible(false);
+        this.frameDebut.setVisible( false );
     }
 
 
