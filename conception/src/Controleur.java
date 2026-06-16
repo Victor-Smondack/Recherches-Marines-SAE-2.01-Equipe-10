@@ -19,13 +19,13 @@ public class Controleur
     private int        zoneActive  = 1;
     private int        laboActive  = 1;
     private int        nbSymbole;
-    private int       nbLabo;
+    private int        tailleCase  = 1;
+    private int        nbLabo;
     private boolean    gommeActive = false;
     private FrameMenu  frameMenu;
     private FrameTable frameTable;
     private Plateau    metier;
     private PanelChoix panelChoix;
-
 
 
     public Controleur()
@@ -34,29 +34,36 @@ public class Controleur
     }
 
 
-    public void initialiserGrille( int longueur, int largeur, int nbSymbole, int tailleCase , int nbLabo)
+    public void initialiserGrille( int longueur, int largeur, int nbSymbole, int tailleCase, int nbLabo )
     {
         this.yGrille    = longueur;
         this.xGrille    = largeur;
         this.nbSymbole  = nbSymbole;
         this.nbLabo     = nbLabo;
+        this.tailleCase = tailleCase;
         this.metier     = new Plateau( this.yGrille, this.xGrille );
         this.frameTable = new FrameTable( this, longueur, largeur, tailleCase );
         this.frameMenu.changerPanel( nbSymbole );
     }
+
+
     public FrameTable getFrameTable()
     {
         return this.frameTable;
     }
+
+
     public FrameMenu getFrameMenu()
     {
         return this.frameMenu;
     }
 
+
     public int getNbSymbole()
     {
         return this.nbSymbole;
     }
+
 
     public int getNbLabo()
     {
@@ -249,7 +256,7 @@ public class Controleur
 
     public void sauvegarder()
     {
-        this.metier.Sauvegarder(this.nbSymbole, this.nbLabo);
+        this.metier.Sauvegarder( this.nbSymbole, this.nbLabo, this.tailleCase );
     }
 
 

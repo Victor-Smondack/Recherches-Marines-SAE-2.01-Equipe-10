@@ -3,8 +3,6 @@ package src.metier;
 import java.util.ArrayList;
 import java.util.List;
 
-import src.Controleur;
-
 public class Plateau
 {
     /**********************/
@@ -29,8 +27,8 @@ public class Plateau
         "Colin",
         "Maquereau" };
 
-    private int nbSymbole;
-    private int nbLabo;
+    private int           nbSymbole;
+    private int           nbLabo;
 
     /**********************/
     /* Constructeur */
@@ -258,21 +256,21 @@ public class Plateau
         return anciennesCoords; //
     }
 
+
     //met a jour les labo
-    public static void majPoissonsLabo(List<Poisson> lstPoisson, int[][] grilleLabo)
+    public static void majPoissonsLabo( List<Poisson> lstPoisson, int[][] grilleLabo )
     {
-        for (Poisson p : lstPoisson)
+        for ( Poisson p : lstPoisson )
         {
             int x = p.getX();
             int y = p.getY();
 
-            if (grilleLabo[x][y] != 0)
+            if ( grilleLabo[x][y] != 0 )
             {
-                p.setEstLab(true);
-            }
-            else
+                p.setEstLab( true );
+            } else
             {
-                p.setEstLab(false);
+                p.setEstLab( false );
             }
         }
     }
@@ -432,11 +430,11 @@ public class Plateau
     // Sauvegarde de la grille, des poissons, des zones et des liaisons
 
 
-    public void Sauvegarder(int nbSymbole, int nbLabo)
+    public void Sauvegarder( int nbSymbole, int nbLabo, int tailleCase )
     {
-        Sauvegarde.sauvegarderGrille( this.grillePoisson.length, this.grillePoisson[0].length, nbSymbole, 50, nbLabo, "sauvegardeTemp/" );
-        majPoissonsLabo(this.lstPoisson, this.grilleLabo);
-        Sauvegarde.sauvegarderPoissons( this.lstPoisson,"sauvegardeTemp/" );
+        Sauvegarde.sauvegarderGrille( this.grillePoisson.length, this.grillePoisson[0].length, nbSymbole, tailleCase, nbLabo, "sauvegardeTemp/" );
+        majPoissonsLabo( this.lstPoisson, this.grilleLabo );
+        Sauvegarde.sauvegarderPoissons( this.lstPoisson, "sauvegardeTemp/" );
         Sauvegarde.sauvegarderZones( this.grilleZone, "sauvegardeTemp/" );
         Sauvegarde.sauvegarderLiaisons( this.lstLiaisons, "sauvegardeTemp/" );
         Sauvegarde.sauvegarderLabo( this.grilleLabo, "sauvegardeTemp/" );

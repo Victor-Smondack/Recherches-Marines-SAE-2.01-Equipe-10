@@ -17,7 +17,7 @@ public class FrameTable extends JFrame
 		int	largeurFrame	= (largeur * tailleCase);
 
 		this.setTitle( "Jeu" );
-		this.setSize( longueurFrame, largeurFrame );
+		this.setSize( largeurFrame, longueurFrame );
 		this.setLocation( 450, 50 );
 
 		// Création et ajout du Panel
