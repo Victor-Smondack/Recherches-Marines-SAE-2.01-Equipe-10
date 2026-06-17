@@ -5,9 +5,9 @@ import java.util.List;
 
 public class Plateau
 {
-    /**********************/
-    /* Attributs */
-    /**********************/
+    /*********************************************************
+    * Attributs                        *
+    *********************************************************/
 
     private Poisson[][]     grillePoisson;
     private ProgressionLabo progressionLabo;
@@ -38,9 +38,10 @@ public class Plateau
         "Colin",
         "Maquereau" };
 
-    /**********************/
-    /* Constructeur */
-    /**********************/
+
+    /*********************************************************
+    * Constructeur                      *
+    *********************************************************/
 
     // Constructeur créant un plateau vide avec ses différentes grilles aux tailles voulues
     public Plateau(int longueur, int largeur)
@@ -55,249 +56,127 @@ public class Plateau
     }
 
 
-    /**********************/
-    /* Méthodes */
-    /**********************/
+    /*********************************************************
+    * Lecture de Fichier & Initialisation        *
+    *********************************************************/
 
-
-    // Génère les liaisons entre les poissons
-
-    public void genererLiaisons()
+    // Charge dynamiquement les données depuis le dossier sélectionné
+    public void lireDonnees( String dossier )
     {
-        this.lstLiaisons.clear();
+        LireDonnees lecteur = new LireDonnees( this );
 
-        for ( int x = 0; x < grilleLiaisons.length; x++ )
-            for ( int y = 0; y < grilleLiaisons[x].length; y++ )
-                grilleLiaisons[x][y] = '.';
+        lecteur.lireGrille( dossier );
+        lecteur.lirePoissons( dossier );
+        lecteur.lireZones( dossier );
+        lecteur.lireLiaisons( dossier );
+        lecteur.lireLabo( dossier );
+    }
 
-        List<Poisson> lstPoissonLocal = new ArrayList<>();
 
-        for ( int x = 0; x < grillePoisson.length; x++ )
-            for ( int y = 0; y < grillePoisson[x].length; y++ )
-                if ( grillePoisson[x][y] != null )
-                    lstPoissonLocal.add( grillePoisson[x][y] );
+    // Initialise la grille, des poissons, des zones et des liaisons
+    public void initTableau( int longueur, int largeur, int nbSymbole, int nbLabo, int tailleCases )
+    {
+        this.longueur       = longueur;
+        this.largeur        = largeur;
+        this.nbSymbole      = nbSymbole;
+        this.tailleCases    = tailleCases;
+        this.grillePoisson  = new Poisson[largeur][longueur];
+        this.grilleLiaisons = new char[largeur][longueur];
+        this.grilleZone     = new Zone[largeur][longueur];
+        this.grilleLabo     = new int[largeur][longueur];
+    }
 
-        for ( int i = 0; i < lstPoissonLocal.size(); i++ )
+
+    // Instancie et place un nouveau poisson sur la grille
+    public void initPoisson( int id, String espece, int x, int y )
+    {
+        Poisson p = new Poisson( espece, x, y );
+        this.grillePoisson[x][y] = p;
+        this.lstPoisson.add( p );
+    }
+
+
+    // Instancie et place une zone sur la grille du plateau
+    public void initZone( int numZone, int x, int y )
+    {
+        Zone z = new Zone( numZone, x, y );
+        this.grilleZone[x][y] = z;
+    }
+
+
+    // Associe un numéro de laboratoire aux coordonnées indiquées
+    public void initLabo( int numLabo, int x, int y )
+    {
+        this.grilleLabo[x][y] = numLabo;
+    }
+
+
+    // Crée une liaison entre deux poissons identifiés par leurs numéros uniques
+    public void initLiaison( int id1, int id2 )
+    {
+        Poisson p1 = null;
+        Poisson p2 = null;
+
+        for ( Poisson p : this.lstPoisson )
         {
-            for ( int j = i + 1; j < lstPoissonLocal.size(); j++ )
+            if ( p.getId() == id1 )
             {
-                Poisson p1      = lstPoissonLocal.get( i );
-                Poisson p2      = lstPoissonLocal.get( j );
+                p1 = p;
+            }
+            if ( p.getId() == id2 )
+            {
+                p2 = p;
+            }
+        }
 
-                int     dx      = p2.getX() - p1.getX();
-                int     dy      = p2.getY() - p1.getY();
+        if ( p1 != null && p2 != null )
+        {
+            Liaison l = new Liaison( p1, p2 );
+            this.lstLiaisons.add( l );
+        }
+    }
 
-                boolean alignes = dx == 0 || dy == 0 || Math.abs( dx ) == Math.abs( dy );
 
-                if ( alignes && !existePoissonIntermediaire( p1, p2 ) )
+    // Crée une liaison entre deux poissons à partir de leurs coordonnées
+    public void initLiaisonCoord( int x1, int y1, int x2, int y2 )
+    {
+        if ( x1 < 0 || x1 >= this.grillePoisson.length || y1 < 0 || y1 >= this.grillePoisson[0].length || x2 < 0 || x2 >= this.grillePoisson.length || y2 < 0
+            || y2 >= this.grillePoisson[0].length )
+        {
+            return;
+        }
+
+        Poisson p1 = this.grillePoisson[x1][y1];
+        Poisson p2 = this.grillePoisson[x2][y2];
+
+        if ( p1 != null && p2 != null )
+        {
+            this.lstLiaisons.add( new Liaison( p1, p2 ) );
+        }
+    }
+
+
+    // Parcourt les poissons pour savoir s'ils sont placés sur une case laboratoire
+    public void restaurerLabos()
+    {
+        for ( int x = 0; x < this.grillePoisson.length; x++ )
+        {
+            for ( int y = 0; y < this.grillePoisson[x].length; y++ )
+            {
+                Poisson p = this.grillePoisson[x][y];
+
+                if ( p != null && this.grilleLabo[x][y] != 0 )
                 {
-                    Liaison l = new Liaison( p1, p2 );
-                    this.lstLiaisons.add( l );
-
-                    int pasX = Integer.signum( dx );
-                    int pasY = Integer.signum( dy );
-
-                    int x    = p1.getX() + pasX;
-                    int y    = p1.getY() + pasY;
-
-                    while ( x != p2.getX() || y != p2.getY() )
-                    {
-                        grilleLiaisons[x][y]  = '*';
-                        x                    += pasX;
-                        y                    += pasY;
-                    }
+                    p.setEstLab( true );
                 }
             }
         }
     }
 
-    // Vérifie s'il existe un poisson entre p1 et p2
 
-
-    private boolean existePoissonIntermediaire( Poisson p1, Poisson p2 )
-    {
-        int dx = Integer.signum( p2.getX() - p1.getX() );
-        int dy = Integer.signum( p2.getY() - p1.getY() );
-        int x  = p1.getX() + dx;
-        int y  = p1.getY() + dy;
-
-        while ( x != p2.getX() || y != p2.getY() )
-        {
-            if ( grillePoisson[x][y] != null )
-                return true;
-            x += dx;
-            y += dy;
-        }
-        return false;
-    }
-
-    // Récupère le poisson à une position donnée
-
-
-    public Poisson getPoisson( int x, int y )
-    {
-        return this.grillePoisson[x][y];
-    }
-
-    // Récupère la grille complète des poissons
-
-
-    public Poisson[][] getGrillePoisson()
-    {
-        return this.grillePoisson;
-    }
-
-    // Récupère la liste des poissons
-
-
-    public List<Poisson> getLstPoisson()
-    {
-        return this.lstPoisson;
-    }
-
-    // Récupère les liaisons à une position donnée
-
-
-    public Liaison getLiaisons( int x, int y )
-    {
-        for ( Liaison l : this.lstLiaisons )
-        {
-            if ( (l.getP1().getX() == x && l.getP1().getY() == y) || (l.getP2().getX() == x && l.getP2().getY() == y) )
-            {
-                return l;
-            }
-        }
-        return null;
-    }
-
-    // Récupère la liste des liaisons
-
-
-    public List<Liaison> getLstLiaisons()
-    {
-        return this.lstLiaisons;
-    }
-
-    // Vérifie si deux poissons sont liés
-
-
-    public boolean estLie( Poisson p1, Poisson p2 )
-    {
-        for ( Liaison l : this.lstLiaisons )
-        {
-            if ( (l.getP1().equals( p1 ) && l.getP2().equals( p2 )) || (l.getP1().equals( p2 ) && l.getP2().equals( p1 )) )
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Récupère la zone à une position donnée
-
-
-    public Zone getZone( int x, int y )
-    {
-        return this.grilleZone[x][y];
-    }
-
-
-    // Récupère la grille des zones complète
-    public Zone[][] getGrilleZone()
-    {
-        return this.grilleZone;
-    }
-
-    // Vérifie si une zone existe avec ce numéro
-
-
-    public boolean zoneExiste( int numZone )
-    {
-        if ( this.grilleZone == null )
-            return false;
-
-        for ( int i = 0; i < this.grilleZone.length; i++ )
-        {
-            for ( int j = 0; j < this.grilleZone[i].length; j++ )
-            {
-                if ( this.grilleZone[i][j] != null && this.grilleZone[i][j].getNumZone() == numZone )
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    // Récupère la liste des espèces disponibles
-
-
-    public String[] getEspeces()
-    {
-        return this.espece;
-    }
-
-    // Récupère le poisson sélectionné à une position donnée
-
-
-    public String getPoissonIndice( int indiceX, int indiceY )
-    {
-        for ( int i = 0; i < this.grillePoisson.length; i++ )
-        {
-            for ( int j = 0; j < this.grillePoisson[i].length; j++ )
-                if ( this.grillePoisson[i][j] != null && i == indiceX && j == indiceY )
-                {
-                    return this.grillePoisson[i][j].getEspece();
-                }
-        }
-
-        return "";
-    }
-
-
-    // Récupère le numéro de la zone aux indices donnés
-    public int getZoneIndice( int indiceX, int indiceY )
-    {
-        for ( int i = 0; i < this.grilleZone.length; i++ )
-        {
-            for ( int j = 0; j < this.grilleZone[i].length; j++ )
-                if ( this.grilleZone[i][j] != null && i == indiceX && j == indiceY )
-                {
-                    return this.grilleZone[i][j].getNumZone();
-                }
-        }
-
-        return -1;
-    }
-
-
-    // Récupère le numéro de laboratoire aux coordonnées données
-    public int getLaboIndice( int indiceX, int indiceY )
-    {
-        for ( int i = 0; i < this.grilleLabo.length; i++ )
-        {
-            for ( int j = 0; j < this.grilleLabo[i].length; j++ )
-            {
-
-                if ( this.grilleLabo[i][j] != 0 && i == indiceX && j == indiceY )
-                {
-                    return this.grilleLabo[i][j];
-                }
-            }
-        }
-
-        return -1;
-    }
-
-
-    // Récupère la grille des laboratoires
-
-
-    public int[][] getGrilleLabo()
-    {
-        return this.grilleLabo;
-    }
-
+    /*********************************************************
+    * Moteur de Jeu & Règles Métier             *
+    *********************************************************/
 
     // Gère l'avancement ou le début d'une étude de poisson dans un laboratoire
     public String etudePoisson( Poisson p )
@@ -314,42 +193,16 @@ public class Plateau
             }
 
             return "Début de l'étude du laboratoire sur un(e) " + p.getEspece();
-        } else if ( this.progressionLabo != null )
+        } else
         {
-            Liaison l1 = getLiaisonEntre( this.progressionLabo.getExtremite1(), p );
-            Liaison l2 = getLiaisonEntre( this.progressionLabo.getExtremite2(), p );
-
-            if ( this.progressionLabo.getExtremite2() == null && l1 != null && !this.croiseUneLiaisonVisitee( l1 ) )
+            if ( this.progressionLabo != null )
             {
-                this.liaisonsVisitees.add( l1 );
-                this.labosDesLiaisons.add( this.idLaboActif );
-                this.progressionLabo.setExtremite2( p );
+                Liaison l1 = getLiaisonEntre( this.progressionLabo.getExtremite1(), p );
+                Liaison l2 = getLiaisonEntre( this.progressionLabo.getExtremite2(), p );
 
-                // On mémorise le poisson étudié
-                if ( !this.poisonsManche.contains( p ) )
-                {
-                    this.poisonsManche.add( p );
-                }
-
-                return "Première étude du laboratoire sur un(e) " + p.getEspece();
-            } else
-            {
-                if ( l1 != null && !this.croiseUneLiaisonVisitee( l1 ) )
+                if ( this.progressionLabo.getExtremite2() == null && l1 != null && !this.croiseUneLiaisonVisitee( l1 ) )
                 {
                     this.liaisonsVisitees.add( l1 );
-                    this.labosDesLiaisons.add( this.idLaboActif );
-                    this.progressionLabo.setExtremite1( p );
-
-                    // On mémorise le poisson étudié
-                    if ( !this.poisonsManche.contains( p ) )
-                    {
-                        this.poisonsManche.add( p );
-                    }
-
-                    return "Nouvelle étude du laboratoire sur un(e) " + p.getEspece();
-                } else if ( l2 != null && !this.croiseUneLiaisonVisitee( l2 ) )
-                {
-                    this.liaisonsVisitees.add( l2 );
                     this.labosDesLiaisons.add( this.idLaboActif );
                     this.progressionLabo.setExtremite2( p );
 
@@ -359,89 +212,48 @@ public class Plateau
                         this.poisonsManche.add( p );
                     }
 
-                    return "Nouvelle étude du laboratoire sur un(e) " + p.getEspece();
+                    return "Première étude du laboratoire sur un(e) " + p.getEspece();
                 } else
                 {
-                    return "Ce/Cette " + p.getEspece() + " n'est pas lié à l'étude en cours ou croise un chemin.";
+                    if ( l1 != null && !this.croiseUneLiaisonVisitee( l1 ) )
+                    {
+                        this.liaisonsVisitees.add( l1 );
+                        this.labosDesLiaisons.add( this.idLaboActif );
+                        this.progressionLabo.setExtremite1( p );
+
+                        // On mémorise le poisson étudié
+                        if ( !this.poisonsManche.contains( p ) )
+                        {
+                            this.poisonsManche.add( p );
+                        }
+
+                        return "Nouvelle étude du laboratoire sur un(e) " + p.getEspece();
+                    } else
+                    {
+                        if ( l2 != null && !this.croiseUneLiaisonVisitee( l2 ) )
+                        {
+                            this.liaisonsVisitees.add( l2 );
+                            this.labosDesLiaisons.add( this.idLaboActif );
+                            this.progressionLabo.setExtremite2( p );
+
+                            // On mémorise le poisson étudié
+                            if ( !this.poisonsManche.contains( p ) )
+                            {
+                                this.poisonsManche.add( p );
+                            }
+
+                            return "Nouvelle étude du laboratoire sur un(e) " + p.getEspece();
+                        } else
+                        {
+                            return "Ce/Cette " + p.getEspece() + " n'est pas lié à l'étude en cours ou croise un chemin.";
+                        }
+                    }
+
                 }
             }
         }
+
         return "";
-    }
-
-
-    // Recherche la liaison directe existante entre deux poissons donnés
-    private Liaison getLiaisonEntre( Poisson p1, Poisson p2 )
-    {
-        for ( Liaison l : this.lstLiaisons )
-        {
-            if ( (l.getP1().equals( p1 ) && l.getP2().equals( p2 )) || (l.getP1().equals( p2 ) && l.getP2().equals( p1 )) )
-                return l;
-        }
-        return null;
-    }
-
-
-    // Récupère l'identifiant du laboratoire qui utilise une liaison spécifique
-    public int getLaboDeLiaison( int x1, int y1, int x2, int y2 )
-    {
-        for ( int i = 0; i < this.liaisonsVisitees.size(); i++ )
-        {
-            Liaison l = this.liaisonsVisitees.get( i );
-            if ( ((l.getP1().getX() == x1 && l.getP1().getY() == y1 && l.getP2().getX() == x2 && l.getP2().getY() == y2)
-                || (l.getP1().getX() == x2 && l.getP1().getY() == y2 && l.getP2().getX() == x1 && l.getP2().getY() == y1)) )
-            {
-                return this.labosDesLiaisons.get( i );
-            }
-        }
-        return -1;
-    }
-
-
-    // Algorithme qui détermine mathématiquement si deux segments de droite se croisent
-    private boolean segmentsCroisent( int xA, int yA, int xB, int yB, int xC, int yC, int xD, int yD )
-    {
-        if ( (xA == xC && yA == yC) || (xA == xD && yA == yD) || (xB == xC && yB == yC) || (xB == xD && yB == yD) )
-        {
-            return false;
-        }
-        long cp1 = (long) (xB - xA) * (yC - yA) - (long) (yB - yA) * (xC - xA);
-        long cp2 = (long) (xB - xA) * (yD - yA) - (long) (yB - yA) * (xD - xA);
-        long cp3 = (long) (xD - xC) * (yA - yC) - (long) (yD - yC) * (xA - xC);
-        long cp4 = (long) (xD - xC) * (yB - yC) - (long) (yD - yC) * (xB - xC);
-        return ((cp1 > 0 && cp2 < 0) || (cp1 < 0 && cp2 > 0)) && ((cp3 > 0 && cp4 < 0) || (cp3 < 0 && cp4 > 0));
-    }
-
-
-    // Vérifie si la nouvelle liaison coupe une liaison qui a déjà été validée
-    private boolean croiseUneLiaisonVisitee( Liaison nouvelle )
-    {
-        if ( nouvelle == null )
-            return false;
-
-        int xA = nouvelle.getP1().getX();
-        int yA = nouvelle.getP1().getY();
-        int xB = nouvelle.getP2().getX();
-        int yB = nouvelle.getP2().getY();
-
-        for ( Liaison l : this.liaisonsVisitees )
-        {
-            int xC = l.getP1().getX();
-            int yC = l.getP1().getY();
-            int xD = l.getP2().getX();
-            int yD = l.getP2().getY();
-
-            if ( ((xA == xC && yA == yC) && (xB == xD && yB == yD)) || ((xA == xD && yA == yD) && (xB == xC && yB == yC)) )
-            {
-                return true;
-            }
-
-            if ( segmentsCroisent( xA, yA, xB, yB, xC, yC, xD, yD ) )
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
 
@@ -468,27 +280,6 @@ public class Plateau
         boolean valideExtremite2 = (l2 != null && !this.croiseUneLiaisonVisitee( l2 ));
 
         return valideExtremite1 || valideExtremite2;
-    }
-
-
-    // Indique si un laboratoire est en cours d'étude
-    public boolean estUnLaboActif()
-    {
-        return this.progressionLabo != null;
-    }
-
-
-    // Renvoie la première extrémité de l'étude en cours
-    public Poisson getExtremite1()
-    {
-        return this.progressionLabo != null ? this.progressionLabo.getExtremite1() : null;
-    }
-
-
-    // Renvoie la deuxième extrémité de l'étude en cours
-    public Poisson getExtremite2()
-    {
-        return this.progressionLabo != null ? this.progressionLabo.getExtremite2() : null;
     }
 
 
@@ -594,157 +385,348 @@ public class Plateau
         this.idLaboActif     = -1;
     }
 
-    // Initialise la grille, des poissons, des zones et des liaisons
 
+    /*********************************************************
+    * Géométrie & Calcul des Liaisons           *
+    *********************************************************/
 
-    public void initTableau( int longueur, int largeur, int nbSymbole, int nbLabo, int tailleCases )
+    // Génère les liaisons entre les poissons
+    public void genererLiaisons()
     {
-        this.longueur       = longueur;
-        this.largeur        = largeur;
-        this.nbSymbole      = nbSymbole;
-        this.tailleCases    = tailleCases;
-        this.grillePoisson  = new Poisson[largeur][longueur];
-        this.grilleLiaisons = new char[largeur][longueur];
-        this.grilleZone     = new Zone[largeur][longueur];
-        this.grilleLabo     = new int[largeur][longueur];
-    }
+        this.lstLiaisons.clear();
 
+        for ( int x = 0; x < grilleLiaisons.length; x++ )
+            for ( int y = 0; y < grilleLiaisons[x].length; y++ )
+                grilleLiaisons[x][y] = '.';
 
-    // Instancie et place un nouveau poisson sur la grille
-    public void initPoisson( int id, String espece, int x, int y )
-    {
-        Poisson p = new Poisson( espece, x, y );
-        this.grillePoisson[x][y] = p;
-        this.lstPoisson.add( p );
-    }
+        List<Poisson> lstPoissonLocal = new ArrayList<>();
 
+        for ( int x = 0; x < grillePoisson.length; x++ )
+            for ( int y = 0; y < grillePoisson[x].length; y++ )
+                if ( grillePoisson[x][y] != null )
+                    lstPoissonLocal.add( grillePoisson[x][y] );
 
-    // Instancie et place une zone sur la grille du plateau
-    public void initZone( int numZone, int x, int y )
-    {
-        Zone z = new Zone( numZone, x, y );
-        this.grilleZone[x][y] = z;
-    }
-
-
-    // Associe un numéro de laboratoire aux coordonnées indiquées
-    public void initLabo( int numLabo, int x, int y )
-    {
-        this.grilleLabo[x][y] = numLabo;
-    }
-
-
-    // Crée une liaison entre deux poissons identifiés par leurs numéros uniques
-    public void initLiaison( int id1, int id2 )
-    {
-        Poisson p1 = null;
-        Poisson p2 = null;
-
-        for ( Poisson p : this.lstPoisson )
+        for ( int i = 0; i < lstPoissonLocal.size(); i++ )
         {
-            if ( p.getId() == id1 )
+            for ( int j = i + 1; j < lstPoissonLocal.size(); j++ )
             {
-                p1 = p;
-            }
-            if ( p.getId() == id2 )
-            {
-                p2 = p;
-            }
-        }
+                Poisson p1      = lstPoissonLocal.get( i );
+                Poisson p2      = lstPoissonLocal.get( j );
 
-        if ( p1 != null && p2 != null )
-        {
-            Liaison l = new Liaison( p1, p2 );
-            this.lstLiaisons.add( l );
-        }
-    }
+                int     dx      = p2.getX() - p1.getX();
+                int     dy      = p2.getY() - p1.getY();
 
+                boolean alignes = dx == 0 || dy == 0 || Math.abs( dx ) == Math.abs( dy );
 
-    // Crée une liaison entre deux poissons à partir de leurs coordonnées
-    public void initLiaisonCoord( int x1, int y1, int x2, int y2 )
-    {
-        if ( x1 < 0 || x1 >= this.grillePoisson.length || y1 < 0 || y1 >= this.grillePoisson[0].length || x2 < 0 || x2 >= this.grillePoisson.length || y2 < 0
-            || y2 >= this.grillePoisson[0].length )
-        {
-            return;
-        }
-
-        Poisson p1 = this.grillePoisson[x1][y1];
-        Poisson p2 = this.grillePoisson[x2][y2];
-
-        if ( p1 != null && p2 != null )
-        {
-            this.lstLiaisons.add( new Liaison( p1, p2 ) );
-        }
-    }
-
-
-    // Parcourt les poissons pour savoir s'ils sont placés sur une case laboratoire
-    public void restaurerLabos()
-    {
-        for ( int x = 0; x < this.grillePoisson.length; x++ )
-        {
-            for ( int y = 0; y < this.grillePoisson[x].length; y++ )
-            {
-                Poisson p = this.grillePoisson[x][y];
-
-                if ( p != null && this.grilleLabo[x][y] != 0 )
+                if ( alignes && !existePoissonIntermediaire( p1, p2 ) )
                 {
-                    p.setEstLab( true );
+                    Liaison l = new Liaison( p1, p2 );
+                    this.lstLiaisons.add( l );
+
+                    int pasX = Integer.signum( dx );
+                    int pasY = Integer.signum( dy );
+
+                    int x    = p1.getX() + pasX;
+                    int y    = p1.getY() + pasY;
+
+                    while ( x != p2.getX() || y != p2.getY() )
+                    {
+                        grilleLiaisons[x][y]  = '*';
+                        x                    += pasX;
+                        y                    += pasY;
+                    }
                 }
             }
         }
     }
 
 
-    // Remplace la liste complète des liaisons par une nouvelle liste
+    // Vérifie s'il existe un poisson entre p1 et p2
+    private boolean existePoissonIntermediaire( Poisson p1, Poisson p2 )
+    {
+        int dx = Integer.signum( p2.getX() - p1.getX() );
+        int dy = Integer.signum( p2.getY() - p1.getY() );
+        int x  = p1.getX() + dx;
+        int y  = p1.getY() + dy;
+
+        while ( x != p2.getX() || y != p2.getY() )
+        {
+            if ( grillePoisson[x][y] != null )
+                return true;
+            x += dx;
+            y += dy;
+        }
+        return false;
+    }
+
+
+    // Algorithme qui détermine mathématiquement si deux segments de droite se croisent
+    private boolean segmentsCroisent( int xA, int yA, int xB, int yB, int xC, int yC, int xD, int yD )
+    {
+        if ( (xA == xC && yA == yC) || (xA == xD && yA == yD) || (xB == xC && yB == yC) || (xB == xD && yB == yD) )
+        {
+            return false;
+        }
+        long cp1 = (long) (xB - xA) * (yC - yA) - (long) (yB - yA) * (xC - xA);
+        long cp2 = (long) (xB - xA) * (yD - yA) - (long) (yB - yA) * (xD - xA);
+        long cp3 = (long) (xD - xC) * (yA - yC) - (long) (yD - yC) * (xA - xC);
+        long cp4 = (long) (xD - xC) * (yB - yC) - (long) (yD - yC) * (xB - xC);
+        return ((cp1 > 0 && cp2 < 0) || (cp1 < 0 && cp2 > 0)) && ((cp3 > 0 && cp4 < 0) || (cp3 < 0 && cp4 > 0));
+    }
+
+
+    // Vérifie si la nouvelle liaison coupe une liaison qui a déjà été validée
+    private boolean croiseUneLiaisonVisitee( Liaison nouvelle )
+    {
+        if ( nouvelle == null )
+            return false;
+
+        int xA = nouvelle.getP1().getX();
+        int yA = nouvelle.getP1().getY();
+        int xB = nouvelle.getP2().getX();
+        int yB = nouvelle.getP2().getY();
+
+        for ( Liaison l : this.liaisonsVisitees )
+        {
+            int xC = l.getP1().getX();
+            int yC = l.getP1().getY();
+            int xD = l.getP2().getX();
+            int yD = l.getP2().getY();
+
+            if ( ((xA == xC && yA == yC) && (xB == xD && yB == yD)) || ((xA == xD && yA == yD) && (xB == xC && yB == yC)) )
+            {
+                return true;
+            }
+
+            if ( segmentsCroisent( xA, yA, xB, yB, xC, yC, xD, yD ) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    // Recherche la liaison directe existante entre deux poissons donnés
+    private Liaison getLiaisonEntre( Poisson p1, Poisson p2 )
+    {
+        for ( Liaison l : this.lstLiaisons )
+        {
+            if ( (l.getP1().equals( p1 ) && l.getP2().equals( p2 )) || (l.getP1().equals( p2 ) && l.getP2().equals( p1 )) )
+                return l;
+        }
+        return null;
+    }
+
+
+    /*********************************************************
+    * Getters & Setters                    *
+    *********************************************************/
+
+    public Poisson getPoisson( int x, int y )
+    {
+        return this.grillePoisson[x][y];
+    }
+
+
+    public Poisson[][] getGrillePoisson()
+    {
+        return this.grillePoisson;
+    }
+
+
+    public List<Poisson> getLstPoisson()
+    {
+        return this.lstPoisson;
+    }
+
+
+    public Liaison getLiaisons( int x, int y )
+    {
+        for ( Liaison l : this.lstLiaisons )
+        {
+            if ( (l.getP1().getX() == x && l.getP1().getY() == y) || (l.getP2().getX() == x && l.getP2().getY() == y) )
+            {
+                return l;
+            }
+        }
+        return null;
+    }
+
+
+    public List<Liaison> getLstLiaisons()
+    {
+        return this.lstLiaisons;
+    }
+
+
     public void setLstLiaisons( ArrayList<Liaison> lst )
     {
         this.lstLiaisons = lst;
     }
 
 
-    // Récupère la longueur maximale de la grille
+    public boolean estLie( Poisson p1, Poisson p2 )
+    {
+        for ( Liaison l : this.lstLiaisons )
+        {
+            if ( (l.getP1().equals( p1 ) && l.getP2().equals( p2 )) || (l.getP1().equals( p2 ) && l.getP2().equals( p1 )) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public Zone getZone( int x, int y )
+    {
+        return this.grilleZone[x][y];
+    }
+
+
+    public Zone[][] getGrilleZone()
+    {
+        return this.grilleZone;
+    }
+
+
+    public boolean zoneExiste( int numZone )
+    {
+        if ( this.grilleZone == null )
+            return false;
+
+        for ( int i = 0; i < this.grilleZone.length; i++ )
+        {
+            for ( int j = 0; j < this.grilleZone[i].length; j++ )
+            {
+                if ( this.grilleZone[i][j] != null && this.grilleZone[i][j].getNumZone() == numZone )
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    public String[] getEspeces()
+    {
+        return this.espece;
+    }
+
+
+    public String getPoissonIndice( int indiceX, int indiceY )
+    {
+        for ( int i = 0; i < this.grillePoisson.length; i++ )
+        {
+            for ( int j = 0; j < this.grillePoisson[i].length; j++ )
+                if ( this.grillePoisson[i][j] != null && i == indiceX && j == indiceY )
+                {
+                    return this.grillePoisson[i][j].getEspece();
+                }
+        }
+
+        return "";
+    }
+
+
+    public int getZoneIndice( int indiceX, int indiceY )
+    {
+        for ( int i = 0; i < this.grilleZone.length; i++ )
+        {
+            for ( int j = 0; j < this.grilleZone[i].length; j++ )
+                if ( this.grilleZone[i][j] != null && i == indiceX && j == indiceY )
+                {
+                    return this.grilleZone[i][j].getNumZone();
+                }
+        }
+
+        return -1;
+    }
+
+
+    public int getLaboIndice( int indiceX, int indiceY )
+    {
+        for ( int i = 0; i < this.grilleLabo.length; i++ )
+        {
+            for ( int j = 0; j < this.grilleLabo[i].length; j++ )
+            {
+
+                if ( this.grilleLabo[i][j] != 0 && i == indiceX && j == indiceY )
+                {
+                    return this.grilleLabo[i][j];
+                }
+            }
+        }
+
+        return -1;
+    }
+
+
+    public int[][] getGrilleLabo()
+    {
+        return this.grilleLabo;
+    }
+
+
+    public int getLaboDeLiaison( int x1, int y1, int x2, int y2 )
+    {
+        for ( int i = 0; i < this.liaisonsVisitees.size(); i++ )
+        {
+            Liaison l = this.liaisonsVisitees.get( i );
+            if ( ((l.getP1().getX() == x1 && l.getP1().getY() == y1 && l.getP2().getX() == x2 && l.getP2().getY() == y2)
+                || (l.getP1().getX() == x2 && l.getP1().getY() == y2 && l.getP2().getX() == x1 && l.getP2().getY() == y1)) )
+            {
+                return this.labosDesLiaisons.get( i );
+            }
+        }
+        return -1;
+    }
+
+
+    public boolean estUnLaboActif()
+    {
+        return this.progressionLabo != null;
+    }
+
+
+    public Poisson getExtremite1()
+    {
+        return this.progressionLabo != null ? this.progressionLabo.getExtremite1() : null;
+    }
+
+
+    public Poisson getExtremite2()
+    {
+        return this.progressionLabo != null ? this.progressionLabo.getExtremite2() : null;
+    }
+
+
     public int getLongueur()
     {
         return this.longueur;
     }
 
 
-    // Récupère la largeur maximale de la grille
     public int getLargeur()
     {
         return this.largeur;
     }
 
 
-    // Récupère la quantité de symboles différents configurés
     public int getNbSymbole()
     {
         return this.nbSymbole;
     }
 
 
-    // Récupère la taille d'affichage d'une case de la grille
     public int getTailleCase()
     {
         return this.tailleCases;
     }
 
 
-    public void lireDonnees( String dossier )
-    {
-        LireDonnees lecteur = new LireDonnees( this );
-
-        lecteur.lireGrille( dossier );
-        lecteur.lirePoissons( dossier );
-        lecteur.lireZones( dossier );
-        lecteur.lireLiaisons( dossier );
-        lecteur.lireLabo( dossier );
-    }
-
-
-    // Récupère le score total actuel calculé par l'objet Points
     public int getPointsTotal()
     {
         return this.points.getPointsTotal();
